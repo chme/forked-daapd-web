@@ -1,0 +1,21 @@
+
+.slider {
+  width: 250px;
+}
+.range-slider-fill {
+  background-color: #000;
+}
+
+a.navbar-item {
+  outline: 0;
+}
+
+.fd-has-action {
+  cursor: pointer;
+}
+
+.fd-is-text-clipped {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}

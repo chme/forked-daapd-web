@@ -1,7 +1,5 @@
 # forked-daapd-web
 
-> forked-daapd web interface
-
 ## Build Setup
 
 ``` bash
