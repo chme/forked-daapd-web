@@ -30,3 +30,8 @@ a.navbar-item {
 .sortable-ghost h1, .sortable-ghost h2 {
   color: hsl(348, 100%, 61%) !important;
 }
+
+.media:first-of-type {
+  padding-top: 17px;
+  margin-top: 16px;
+}
