@@ -39,6 +39,7 @@ export default new Vuex.Store({
       'list': [ ]
     },
 
+    hide_singles: false,
     show_only_next_items: false,
     show_burger_menu: false
   },
@@ -77,6 +78,9 @@ export default new Vuex.Store({
       if (index !== -1) {
         state.notifications.list.splice(index, 1)
       }
+    },
+    [types.HIDE_SINGLES] (state, hideSingles) {
+      state.hide_singles = hideSingles
     },
     [types.SHOW_ONLY_NEXT_ITEMS] (state, showOnlyNextItems) {
       state.show_only_next_items = showOnlyNextItems
