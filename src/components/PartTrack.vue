@@ -36,7 +36,7 @@ export default {
 
     queue_add: function () {
       webapi.queue_add(this.track.uri).then(
-        this.$store.dispatch('add_notification', { text: 'Track appended to queue', timeout: 3000 })
+        this.$store.dispatch('add_notification', { text: 'Track appended to queue', type: 'info', timeout: 3000 })
       )
     }
   }
