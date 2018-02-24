@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "forked-daapd web interface",
   "author": "chme <christian.meffert@googlemail.com>",
+  "license": "GPL-2.0",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
