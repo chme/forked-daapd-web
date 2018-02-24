@@ -15,6 +15,7 @@ import NavbarBottom from '@/components/NavbarBottom'
 import Notifications from '@/components/Notifications'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
+import ReconnectingWebSocket from 'reconnectingwebsocket'
 
 export default {
   name: 'App',
@@ -52,24 +53,37 @@ export default {
         return
       }
 
-      var socket = new WebSocket('ws://' + document.domain + ':' + this.$store.state.config.websocket_port, 'notify')
       const vm = this
+
+      var socket = new ReconnectingWebSocket(
+        'ws://' + document.domain + ':' + this.$store.state.config.websocket_port,
+        'notify',
+        { reconnectInterval: 3000 }
+      )
+
       socket.onopen = function () {
+        vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', timeout: 3000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
-        socket.onmessage = function (response) {
-          var data = JSON.parse(response.data)
-          if (data.notify.includes('update')) {
-            vm.update_library_stats()
-          }
-          if (data.notify.includes('player') || data.notify.includes('options') || data.notify.includes('volume')) {
-            vm.update_player_status()
-          }
-          if (data.notify.includes('outputs') || data.notify.includes('volume')) {
-            vm.update_outputs()
-          }
-          if (data.notify.includes('queue')) {
-            vm.update_queue()
-          }
+      }
+      socket.onclose = function () {
+        vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 3000 })
+      }
+      socket.onerror = function () {
+        vm.$store.dispatch('add_notification', { text: 'Failed to connect to server', type: 'danger', timeout: 3000 })
+      }
+      socket.onmessage = function (response) {
+        var data = JSON.parse(response.data)
+        if (data.notify.includes('update')) {
+          vm.update_library_stats()
+        }
+        if (data.notify.includes('player') || data.notify.includes('options') || data.notify.includes('volume')) {
+          vm.update_player_status()
+        }
+        if (data.notify.includes('outputs') || data.notify.includes('volume')) {
+          vm.update_outputs()
+        }
+        if (data.notify.includes('queue')) {
+          vm.update_queue()
         }
       }
     },
