@@ -1,10 +1,14 @@
 <template>
-  <div class="fd-notifications">
-    <div class="notification fd-notification" v-for="notification in notifications" :key="notification.id" :class="['notification', notification.type ? `is-${notification.type}` : '']">
-      <button class="delete" v-on:click="remove(notification)"></button>
-      {{ notification.text }}
+  <section class="fd-notifications">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="notification has-shadow " v-for="notification in notifications" :key="notification.id" :class="['notification', notification.type ? `is-${notification.type}` : '']">
+          <button class="delete" v-on:click="remove(notification)"></button>
+          {{ notification.text }}
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -37,14 +41,12 @@ export default {
   position: fixed;
   bottom: 60px;
   z-index: 20000;
-  padding: 20px;
-  max-width: 320px;
+  width: 100%;
 }
-.fd-notification {
-  position: relative;
-  min-width: 240px;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-  pointer-events: all;
+.fd-notifications .notification {
+  margin-bottom: 10px;
+  margin-left: 24px;
+  margin-right: 24px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
