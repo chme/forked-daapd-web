@@ -20,10 +20,12 @@
               <p class="level-item"><a class="button is-light is-rounded" v-on:click="queue_clear">Clear</a></p>
             </div>
           </nav>
-          <part-queue-item v-for="(item, index) in queue.items"
-            :key="item.id" :item="item" :position="index"
-            :current_position="current_position"
-            :show_only_next_items="show_only_next_items"></part-queue-item>
+          <draggable v-model="queue_items" :options="{handle:'.handle'}"  @end="move_item">
+            <part-queue-item v-for="(item, index) in queue_items"
+              :key="item.id" :item="item" :position="index"
+              :current_position="current_position"
+              :show_only_next_items="show_only_next_items"></part-queue-item>
+          </draggable>
         </div>
       </div>
     </div>
@@ -34,10 +36,11 @@
 import PartQueueItem from '@/components/PartQueueItem'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'PageQueue',
-  components: { PartQueueItem },
+  components: { PartQueueItem, draggable },
 
   data () {
     return { }
@@ -49,6 +52,10 @@ export default {
     },
     queue () {
       return this.$store.state.queue
+    },
+    queue_items: {
+      get () { return this.$store.state.queue.items },
+      set (value) { /* Do nothing? Send move request in @end event */ }
     },
     current_position () {
       return this.$store.getters.now_playing === undefined ? -1 : this.$store.getters.now_playing.position
@@ -65,6 +72,15 @@ export default {
 
     update_show_next_items: function (e) {
       this.$store.commit(types.SHOW_ONLY_NEXT_ITEMS, !this.show_only_next_items)
+    },
+
+    move_item: function (e) {
+      var oldPosition = !this.show_only_next_items ? e.oldIndex : e.oldIndex + this.current_position
+      var item = this.queue_items[oldPosition]
+      var newPosition = item.position + (e.newIndex - e.oldIndex)
+      if (newPosition !== oldPosition) {
+        webapi.queue_move(item.id, newPosition)
+      }
     }
   }
 }

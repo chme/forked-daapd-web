@@ -14,8 +14,19 @@ a.navbar-item {
   cursor: pointer;
 }
 
+.fd-is-movable {
+  cursor: move;
+}
+
 .fd-is-text-clipped {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+}
+
+.sortable-chosen .media-right {
+  visibility: hidden;
+}
+.sortable-ghost h1, .sortable-ghost h2 {
+  color: hsl(348, 100%, 61%) !important;
 }

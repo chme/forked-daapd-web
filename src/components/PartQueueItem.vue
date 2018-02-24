@@ -1,10 +1,10 @@
 <template>
   <div class="media" v-if="is_next || !show_only_next_items">
-    <!--
+    <!---->
     <div class="media-left">
-      <span class="icon has-text-grey"><i class="mdi mdi-drag-horizontal mdi-18px"></i></span>
+      <span class="icon has-text-grey fd-is-movable handle"><i class="mdi mdi-drag-horizontal mdi-18px"></i></span>
     </div>
-    -->
+
     <div class="media-content fd-has-action is-clipped" v-on:click="play">
       <h1 class="title is-6" :class="{ 'has-text-primary': item.id === state.item_id, 'has-text-grey-light': !is_next }">{{ item.title }}</h1>
       <h2 class="subtitle is-7" :class="{ 'has-text-primary': item.id === state.item_id, 'has-text-grey-light': !is_next }">{{ item.artist }}<br>{{ item.album }}</h2>

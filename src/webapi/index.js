@@ -25,6 +25,10 @@ export default {
     return axios.delete('/api/queue/tracks/' + itemId)
   },
 
+  queue_move (itemId, newPosition) {
+    return axios.put('/api/queue/tracks/' + itemId + '?new_position=' + newPosition)
+  },
+
   queue_add (uri) {
     return axios.post('/api/queue/tracks/add?uris=' + uri)
   },
