@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <navbar-top/>
-    <router-view v-show="!show_burger_menu" />
+    <transition name="fade">
+      <router-view v-show="!show_burger_menu" />
+    </transition>
     <notifications v-show="!show_burger_menu" />
     <navbar-bottom v-show="!show_burger_menu" />
   </div>
