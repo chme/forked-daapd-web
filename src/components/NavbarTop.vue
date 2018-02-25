@@ -23,7 +23,7 @@
           <form v-on:submit.prevent="open_search">
             <div class="field has-addons">
               <p class="control">
-                <input class="input" type="text" placeholder="Search" v-model="search_query">
+                <input class="input" type="text" placeholder="Search" v-model="search_query" ref="search_field">
               </p>
               <p class="control">
                 <button class="button is-dark" type="submit">Search</button>
@@ -145,6 +145,7 @@ export default {
         }
       })
       this.search_query = ''
+      this.$refs.search_field.blur()
     }
   }
 }
