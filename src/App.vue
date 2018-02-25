@@ -37,6 +37,7 @@ export default {
     webapi.config().then(({ data }) => {
       this.$store.commit(types.UPDATE_CONFIG, data)
       this.$store.commit(types.HIDE_SINGLES, data.hide_singles)
+      document.title = data.library_name
 
       this.update_outputs()
       this.update_player_status()
