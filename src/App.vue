@@ -4,6 +4,7 @@
     <transition name="fade">
       <router-view v-show="!show_burger_menu" />
     </transition>
+    <modal-connection :visible="show_connection_modal" />
     <notifications v-show="!show_burger_menu" />
     <navbar-bottom v-show="!show_burger_menu" />
   </div>
@@ -12,6 +13,7 @@
 <script>
 import NavbarTop from '@/components/NavbarTop'
 import NavbarBottom from '@/components/NavbarBottom'
+import ModalConnection from '@/components/ModalConnection'
 import Notifications from '@/components/Notifications'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
@@ -19,37 +21,49 @@ import ReconnectingWebSocket from 'reconnectingwebsocket'
 
 export default {
   name: 'App',
-  components: { NavbarTop, NavbarBottom, Notifications },
+  components: { NavbarTop, NavbarBottom, Notifications, ModalConnection },
   template: '<App/>',
 
   data () {
     return {
+      show_connection_modal: false
     }
   },
 
   computed: {
     show_burger_menu () {
       return this.$store.state.show_burger_menu
+    },
+    server () {
+      return this.$store.state.server
     }
   },
 
   created: function () {
-    webapi.config().then(({ data }) => {
-      this.$store.commit(types.UPDATE_CONFIG, data)
-      this.$store.commit(types.HIDE_SINGLES, data.hide_singles)
-      document.title = data.library_name
-
-      this.update_outputs()
-      this.update_player_status()
-      this.update_library_stats()
-      this.update_queue()
-      this.connect()
-    })
+    this.connect()
   },
 
   methods: {
     connect: function () {
+      webapi.config().then(({ data }) => {
+        this.show_connection_modal = false
+        this.$store.commit(types.UPDATE_CONFIG, data)
+        this.$store.commit(types.HIDE_SINGLES, data.hide_singles)
+        document.title = data.library_name
+
+        this.update_outputs()
+        this.update_player_status()
+        this.update_library_stats()
+        this.update_queue()
+        this.open_ws()
+      }).catch(() => {
+        this.show_connection_modal = true
+      })
+    },
+
+    open_ws: function () {
       if (this.$store.state.config.websocket_port <= 0) {
+        this.$store.dispatch('add_notification', { text: 'Missing websocket port', type: 'danger' })
         return
       }
 
@@ -62,13 +76,16 @@ export default {
       )
 
       socket.onopen = function () {
+        vm.show_connection_modal = false
         vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', timeout: 3000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
       }
       socket.onclose = function () {
+        vm.show_connection_modal = true
         vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 3000 })
       }
       socket.onerror = function () {
+        vm.show_connection_modal = true
         vm.$store.dispatch('add_notification', { text: 'Failed to connect to server', type: 'danger', timeout: 3000 })
       }
       socket.onmessage = function (response) {
@@ -116,6 +133,11 @@ export default {
   watch: {
     '$route' (to, from) {
       this.$store.commit(types.SHOW_BURGER_MENU, false)
+    },
+    'server' () {
+      if (this.server.host && this.server.port) {
+        this.connect()
+      }
     }
   }
 }

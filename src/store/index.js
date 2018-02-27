@@ -6,6 +6,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    server: {
+      host: 'localhost',
+      port: 3689
+    },
+
     config: {
       'websocket_port': 0,
       'version': '',
@@ -54,6 +59,9 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    [types.UPDATE_SERVER] (state, server) {
+      state.server = server
+    },
     [types.UPDATE_CONFIG] (state, config) {
       state.config = config
     },
