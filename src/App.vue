@@ -70,7 +70,7 @@ export default {
       const vm = this
 
       var socket = new ReconnectingWebSocket(
-        'ws://' + document.domain + ':' + this.$store.state.config.websocket_port,
+        'ws://' + vm.server.host + ':' + vm.$store.state.config.websocket_port,
         'notify',
         { reconnectInterval: 3000 }
       )
