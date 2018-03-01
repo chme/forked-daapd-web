@@ -4,7 +4,7 @@
     <transition name="fade">
       <router-view v-show="!show_burger_menu" />
     </transition>
-    <modal-connection :visible="show_connection_modal" />
+    <modal-connection />
     <notifications v-show="!show_burger_menu" />
     <navbar-bottom v-show="!show_burger_menu" />
   </div>
@@ -26,12 +26,13 @@ export default {
   template: '<App/>',
 
   data () {
-    return {
-      show_connection_modal: false
-    }
+    return {}
   },
 
   computed: {
+    show_connection_modal () {
+      return this.$store.state.show_connection_modal
+    },
     show_burger_menu () {
       return this.$store.state.show_burger_menu
     },
@@ -55,7 +56,7 @@ export default {
       this.$store.dispatch('add_notification', { text: 'Connecting to ' + this.server.host + ':' + this.server.port, type: 'info', timeout: 2000 })
 
       webapi.config().then(({ data }) => {
-        this.show_connection_modal = false
+        this.$store.commit(types.SHOW_CONNECTION_MODAL, false)
         this.$store.commit(types.UPDATE_CONFIG, data)
         this.$store.commit(types.HIDE_SINGLES, data.hide_singles)
         document.title = data.library_name
@@ -67,7 +68,7 @@ export default {
         this.open_ws()
       }).catch(() => {
         this.$store.dispatch('add_notification', { text: 'Failed to connect to server ' + this.server.host + ':' + this.server.port, type: 'danger', timeout: 2000 })
-        this.show_connection_modal = true
+        this.$store.commit(types.SHOW_CONNECTION_MODAL, true)
       })
     },
 
@@ -82,21 +83,19 @@ export default {
       var socket = new ReconnectingWebSocket(
         'ws://' + vm.server.host + ':' + vm.$store.state.config.websocket_port,
         'notify',
-        { reconnectInterval: 3000 }
+        { reconnectInterval: 5000 }
       )
 
       socket.onopen = function () {
-        vm.show_connection_modal = false
+        vm.$store.commit(types.SHOW_CONNECTION_MODAL, false)
         vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', timeout: 2000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
       }
       socket.onclose = function () {
-        vm.show_connection_modal = true
-        vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
+        // vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
       }
       socket.onerror = function () {
-        vm.show_connection_modal = true
-        vm.$store.dispatch('add_notification', { text: 'Failed to connect to server', type: 'danger', timeout: 2000 })
+        vm.$store.dispatch('add_notification', { text: 'Connection to websocket lost. Reconnecting ...', type: 'danger', timeout: 2000 })
       }
       socket.onmessage = function (response) {
         var data = JSON.parse(response.data)

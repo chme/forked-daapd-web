@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import PageQueue from '@/components/PageQueue'
 import PageNowPlaying from '@/components/PageNowPlaying'
 import PageArtists from '@/components/PageArtists'
@@ -8,9 +8,9 @@ import PageTracks from '@/components/PageTracks'
 import PagePlaylists from '@/components/PagePlaylists'
 import PageSearch from '@/components/PageSearch'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-export default new Router({
+export const router = new VueRouter({
   routes: [
     {
       path: '/',
@@ -63,4 +63,8 @@ export default new Router({
       component: PageSearch
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  next()
 })

@@ -1,10 +1,10 @@
 <template>
-  <div class="modal" :class="{ 'is-active': visible }">
-    <div class="modal-background"></div>
+  <div class="modal" :class="{ 'is-active': show_connection_modal }">
+    <div class="modal-background" @click="close_modal"></div>
     <div class="modal-content">
       <div class="message is-dark">
         <div class="message-body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque. Donec dui urna, vehicula et sem eget, facilisis sodales sem.
+          <p class="subtitle is-6">Connect to <b>forked-daapd</b></p>
           <form v-on:submit.prevent="connect">
             <div class="field is-horizontal">
               <div class="field-label is-normal">
@@ -48,6 +48,7 @@
         </div>
       </div>
     </div>
+    <button class="modal-close is-large" aria-label="close" @click="close_modal"></button>
   </div>
 </template>
 
@@ -56,8 +57,6 @@ import * as types from '@/store/mutation_types'
 
 export default {
   name: 'ModalConnection',
-
-  props: ['visible'],
 
   data () {
     return {
@@ -71,17 +70,25 @@ export default {
   computed: {
     server () {
       return this.$store.state.server
+    },
+    show_connection_modal () {
+      return this.$store.state.show_connection_modal
     }
-  },
-
-  created: function () {
-    this.new_server.host = this.server.host
-    this.new_server.port = this.server.port
   },
 
   methods: {
     connect: function () {
-      this.$store.commit(types.UPDATE_SERVER, this.new_server)
+      this.$store.commit(types.UPDATE_SERVER, { host: this.new_server.host, port: this.new_server.port })
+    },
+    close_modal: function () {
+      this.$store.commit(types.SHOW_CONNECTION_MODAL, false)
+    }
+  },
+
+  watch: {
+    'server' () {
+      this.new_server.host = this.server.host
+      this.new_server.port = this.server.port
     }
   }
 }
