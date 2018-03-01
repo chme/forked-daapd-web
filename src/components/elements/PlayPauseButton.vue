@@ -1,6 +1,6 @@
 <template>
   <a v-on:click="toggle_play_pause">
-    <span class="icon"><i class="mdi mdi-36px" v-bind:class="{ 'mdi-play': !is_playing, 'mdi-pause': is_playing }"></i></span>
+    <span class="icon"><i class="mdi" v-bind:class="[icon_style, { 'mdi-play': !is_playing, 'mdi-pause': is_playing }]"></i></span>
   </a>
 </template>
 
@@ -9,6 +9,8 @@ import webapi from '../../webapi'
 
 export default {
   name: 'PlayPauseButton',
+
+  props: ['icon_style'],
 
   computed: {
     is_playing () {

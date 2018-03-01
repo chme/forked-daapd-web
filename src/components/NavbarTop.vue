@@ -62,6 +62,28 @@
             </div>
             <hr class="navbar-divider">
             <output-nav-bar-item v-for="output in outputs" :key="output.id" :output="output"></output-nav-bar-item>
+
+            <hr class="navbar-divider">
+            <div class="navbar-item">
+              <div class="level is-mobile">
+                <div class="level-left">
+                  <div class="level-item">
+                    <div class="buttons has-addons">
+                      <play-previous-button class="button"></play-previous-button>
+                      <play-pause-button class="button"></play-pause-button>
+                      <play-next-button class="button"></play-next-button>
+                    </div>
+                  </div>
+                  <div class="level-item">
+                    <div class="buttons has-addons">
+                      <repeat-button class="button is-light"></repeat-button>
+                      <shuffle-button class="button is-light"></shuffle-button>
+                      <consume-button class="button is-light"></consume-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="navbar-item has-dropdown is-hoverable">
@@ -87,12 +109,18 @@
 <script>
 import webapi from '@/webapi'
 import OutputNavBarItem from './elements/OutputNavBarItem'
+import PlayPauseButton from './elements/PlayPauseButton'
+import PlayNextButton from './elements/PlayNextButton'
+import PlayPreviousButton from './elements/PlayPreviousButton'
+import ShuffleButton from './elements/ShuffleButton'
+import ConsumeButton from './elements/ConsumeButton'
+import RepeatButton from './elements/RepeatButton'
 import RangeSlider from 'vue-range-slider'
 import * as types from '@/store/mutation_types'
 
 export default {
   name: 'NavbarTop',
-  components: { OutputNavBarItem, RangeSlider },
+  components: { OutputNavBarItem, PlayPauseButton, PlayNextButton, PlayPreviousButton, ShuffleButton, ConsumeButton, RepeatButton, RangeSlider },
 
   data () {
     return {

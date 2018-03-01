@@ -14,7 +14,7 @@
         </h3>
         <p class="control has-text-centered">
           <play-previous-button class="button is-medium"></play-previous-button>
-          <play-pause-button class="button is-medium"></play-pause-button>
+          <play-pause-button class="button is-medium" icon_style="mdi-36px"></play-pause-button>
           <play-next-button class="button is-medium"></play-next-button>
           <repeat-button class="button is-medium is-light"></repeat-button>
           <shuffle-button class="button is-medium is-light"></shuffle-button>
