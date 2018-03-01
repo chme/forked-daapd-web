@@ -22,7 +22,7 @@ export default {
 
   methods: {
     open_artist_albums: function () {
-      this.$router.push({ path: '/artists/' + this.artist.persistent_id + '/albums' })
+      this.$router.push({ path: '/artists/' + this.artist.id + '/albums' })
     },
 
     queue_add: function () {
