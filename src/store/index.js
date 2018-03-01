@@ -7,8 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     server: {
-      host: 'localhost',
-      port: 3689
+      host: '',
+      port: 0
     },
 
     config: {

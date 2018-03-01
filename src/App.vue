@@ -18,6 +18,7 @@ import Notifications from '@/components/Notifications'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 import ReconnectingWebSocket from 'reconnectingwebsocket'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -40,11 +41,19 @@ export default {
   },
 
   created: function () {
-    this.connect()
+    axios.get('/static/server-settings.json').then(({ data }) => {
+      if (data.host !== this.server.host || data.port !== this.server.port) {
+        this.$store.commit(types.UPDATE_SERVER, data)
+      }
+    }).catch(() => {
+      this.$store.commit(types.UPDATE_SERVER, { host: window.location.hostname, port: window.location.port })
+    })
   },
 
   methods: {
     connect: function () {
+      this.$store.dispatch('add_notification', { text: 'Connecting to ' + this.server.host + ':' + this.server.port, type: 'info', timeout: 2000 })
+
       webapi.config().then(({ data }) => {
         this.show_connection_modal = false
         this.$store.commit(types.UPDATE_CONFIG, data)
@@ -57,6 +66,7 @@ export default {
         this.update_queue()
         this.open_ws()
       }).catch(() => {
+        this.$store.dispatch('add_notification', { text: 'Failed to connect to server ' + this.server.host + ':' + this.server.port, type: 'danger', timeout: 2000 })
         this.show_connection_modal = true
       })
     },
@@ -77,16 +87,16 @@ export default {
 
       socket.onopen = function () {
         vm.show_connection_modal = false
-        vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', timeout: 3000 })
+        vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', timeout: 2000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
       }
       socket.onclose = function () {
         vm.show_connection_modal = true
-        vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 3000 })
+        vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
       }
       socket.onerror = function () {
         vm.show_connection_modal = true
-        vm.$store.dispatch('add_notification', { text: 'Failed to connect to server', type: 'danger', timeout: 3000 })
+        vm.$store.dispatch('add_notification', { text: 'Failed to connect to server', type: 'danger', timeout: 2000 })
       }
       socket.onmessage = function (response) {
         var data = JSON.parse(response.data)

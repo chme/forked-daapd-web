@@ -63,7 +63,7 @@ export default {
     return {
       new_server: {
         host: '',
-        port: 3689
+        port: 0
       }
     }
   },
