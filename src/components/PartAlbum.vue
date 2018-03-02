@@ -2,7 +2,7 @@
   <div class="media">
     <div class="media-content fd-has-action is-clipped" v-on:click="open_album_tracks">
       <h1 class="title is-6">{{ album.name }}</h1>
-      <h2 class="subtitle is-7">{{ album.artist }}<br>{{ album.song_count }} songs</h2>
+      <h2 class="subtitle is-7">{{ album.artist }}<br>{{ album.track_count }} songs</h2>
     </div>
     <div class="media-right">
       <a v-on:click="queue_add">

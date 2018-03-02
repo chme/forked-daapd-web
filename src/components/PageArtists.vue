@@ -18,7 +18,7 @@
               <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
             </div>
           </nav>
-          <part-artist v-for="artist in artists" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.song_count > artist.album_count"></part-artist>
+          <part-artist v-for="artist in artists" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > artist.album_count"></part-artist>
         </div>
       </div>
     </div>
