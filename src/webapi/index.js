@@ -27,15 +27,15 @@ export default {
   },
 
   queue_remove (itemId) {
-    return axios.delete(this.baseUrl() + '/api/queue/tracks/' + itemId)
+    return axios.delete(this.baseUrl() + '/api/queue/items/' + itemId)
   },
 
   queue_move (itemId, newPosition) {
-    return axios.put(this.baseUrl() + '/api/queue/tracks/' + itemId + '?new_position=' + newPosition)
+    return axios.put(this.baseUrl() + '/api/queue/items/' + itemId + '?new_position=' + newPosition)
   },
 
   queue_add (uri) {
-    return axios.post(this.baseUrl() + '/api/queue/tracks/add?uris=' + uri)
+    return axios.post(this.baseUrl() + '/api/queue/items/add?uris=' + uri)
   },
 
   player_status () {
