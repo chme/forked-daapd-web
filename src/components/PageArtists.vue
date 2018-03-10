@@ -43,19 +43,34 @@ export default {
   computed: {
     hide_singles () {
       return this.$store.state.hide_singles
+    },
+    server_connection () {
+      return this.$store.state.server
     }
   },
 
   methods: {
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
+    },
+    library_artists: function () {
+      webapi.library_artists().then(({ data }) => {
+        this.artists = data.artists
+      })
     }
   },
 
   created: function () {
-    webapi.library_artists().then(({ data }) => {
-      this.artists = data.artists
-    })
+    this.library_artists()
+  },
+
+  watch: {
+    '$route' (to, from) {
+      this.library_artists()
+    },
+    'server_connection' () {
+      this.library_artists()
+    }
   }
 }
 </script>

@@ -38,6 +38,12 @@ export default {
     }
   },
 
+  computed: {
+    server_connection () {
+      return this.$store.state.server
+    }
+  },
+
   methods: {
     load_tracks: function (route) {
       if (route.params.album_id !== undefined) {
@@ -59,6 +65,9 @@ export default {
   watch: {
     '$route' (to, from) {
       this.load_tracks(to)
+    },
+    'server_connection' () {
+      this.load_tracks(this.$route)
     }
   }
 }
