@@ -53,7 +53,7 @@ export default {
 
   methods: {
     connect: function () {
-      this.$store.dispatch('add_notification', { text: 'Connecting to ' + this.server.host + ':' + this.server.port, type: 'info', timeout: 2000 })
+      this.$store.dispatch('add_notification', { text: 'Connecting to ' + this.server.host + ':' + this.server.port, type: 'info', topic: 'connection', timeout: 2000 })
 
       webapi.config().then(({ data }) => {
         this.$store.commit(types.SHOW_CONNECTION_MODAL, false)
@@ -67,7 +67,7 @@ export default {
         this.update_queue()
         this.open_ws()
       }).catch(() => {
-        this.$store.dispatch('add_notification', { text: 'Failed to connect to server ' + this.server.host + ':' + this.server.port, type: 'danger', timeout: 2000 })
+        this.$store.dispatch('add_notification', { text: 'Failed to connect to server ' + this.server.host + ':' + this.server.port, type: 'danger', topic: 'connection' })
         this.$store.commit(types.SHOW_CONNECTION_MODAL, true)
       })
     },
@@ -88,14 +88,14 @@ export default {
 
       socket.onopen = function () {
         vm.$store.commit(types.SHOW_CONNECTION_MODAL, false)
-        vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', timeout: 2000 })
+        vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', topic: 'connection', timeout: 2000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
       }
       socket.onclose = function () {
         // vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
       }
       socket.onerror = function () {
-        vm.$store.dispatch('add_notification', { text: 'Connection to websocket lost. Reconnecting ...', type: 'danger', timeout: 2000 })
+        vm.$store.dispatch('add_notification', { text: 'Connection to websocket lost. Reconnecting ...', type: 'danger', topic: 'connection' })
       }
       socket.onmessage = function (response) {
         var data = JSON.parse(response.data)

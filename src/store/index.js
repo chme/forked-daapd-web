@@ -79,6 +79,13 @@ export default new Vuex.Store({
       state.queue = queue
     },
     [types.ADD_NOTIFICATION] (state, notification) {
+      if (notification.topic) {
+        var index = state.notifications.list.findIndex(elem => elem.topic === notification.topic)
+        if (index >= 0) {
+          state.notifications.list.splice(index, 1, notification)
+          return
+        }
+      }
       state.notifications.list.push(notification)
     },
     [types.DELETE_NOTIFICATION] (state, notification) {
@@ -108,6 +115,7 @@ export default new Vuex.Store({
         'id': state.notifications.next_id++,
         'type': notification.type,
         'text': notification.text,
+        'topic': notification.topic,
         'timeout': notification.timeout
       }
 
