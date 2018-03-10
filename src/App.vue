@@ -61,10 +61,6 @@ export default {
         this.$store.commit(types.HIDE_SINGLES, data.hide_singles)
         document.title = data.library_name
 
-        this.update_outputs()
-        this.update_player_status()
-        this.update_library_stats()
-        this.update_queue()
         this.open_ws()
       }).catch(() => {
         this.$store.dispatch('add_notification', { text: 'Failed to connect to server ' + this.server.host + ':' + this.server.port, type: 'danger', topic: 'connection' })
@@ -90,6 +86,11 @@ export default {
         vm.$store.commit(types.SHOW_CONNECTION_MODAL, false)
         vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', topic: 'connection', timeout: 2000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
+
+        vm.update_outputs()
+        vm.update_player_status()
+        vm.update_library_stats()
+        vm.update_queue()
       }
       socket.onclose = function () {
         // vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
