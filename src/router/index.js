@@ -11,6 +11,7 @@ import PageTracks from '@/components/PageTracks'
 import PagePlaylists from '@/components/PagePlaylists'
 import PagePlaylist from '@/components/PagePlaylist'
 import PageSearch from '@/components/PageSearch'
+import PageSpotifyNewReleases from '@/components/PageSpotifyNewReleases'
 
 Vue.use(VueRouter)
 
@@ -75,6 +76,11 @@ export const router = new VueRouter({
       path: '/search',
       name: 'Search',
       component: PageSearch
+    },
+    {
+      path: '/music/spotify',
+      name: 'Spotify',
+      component: PageSpotifyNewReleases
     }
   ]
 })

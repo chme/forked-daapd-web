@@ -135,5 +135,9 @@ export default {
     return axios.get(this.baseUrl() + '/api/search', {
       params: searchParams
     })
+  },
+
+  spotify () {
+    return axios.get(this.baseUrl() + '/api/spotify')
   }
 }

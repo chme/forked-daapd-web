@@ -19,6 +19,12 @@
           <span class="">Albums</span>
         </a>
       </router-link>
+      <router-link tag="li" to="/music/spotify" active-class="is-active">
+        <a>
+          <span class="icon is-small"><i class="mdi mdi-spotify"></i></span>
+          <span class="">Spotify</span>
+        </a>
+      </router-link>
     </ul>
   </div>
 </template>
