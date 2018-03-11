@@ -61,7 +61,7 @@
               </div>
             </div>
             <hr class="navbar-divider">
-            <output-nav-bar-item v-for="output in outputs" :key="output.id" :output="output"></output-nav-bar-item>
+            <nav-bar-item-output v-for="output in outputs" :key="output.id" :output="output"></nav-bar-item-output>
 
             <hr class="navbar-divider">
             <div class="navbar-item">
@@ -108,7 +108,7 @@
 
 <script>
 import webapi from '@/webapi'
-import OutputNavBarItem from './elements/OutputNavBarItem'
+import NavBarItemOutput from './elements/NavBarItemOutput'
 import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
 import PlayerButtonNext from './elements/PlayerButtonNext'
 import PlayerButtonPrevious from './elements/PlayerButtonPrevious'
@@ -120,7 +120,7 @@ import * as types from '@/store/mutation_types'
 
 export default {
   name: 'NavbarTop',
-  components: { OutputNavBarItem, PlayerButtonPlayPause, PlayerButtonNext, PlayerButtonPrevious, PlayerButtonShuffle, PlayerButtonConsume, PlayerButtonRepeat, RangeSlider },
+  components: { NavBarItemOutput, PlayerButtonPlayPause, PlayerButtonNext, PlayerButtonPrevious, PlayerButtonShuffle, PlayerButtonConsume, PlayerButtonRepeat, RangeSlider },
 
   data () {
     return {

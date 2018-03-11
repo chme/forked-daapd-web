@@ -29,7 +29,7 @@ import RangeSlider from 'vue-range-slider'
 import webapi from '../../webapi'
 
 export default {
-  name: 'OutputNavBarItem',
+  name: 'NavBarItemOutput',
   components: { RangeSlider },
 
   props: [ 'output' ],
