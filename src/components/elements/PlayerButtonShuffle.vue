@@ -8,7 +8,7 @@
 import webapi from '../../webapi'
 
 export default {
-  name: 'ShuffleButton',
+  name: 'PlayerButtonShuffle',
 
   computed: {
     is_shuffle () {

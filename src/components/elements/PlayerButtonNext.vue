@@ -8,7 +8,7 @@
 import webapi from '../../webapi'
 
 export default {
-  name: 'PlayNextButton',
+  name: 'PlayerButtonNext',
 
   methods: {
     play_next: function () {

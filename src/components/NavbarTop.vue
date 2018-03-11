@@ -69,16 +69,16 @@
                 <div class="level-left">
                   <div class="level-item">
                     <div class="buttons has-addons">
-                      <play-previous-button class="button"></play-previous-button>
-                      <play-pause-button class="button"></play-pause-button>
-                      <play-next-button class="button"></play-next-button>
+                      <player-button-previous class="button"></player-button-previous>
+                      <player-button-play-pause class="button"></player-button-play-pause>
+                      <player-button-next class="button"></player-button-next>
                     </div>
                   </div>
                   <div class="level-item">
                     <div class="buttons has-addons">
-                      <repeat-button class="button is-light"></repeat-button>
-                      <shuffle-button class="button is-light"></shuffle-button>
-                      <consume-button class="button is-light"></consume-button>
+                      <player-button-repeat class="button is-light"></player-button-repeat>
+                      <player-button-shuffle class="button is-light"></player-button-shuffle>
+                      <player-button-consume class="button is-light"></player-button-consume>
                     </div>
                   </div>
                 </div>
@@ -109,18 +109,18 @@
 <script>
 import webapi from '@/webapi'
 import OutputNavBarItem from './elements/OutputNavBarItem'
-import PlayPauseButton from './elements/PlayPauseButton'
-import PlayNextButton from './elements/PlayNextButton'
-import PlayPreviousButton from './elements/PlayPreviousButton'
-import ShuffleButton from './elements/ShuffleButton'
-import ConsumeButton from './elements/ConsumeButton'
-import RepeatButton from './elements/RepeatButton'
+import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
+import PlayerButtonNext from './elements/PlayerButtonNext'
+import PlayerButtonPrevious from './elements/PlayerButtonPrevious'
+import PlayerButtonShuffle from './elements/PlayerButtonShuffle'
+import PlayerButtonConsume from './elements/PlayerButtonConsume'
+import PlayerButtonRepeat from './elements/PlayerButtonRepeat'
 import RangeSlider from 'vue-range-slider'
 import * as types from '@/store/mutation_types'
 
 export default {
   name: 'NavbarTop',
-  components: { OutputNavBarItem, PlayPauseButton, PlayNextButton, PlayPreviousButton, ShuffleButton, ConsumeButton, RepeatButton, RangeSlider },
+  components: { OutputNavBarItem, PlayerButtonPlayPause, PlayerButtonNext, PlayerButtonPrevious, PlayerButtonShuffle, PlayerButtonConsume, PlayerButtonRepeat, RangeSlider },
 
   data () {
     return {

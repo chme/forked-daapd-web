@@ -13,12 +13,12 @@
           {{ now_playing.album }}
         </h3>
         <p class="control has-text-centered">
-          <play-previous-button class="button is-medium"></play-previous-button>
-          <play-pause-button class="button is-medium" icon_style="mdi-36px"></play-pause-button>
-          <play-next-button class="button is-medium"></play-next-button>
-          <repeat-button class="button is-medium is-light"></repeat-button>
-          <shuffle-button class="button is-medium is-light"></shuffle-button>
-          <consume-button class="button is-medium is-light"></consume-button>
+          <player-button-previous class="button is-medium"></player-button-previous>
+          <player-button-play-pause class="button is-medium" icon_style="mdi-36px"></player-button-play-pause>
+          <player-button-next class="button is-medium"></player-button-next>
+          <player-button-repeat class="button is-medium is-light"></player-button-repeat>
+          <player-button-shuffle class="button is-medium is-light"></player-button-shuffle>
+          <player-button-consume class="button is-medium is-light"></player-button-consume>
         </p>
       </div>
     </div>
@@ -26,16 +26,16 @@
 </template>
 
 <script>
-import PlayPauseButton from './elements/PlayPauseButton'
-import PlayNextButton from './elements/PlayNextButton'
-import PlayPreviousButton from './elements/PlayPreviousButton'
-import ShuffleButton from './elements/ShuffleButton'
-import ConsumeButton from './elements/ConsumeButton'
-import RepeatButton from './elements/RepeatButton'
+import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
+import PlayerButtonNext from './elements/PlayerButtonNext'
+import PlayerButtonPrevious from './elements/PlayerButtonPrevious'
+import PlayerButtonShuffle from './elements/PlayerButtonShuffle'
+import PlayerButtonConsume from './elements/PlayerButtonConsume'
+import PlayerButtonRepeat from './elements/PlayerButtonRepeat'
 
 export default {
   name: 'PageNowPlaying',
-  components: { PlayPauseButton, PlayNextButton, PlayPreviousButton, ShuffleButton, ConsumeButton, RepeatButton },
+  components: { PlayerButtonPlayPause, PlayerButtonNext, PlayerButtonPrevious, PlayerButtonShuffle, PlayerButtonConsume, PlayerButtonRepeat },
 
   data () {
     return { }

@@ -8,7 +8,7 @@
 import webapi from '../../webapi'
 
 export default {
-  name: 'ConsumeButton',
+  name: 'PlayerButtonConsume',
 
   computed: {
     is_consume () {

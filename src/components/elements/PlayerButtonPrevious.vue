@@ -8,7 +8,7 @@
 import webapi from '../../webapi'
 
 export default {
-  name: 'PlayPreviousButton',
+  name: 'PlayerButtonPrevious',
 
   methods: {
     play_previous: function () {

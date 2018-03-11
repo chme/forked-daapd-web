@@ -12,17 +12,17 @@
           </p>
         </div>
       </router-link>
-      <play-pause-button class="navbar-item fd-margin-left-auto" icon_style="mdi-36px"></play-pause-button>
+      <player-button-play-pause class="navbar-item fd-margin-left-auto" icon_style="mdi-36px"></player-button-play-pause>
     </div>
   </nav>
 </template>
 
 <script>
-import PlayPauseButton from './elements/PlayPauseButton'
+import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
 
 export default {
   name: 'NavbarBottom',
-  components: { PlayPauseButton },
+  components: { PlayerButtonPlayPause },
 
   data () {
     return { }
