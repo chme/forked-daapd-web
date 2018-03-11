@@ -43,6 +43,7 @@ export default new Vuex.Store({
       'next_id': 1,
       'list': [ ]
     },
+    recent_searches: [],
 
     hide_singles: false,
     show_only_next_items: false,
@@ -93,6 +94,18 @@ export default new Vuex.Store({
 
       if (index !== -1) {
         state.notifications.list.splice(index, 1)
+      }
+    },
+    [types.ADD_RECENT_SEARCH] (state, query) {
+      var index = state.recent_searches.findIndex(elem => elem === query)
+      if (index >= 0) {
+        state.recent_searches.splice(index, 1)
+      }
+
+      state.recent_searches.splice(0, 0, query)
+
+      if (state.recent_searches.length > 5) {
+        state.recent_searches.pop()
       }
     },
     [types.HIDE_SINGLES] (state, hideSingles) {

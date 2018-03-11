@@ -10,6 +10,9 @@
       <router-link to="/albums" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-album"></i></span>
       </router-link>
+      <router-link to="/search" class="navbar-item" active-class="is-active">
+        <span class="icon"><i class="mdi mdi-magnify"></i></span>
+      </router-link>
 
       <div class="navbar-burger" @click="update_show_burger_menu" :class="{ 'is-active': show_burger_menu }">
         <span></span>
@@ -19,18 +22,6 @@
     </div>
     <div class="navbar-menu" :class="{ 'is-active': show_burger_menu }">
       <div class="navbar-start">
-        <div class="navbar-item">
-          <form v-on:submit.prevent="open_search">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" type="text" placeholder="Search" v-model="search_query" ref="search_field">
-              </p>
-              <p class="control">
-                <button class="button is-dark" type="submit">Search</button>
-              </p>
-            </div>
-          </form>
-        </div>
       </div>
 
       <div class="navbar-end">
@@ -160,23 +151,6 @@ export default {
 
     set_volume: function (newVolume) {
       webapi.player_volume(newVolume)
-    },
-
-    open_search: function () {
-      if (!this.search_query) {
-        return
-      }
-
-      this.$router.push({ path: '/search',
-        query: {
-          type: 'track,artist,album,playlist',
-          query: this.search_query,
-          limit: 3,
-          offset: 0
-        }
-      })
-      this.search_query = ''
-      this.$refs.search_field.blur()
     }
   }
 }

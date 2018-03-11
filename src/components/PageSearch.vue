@@ -1,16 +1,27 @@
 <template>
   <div>
-    <!-- Heading
+    <!-- Heading -->
     <section class="section">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-four-fifths">
-            <h1 class="title is-4">Search results for: <span class="has-text-grey">{{ $route.query.query }}</span></h1>
+            <form v-on:submit.prevent="new_search">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input is-rounded is-shadowless" type="text" placeholder="Search" v-model="search_query" ref="search_field">
+                  <span class="icon is-left">
+                    <i class="mdi mdi-magnify"></i>
+                  </span>
+                </p>
+              </div>
+            </form>
+            <div class="tags" style="margin-top: 16px;">
+              <a class="tag" v-for="recent_search in recent_searches" :key="recent_search" @click="open_recent_search(recent_search)">{{ recent_search }}</a>
+            </div>
           </div>
         </div>
       </div>
     </section>
-    -->
 
     <!-- Tracks -->
     <section class="section" v-if="show_tracks">
@@ -128,6 +139,7 @@ import ListItemArtist from '@/components/elements/ListItemArtist'
 import ListItemAlbum from '@/components/elements/ListItemAlbum'
 import ListItemPlaylist from '@/components/elements/ListItemPlaylist'
 import webapi from '@/webapi'
+import * as types from '@/store/mutation_types'
 
 export default {
   name: 'PageTracks',
@@ -135,6 +147,7 @@ export default {
 
   data () {
     return {
+      search_query: '',
       tracks: [],
       artists: [],
       albums: [],
@@ -143,25 +156,35 @@ export default {
   },
 
   computed: {
+    recent_searches () {
+      return this.$store.state.recent_searches
+    },
+
     show_tracks () {
-      return this.$route.query.type.includes('track')
+      return this.$route.query.type && this.$route.query.type.includes('track')
     },
 
     show_artists () {
-      return this.$route.query.type.includes('artist')
+      return this.$route.query.type && this.$route.query.type.includes('artist')
     },
 
     show_albums () {
-      return this.$route.query.type.includes('album')
+      return this.$route.query.type && this.$route.query.type.includes('album')
     },
 
     show_playlists () {
-      return this.$route.query.type.includes('playlist')
+      return this.$route.query.type && this.$route.query.type.includes('playlist')
     }
   },
 
   methods: {
     search: function (route) {
+      if (!route.query.query || route.query.query === '') {
+        this.search_query = ''
+        this.$refs.search_field.focus()
+        return
+      }
+
       var searchParams = {
         'type': route.query.type,
         'query': route.query.query
@@ -173,11 +196,29 @@ export default {
       }
 
       webapi.search(searchParams).then(({ data }) => {
-        this.tracks = data.tracks
-        this.artists = data.artists
-        this.albums = data.albums
-        this.playlists = data.playlists
+        this.tracks = data.tracks ? data.tracks : []
+        this.artists = data.artists ? data.artists : []
+        this.albums = data.albums ? data.albums : []
+        this.playlists = data.playlists ? data.playlists : []
+
+        this.$store.commit(types.ADD_RECENT_SEARCH, this.search_query)
       })
+    },
+
+    new_search: function () {
+      if (!this.search_query) {
+        return
+      }
+
+      this.$router.push({ path: '/search',
+        query: {
+          type: 'track,artist,album,playlist',
+          query: this.search_query,
+          limit: 3,
+          offset: 0
+        }
+      })
+      this.$refs.search_field.blur()
     },
 
     open_search_tracks: function () {
@@ -214,10 +255,15 @@ export default {
           query: this.$route.query.query
         }
       })
+    },
+
+    open_recent_search: function (query) {
+      this.search_query = query
+      this.new_search()
     }
   },
 
-  created: function () {
+  mounted: function () {
     this.search(this.$route)
   },
 
