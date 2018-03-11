@@ -37,14 +37,14 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-                <p class="level-item" v-if="tracks.length"><a class="button is-light is-rounded" v-on:click="open_search_tracks">Show all</a></p>
-              </div>
             </nav>
-            <list-item-track v-for="track in tracks" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
-            <p v-if="!tracks.length">No results</p>
+            <list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
+            <p v-if="!tracks.total">No results</p>
+            <nav class="level">
+              <p class="level-item" v-if="show_all_tracks_button">
+                <a class="button is-light is-small is-rounded" v-on:click="open_search_tracks">Show all {{ tracks.total }} tracks</a>
+              </p>
+            </nav>
           </div>
         </div>
       </div>
@@ -64,14 +64,14 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-                <p class="level-item" v-if="artists.length"><a class="button is-light is-rounded" v-on:click="open_search_artists">Show all</a></p>
-              </div>
             </nav>
-            <list-item-artist v-for="artist in artists" :key="artist.id" :artist="artist"></list-item-artist>
-            <p v-if="!artists.length">No results</p>
+            <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></list-item-artist>
+            <p v-if="!artists.total">No results</p>
+            <nav class="level">
+              <p class="level-item" v-if="show_all_artists_button">
+                <a class="button is-light is-small is-rounded" v-on:click="open_search_artists">Show all {{ artists.total }} artists</a>
+              </p>
+            </nav>
           </div>
         </div>
       </div>
@@ -91,14 +91,14 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-                <p class="level-item" v-if="albums.length"><a class="button is-light is-rounded" v-on:click="open_search_albums">Show all</a></p>
-              </div>
             </nav>
-            <list-item-album v-for="album in albums" :key="album.id" :album="album"></list-item-album>
-            <p v-if="!albums.length">No results</p>
+            <list-item-album v-for="album in albums.items" :key="album.id" :album="album"></list-item-album>
+            <p v-if="!albums.total">No results</p>
+            <nav class="level">
+              <p class="level-item" v-if="show_all_albums_button">
+                <a class="button is-light is-small is-rounded" v-on:click="open_search_albums">Show all {{ albums.total }} albums</a>
+              </p>
+            </nav>
           </div>
         </div>
       </div>
@@ -118,14 +118,14 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-                <p class="level-item" v-if="playlists.length"><a class="button is-light is-rounded" v-on:click="open_search_playlists">Show all</a></p>
-              </div>
             </nav>
-            <list-item-playlist v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"></list-item-playlist>
-            <p v-if="!playlists.length">No results</p>
+            <list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></list-item-playlist>
+            <p v-if="!playlists.total">No results</p>
+            <nav class="level">
+              <p class="level-item" v-if="playlists.items.length">
+                <a class="button is-light is-small is-rounded" v-on:click="open_search_playlists">Show all {{ playlists.total }} playlists</a>
+              </p>
+            </nav>
           </div>
         </div>
       </div>
@@ -142,16 +142,16 @@ import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
 export default {
-  name: 'PageTracks',
+  name: 'PageSearch',
   components: { ListItemTrack, ListItemArtist, ListItemAlbum, ListItemPlaylist },
 
   data () {
     return {
       search_query: '',
-      tracks: [],
-      artists: [],
-      albums: [],
-      playlists: []
+      tracks: { items: [], total: 0 },
+      artists: { items: [], total: 0 },
+      albums: { items: [], total: 0 },
+      playlists: { items: [], total: 0 }
     }
   },
 
@@ -163,13 +163,22 @@ export default {
     show_tracks () {
       return this.$route.query.type && this.$route.query.type.includes('track')
     },
+    show_all_tracks_button () {
+      return this.tracks.total > this.tracks.items.length
+    },
 
     show_artists () {
       return this.$route.query.type && this.$route.query.type.includes('artist')
     },
+    show_all_artists_button () {
+      return this.artists.total > this.artists.items.length
+    },
 
     show_albums () {
       return this.$route.query.type && this.$route.query.type.includes('album')
+    },
+    show_all_albums_button () {
+      return this.albums.total > this.albums.items.length
     },
 
     show_playlists () {
@@ -196,12 +205,12 @@ export default {
       }
 
       webapi.search(searchParams).then(({ data }) => {
-        this.tracks = data.tracks ? data.tracks : []
-        this.artists = data.artists ? data.artists : []
-        this.albums = data.albums ? data.albums : []
-        this.playlists = data.playlists ? data.playlists : []
+        this.tracks = data.tracks ? data.tracks : { items: [], total: 0 }
+        this.artists = data.artists ? data.artists : { items: [], total: 0 }
+        this.albums = data.albums ? data.albums : { items: [], total: 0 }
+        this.playlists = data.playlists ? data.playlists : { items: [], total: 0 }
 
-        this.$store.commit(types.ADD_RECENT_SEARCH, this.search_query)
+        this.$store.commit(types.ADD_RECENT_SEARCH, searchParams.query)
       })
     },
 
