@@ -18,7 +18,7 @@
               <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
             </div>
           </nav>
-          <part-artist v-for="artist in artists" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > artist.album_count"></part-artist>
+          <list-item-artist v-for="artist in artists" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > artist.album_count"></list-item-artist>
         </div>
       </div>
     </div>
@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import PartArtist from '@/components/PartArtist'
+import ListItemArtist from '@/components/elements/ListItemArtist'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
 export default {
   name: 'PageArtists',
-  components: { PartArtist },
+  components: { ListItemArtist },
 
   data () {
     return {

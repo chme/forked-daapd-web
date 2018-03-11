@@ -21,10 +21,10 @@
             </div>
           </nav>
           <draggable v-model="queue_items" :options="{handle:'.handle'}"  @end="move_item">
-            <part-queue-item v-for="(item, index) in queue_items"
+            <list-item-queue-item v-for="(item, index) in queue_items"
               :key="item.id" :item="item" :position="index"
               :current_position="current_position"
-              :show_only_next_items="show_only_next_items"></part-queue-item>
+              :show_only_next_items="show_only_next_items"></list-item-queue-item>
           </draggable>
         </div>
       </div>
@@ -33,14 +33,14 @@
 </template>
 
 <script>
-import PartQueueItem from '@/components/PartQueueItem'
+import ListItemQueueItem from '@/components/elements/ListItemQueueItem'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 import draggable from 'vuedraggable'
 
 export default {
   name: 'PageQueue',
-  components: { PartQueueItem, draggable },
+  components: { ListItemQueueItem, draggable },
 
   data () {
     return { }

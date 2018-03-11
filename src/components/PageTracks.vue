@@ -17,7 +17,7 @@
             <div class="level-right">
             </div>
           </nav>
-          <part-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="$route.query.context_uri"></part-track>
+          <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="$route.query.context_uri"></list-item-track>
         </div>
       </div>
     </div>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import PartTrack from '@/components/PartTrack'
+import ListItemTrack from '@/components/elements/ListItemTrack'
 import webapi from '@/webapi'
 
 export default {
   name: 'PageTracks',
-  components: { PartTrack },
+  components: { ListItemTrack },
 
   data () {
     return {

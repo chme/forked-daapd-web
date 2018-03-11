@@ -18,7 +18,7 @@
               <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
             </div>
           </nav>
-          <part-album v-for="album in albums" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 1"></part-album>
+          <list-item-album v-for="album in albums" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 1"></list-item-album>
         </div>
       </div>
     </div>
@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import PartAlbum from '@/components/PartAlbum'
+import ListItemAlbum from '@/components/elements/ListItemAlbum'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
 export default {
   name: 'PageAlbums',
-  components: { PartAlbum },
+  components: { ListItemAlbum },
 
   data () {
     return {

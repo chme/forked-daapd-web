@@ -17,7 +17,7 @@
             <div class="level-right">
             </div>
           </nav>
-          <part-playlist v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"></part-playlist>
+          <list-item-playlist v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"></list-item-playlist>
         </div>
       </div>
     </div>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import PartPlaylist from '@/components/PartPlaylist'
+import ListItemPlaylist from '@/components/elements/ListItemPlaylist'
 import webapi from '@/webapi'
 
 export default {
   name: 'PagePlaylists',
-  components: { PartPlaylist },
+  components: { ListItemPlaylist },
 
   data () {
     return {

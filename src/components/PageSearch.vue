@@ -32,7 +32,7 @@
                 <p class="level-item" v-if="tracks.length"><a class="button is-light is-rounded" v-on:click="open_search_tracks">Show all</a></p>
               </div>
             </nav>
-            <part-track v-for="track in tracks" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></part-track>
+            <list-item-track v-for="track in tracks" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
             <p v-if="!tracks.length">No results</p>
           </div>
         </div>
@@ -59,7 +59,7 @@
                 <p class="level-item" v-if="artists.length"><a class="button is-light is-rounded" v-on:click="open_search_artists">Show all</a></p>
               </div>
             </nav>
-            <part-artist v-for="artist in artists" :key="artist.id" :artist="artist"></part-artist>
+            <list-item-artist v-for="artist in artists" :key="artist.id" :artist="artist"></list-item-artist>
             <p v-if="!artists.length">No results</p>
           </div>
         </div>
@@ -86,7 +86,7 @@
                 <p class="level-item" v-if="albums.length"><a class="button is-light is-rounded" v-on:click="open_search_albums">Show all</a></p>
               </div>
             </nav>
-            <part-album v-for="album in albums" :key="album.id" :album="album"></part-album>
+            <list-item-album v-for="album in albums" :key="album.id" :album="album"></list-item-album>
             <p v-if="!albums.length">No results</p>
           </div>
         </div>
@@ -113,7 +113,7 @@
                 <p class="level-item" v-if="playlists.length"><a class="button is-light is-rounded" v-on:click="open_search_playlists">Show all</a></p>
               </div>
             </nav>
-            <part-playlist v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"></part-playlist>
+            <list-item-playlist v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"></list-item-playlist>
             <p v-if="!playlists.length">No results</p>
           </div>
         </div>
@@ -123,15 +123,15 @@
 </template>
 
 <script>
-import PartTrack from '@/components/PartTrack'
-import PartArtist from '@/components/PartArtist'
-import PartAlbum from '@/components/PartAlbum'
-import PartPlaylist from '@/components/PartPlaylist'
+import ListItemTrack from '@/components/elements/ListItemTrack'
+import ListItemArtist from '@/components/elements/ListItemArtist'
+import ListItemAlbum from '@/components/elements/ListItemAlbum'
+import ListItemPlaylist from '@/components/elements/ListItemPlaylist'
 import webapi from '@/webapi'
 
 export default {
   name: 'PageTracks',
-  components: { PartTrack, PartArtist, PartAlbum, PartPlaylist },
+  components: { ListItemTrack, ListItemArtist, ListItemAlbum, ListItemPlaylist },
 
   data () {
     return {

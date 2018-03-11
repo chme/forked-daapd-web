@@ -16,7 +16,7 @@
 import webapi from '@/webapi'
 
 export default {
-  name: 'PartAlbum',
+  name: 'ListItemAlbum',
 
   props: ['album'],
 
