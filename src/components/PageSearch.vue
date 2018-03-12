@@ -39,12 +39,12 @@
               </div>
             </nav>
             <list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
-            <p v-if="!tracks.total">No results</p>
-            <nav class="level">
-              <p class="level-item" v-if="show_all_tracks_button">
+            <nav v-if="show_all_tracks_button" class="level" style="margin-top: 16px;">
+              <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_tracks">Show all {{ tracks.total }} tracks</a>
               </p>
             </nav>
+            <p v-if="!tracks.total">No results</p>
           </div>
         </div>
       </div>
@@ -66,12 +66,12 @@
               </div>
             </nav>
             <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></list-item-artist>
-            <p v-if="!artists.total">No results</p>
-            <nav class="level">
-              <p class="level-item" v-if="show_all_artists_button">
+            <nav v-if="show_all_artists_button" class="level" style="margin-top: 16px;">
+              <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_artists">Show all {{ artists.total }} artists</a>
               </p>
             </nav>
+            <p v-if="!artists.total">No results</p>
           </div>
         </div>
       </div>
@@ -93,12 +93,12 @@
               </div>
             </nav>
             <list-item-album v-for="album in albums.items" :key="album.id" :album="album"></list-item-album>
-            <p v-if="!albums.total">No results</p>
-            <nav class="level">
-              <p class="level-item" v-if="show_all_albums_button">
+            <nav v-if="show_all_albums_button" class="level" style="margin-top: 16px;">
+              <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_albums">Show all {{ albums.total }} albums</a>
               </p>
             </nav>
+            <p v-if="!albums.total">No results</p>
           </div>
         </div>
       </div>
@@ -120,12 +120,12 @@
               </div>
             </nav>
             <list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></list-item-playlist>
-            <p v-if="!playlists.total">No results</p>
-            <nav class="level">
-              <p class="level-item" v-if="playlists.items.length">
+            <nav v-if="show_all_playlists_button" class="level" style="margin-top: 16px;">
+              <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_playlists">Show all {{ playlists.total }} playlists</a>
               </p>
             </nav>
+            <p v-if="!playlists.total">No results</p>
           </div>
         </div>
       </div>
@@ -183,6 +183,9 @@ export default {
 
     show_playlists () {
       return this.$route.query.type && this.$route.query.type.includes('playlist')
+    },
+    show_all_playlists_button () {
+      return this.playlists.total > this.playlists.items.length
     }
   },
 
