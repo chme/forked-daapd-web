@@ -27,16 +27,16 @@ export default {
 
   methods: {
     play: function () {
-      webapi.queue_clear().then(
-        webapi.queue_add(this.context_uri).then(
+      webapi.queue_clear().then(() =>
+        webapi.queue_add(this.context_uri).then(() =>
           webapi.player_playpos(this.position)
         )
       )
     },
 
     queue_add: function () {
-      webapi.queue_add(this.track.uri).then(
-        this.$store.dispatch('add_notification', { text: 'Track appended to queue', type: 'info', timeout: 3000 })
+      webapi.queue_add(this.track.uri).then(() =>
+        this.$store.dispatch('add_notification', { text: 'Track appended to queue', type: 'info', timeout: 2000 })
       )
     }
   }

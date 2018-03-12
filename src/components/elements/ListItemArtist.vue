@@ -26,9 +26,8 @@ export default {
     },
 
     queue_add: function () {
-      webapi.queue_add(this.artist.uri).then(
-        // this.$store.commit(types.ADD_NOTIFICATION, { text: 'Album tracks appended to queue', timeout: 0 })
-        this.$store.dispatch('add_notification', { text: 'Artist tracks appended to queue', type: 'info', timeout: 3000 })
+      webapi.queue_add(this.artist.uri).then(() =>
+        this.$store.dispatch('add_notification', { text: 'Artist tracks appended to queue', type: 'info', timeout: 2000 })
       )
     }
   }
