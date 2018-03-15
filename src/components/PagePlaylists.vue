@@ -1,46 +1,50 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <p class="title is-4">Playlists</p>
+  <div>
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <nav class="level">
+              <!-- Left side -->
+              <div class="level-left">
+                <div class="level-item has-text-centered-mobile">
+                  <div>
+                    <p class="title is-4">Playlists</p>
+                    <p class="heading">{{ playlists.total }} playlists</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Right side -->
-            <div class="level-right">
-            </div>
-          </nav>
-          <list-item-playlist v-for="playlist in playlists" :key="playlist.id" :playlist="playlist"></list-item-playlist>
+              <!-- Right side -->
+              <div class="level-right">
+              </div>
+            </nav>
+            <list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></list-item-playlist>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
+import TabsMusic from '@/components/elements/TabsMusic'
 import ListItemPlaylist from '@/components/elements/ListItemPlaylist'
 import webapi from '@/webapi'
 
 export default {
   name: 'PagePlaylists',
-  components: { ListItemPlaylist },
+  components: { TabsMusic, ListItemPlaylist },
 
   data () {
     return {
-      playlists: []
+      playlists: {}
     }
   },
 
   created: function () {
     webapi.library_playlists().then(({ data }) => {
-      this.playlists = data.playlists
+      this.playlists = data
     })
   }
 }

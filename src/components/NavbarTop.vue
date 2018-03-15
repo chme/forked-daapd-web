@@ -5,10 +5,7 @@
         <span class="icon"><i class="mdi mdi-library-music"></i></span>
       </router-link>
       <router-link to="/artists" class="navbar-item" active-class="is-active">
-        <span class="icon"><i class="mdi mdi-artist"></i></span>
-      </router-link>
-      <router-link to="/albums" class="navbar-item" active-class="is-active">
-        <span class="icon"><i class="mdi mdi-album"></i></span>
+        <span class="icon"><i class="mdi mdi-music"></i></span>
       </router-link>
       <router-link to="/search" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-magnify"></i></span>

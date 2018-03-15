@@ -3,12 +3,14 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-four-fifths">
+          <tabs-music></tabs-music>
           <nav class="level">
             <!-- Left side -->
             <div class="level-left">
               <div class="level-item has-text-centered-mobile">
                 <div>
                   <p class="title is-4">Artists</p>
+                  <p class="heading">{{ artists.total }} artists</p>
                 </div>
               </div>
             </div>
@@ -18,7 +20,7 @@
               <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
             </div>
           </nav>
-          <list-item-artist v-for="artist in artists" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > artist.album_count"></list-item-artist>
+          <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > artist.album_count"></list-item-artist>
         </div>
       </div>
     </div>
@@ -26,17 +28,18 @@
 </template>
 
 <script>
+import TabsMusic from '@/components/elements/TabsMusic'
 import ListItemArtist from '@/components/elements/ListItemArtist'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
 export default {
   name: 'PageArtists',
-  components: { ListItemArtist },
+  components: { TabsMusic, ListItemArtist },
 
   data () {
     return {
-      artists: []
+      artists: {}
     }
   },
 
@@ -55,7 +58,7 @@ export default {
     },
     library_artists: function () {
       webapi.library_artists().then(({ data }) => {
-        this.artists = data.artists
+        this.artists = data
       })
     }
   },

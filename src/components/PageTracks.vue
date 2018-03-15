@@ -48,11 +48,11 @@ export default {
     load_tracks: function (route) {
       if (route.params.album_id !== undefined) {
         webapi.library_album_tracks(route.params.album_id).then(({ data }) => {
-          this.tracks = data.tracks
+          this.tracks = data.items
         })
       } else {
         webapi.library_playlist_tracks(route.params.playlist_id).then(({ data }) => {
-          this.tracks = data.tracks
+          this.tracks = data.items
         })
       }
     }
