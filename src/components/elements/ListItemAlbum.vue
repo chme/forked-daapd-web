@@ -22,7 +22,7 @@ export default {
 
   methods: {
     open_album_tracks: function () {
-      this.$router.push({ path: '/albums/' + this.album.id + '/tracks', query: { context_uri: this.album.uri } })
+      this.$router.push({ path: '/music/albums/' + this.album.id + '/tracks', query: { context_uri: this.album.uri } })
     },
 
     queue_add: function () {

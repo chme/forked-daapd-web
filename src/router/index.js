@@ -23,27 +23,27 @@ export const router = new VueRouter({
       component: PageNowPlaying
     },
     {
-      path: '/artists',
+      path: '/music',
       name: 'Artists',
       component: PageArtists
     },
     {
-      path: '/artists/:artist_id/albums',
+      path: '/music/artists/:artist_id/albums',
       name: 'Artists Albums',
       component: PageAlbums
     },
     {
-      path: '/albums',
+      path: '/music/albums',
       name: 'Albums',
       component: PageAlbums
     },
     {
-      path: '/albums/:album_id/tracks',
+      path: '/music/albums/:album_id/tracks',
       name: 'Albums Tracks',
       component: PageTracks
     },
     {
-      path: '/tracks',
+      path: '/music/tracks',
       name: 'Tracks',
       component: PageTracks
     },

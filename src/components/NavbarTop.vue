@@ -4,7 +4,7 @@
       <router-link to="/playlists" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-library-music"></i></span>
       </router-link>
-      <router-link to="/artists" class="navbar-item" active-class="is-active">
+      <router-link to="/music" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-music"></i></span>
       </router-link>
       <router-link to="/search" class="navbar-item" active-class="is-active">
