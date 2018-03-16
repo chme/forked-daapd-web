@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PageQueue from '@/components/PageQueue'
 import PageNowPlaying from '@/components/PageNowPlaying'
+import PageDiscover from '@/components/PageDiscover'
 import PageArtists from '@/components/PageArtists'
 import PageAlbums from '@/components/PageAlbums'
 import PageTracks from '@/components/PageTracks'
@@ -24,6 +25,11 @@ export const router = new VueRouter({
     },
     {
       path: '/music',
+      name: 'Discover',
+      component: PageDiscover
+    },
+    {
+      path: '/music/artists',
       name: 'Artists',
       component: PageArtists
     },
