@@ -44,7 +44,7 @@
               <div class="level-right">
               </div>
             </nav>
-            <list-item-album v-for="album in recently_played.items" :key="album.id" :album="album"></list-item-album>
+            <list-item-track v-for="track in recently_played.items" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
           </div>
         </div>
       </div>
@@ -55,11 +55,12 @@
 <script>
 import TabsMusic from '@/components/elements/TabsMusic'
 import ListItemAlbum from '@/components/elements/ListItemAlbum'
+import ListItemTrack from '@/components/elements/ListItemTrack'
 import webapi from '@/webapi'
 
 export default {
   name: 'PageDiscover',
-  components: { TabsMusic, ListItemAlbum },
+  components: { TabsMusic, ListItemAlbum, ListItemTrack },
 
   data () {
     return {
@@ -76,13 +77,13 @@ export default {
 
   methods: {
     load_recently_added: function () {
-      webapi.search({ type: 'album', expression: 'time_added  after 4 weeks ago', limit: 3 }).then(({ data }) => {
+      webapi.search({ type: 'album', expression: 'time_added after 4 weeks ago having track_count > 3 order by time_added desc', limit: 5 }).then(({ data }) => {
         this.recently_added = data.albums
       })
     },
     load_recently_played: function () {
-      webapi.search({ type: 'album', expression: 'time_played  after 4 weeks ago', limit: 3 }).then(({ data }) => {
-        this.recently_played = data.albums
+      webapi.search({ type: 'track', expression: 'time_played after 4 weeks ago order by time_played desc', limit: 5 }).then(({ data }) => {
+        this.recently_played = data.tracks
       })
     }
   },
