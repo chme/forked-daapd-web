@@ -11,7 +11,7 @@
                 <div class="level-item has-text-centered-mobile">
                   <div>
                     <p class="title is-4">Recently added</p>
-                    <p class="heading">{{ recently_added.total }} albums</p>
+                    <p class="heading">albums</p>
                   </div>
                 </div>
               </div>
@@ -35,7 +35,7 @@
                 <div class="level-item has-text-centered-mobile">
                   <div>
                     <p class="title is-4">Recently played</p>
-                    <p class="heading">{{ recently_played.total }} albums</p>
+                    <p class="heading">tracks</p>
                   </div>
                 </div>
               </div>
