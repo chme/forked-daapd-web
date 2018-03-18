@@ -9,7 +9,7 @@
               <div class="level-item has-text-centered-mobile">
                 <div>
                   <div class="title is-4">{{ album.name }}</div>
-                  <div class="title is-4 has-text-grey has-text-weight-normal">{{ album.artist }}</div>
+                  <a class="title is-4 has-text-link has-text-weight-normal" @click="open_artist">{{ album.artist }}</a>
                 </div>
               </div>
             </div>
@@ -55,6 +55,11 @@ export default {
       webapi.library_album_tracks(albumId).then(({ data }) => {
         this.tracks = data.items
       })
+    },
+
+    open_artist: function () {
+      this.show_details_modal = false
+      this.$router.push({ path: '/music/artists/' + this.album.artist_id })
     }
   },
 
