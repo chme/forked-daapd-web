@@ -22,7 +22,7 @@ export default {
 
   methods: {
     open_playlist_tracks: function () {
-      this.$router.push({ path: '/playlists/' + this.playlist.id + '/tracks', query: { context_uri: this.playlist.uri } })
+      this.$router.push({ path: '/playlists/' + this.playlist.id })
     },
 
     queue_add: function () {

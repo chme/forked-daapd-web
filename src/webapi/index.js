@@ -100,11 +100,19 @@ export default {
     return axios.get(this.baseUrl() + '/api/library/artists')
   },
 
+  library_artist (artistId) {
+    return axios.get(this.baseUrl() + '/api/library/artists/' + artistId)
+  },
+
   library_albums (artistId) {
     if (artistId) {
       return axios.get(this.baseUrl() + '/api/library/artists/' + artistId + '/albums')
     }
     return axios.get(this.baseUrl() + '/api/library/albums')
+  },
+
+  library_album (albumId) {
+    return axios.get(this.baseUrl() + '/api/library/albums/' + albumId)
   },
 
   library_album_tracks (albumId) {
@@ -113,6 +121,10 @@ export default {
 
   library_playlists () {
     return axios.get(this.baseUrl() + '/api/library/playlists')
+  },
+
+  library_playlist (playlistId) {
+    return axios.get(this.baseUrl() + '/api/library/playlists/' + playlistId)
   },
 
   library_playlist_tracks (playlistId) {

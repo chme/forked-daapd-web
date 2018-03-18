@@ -4,9 +4,12 @@ import PageQueue from '@/components/PageQueue'
 import PageNowPlaying from '@/components/PageNowPlaying'
 import PageDiscover from '@/components/PageDiscover'
 import PageArtists from '@/components/PageArtists'
+import PageArtist from '@/components/PageArtist'
 import PageAlbums from '@/components/PageAlbums'
+import PageAlbum from '@/components/PageAlbum'
 import PageTracks from '@/components/PageTracks'
 import PagePlaylists from '@/components/PagePlaylists'
+import PagePlaylist from '@/components/PagePlaylist'
 import PageSearch from '@/components/PageSearch'
 
 Vue.use(VueRouter)
@@ -34,9 +37,9 @@ export const router = new VueRouter({
       component: PageArtists
     },
     {
-      path: '/music/artists/:artist_id/albums',
-      name: 'Artists Albums',
-      component: PageAlbums
+      path: '/music/artists/:artist_id',
+      name: 'Artist',
+      component: PageArtist
     },
     {
       path: '/music/albums',
@@ -44,9 +47,9 @@ export const router = new VueRouter({
       component: PageAlbums
     },
     {
-      path: '/music/albums/:album_id/tracks',
-      name: 'Albums Tracks',
-      component: PageTracks
+      path: '/music/albums/:album_id',
+      name: 'Album',
+      component: PageAlbum
     },
     {
       path: '/music/tracks',
@@ -57,6 +60,11 @@ export const router = new VueRouter({
       path: '/playlists',
       name: 'Playlists',
       component: PagePlaylists
+    },
+    {
+      path: '/playlists/:playlist_id',
+      name: 'Playlist',
+      component: PagePlaylist
     },
     {
       path: '/playlists/:playlist_id/tracks',
