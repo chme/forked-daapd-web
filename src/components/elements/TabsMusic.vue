@@ -4,7 +4,7 @@
       <router-link tag="li" to="/music" active-class="is-active" exact>
         <a>
           <span class="icon is-small"><i class="mdi mdi-web"></i></span>
-          <span class="">Discover</span>
+          <span class="">Browse</span>
         </a>
       </router-link>
       <router-link tag="li" to="/music/artists" active-class="is-active">

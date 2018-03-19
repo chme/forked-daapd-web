@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PageQueue from '@/components/PageQueue'
 import PageNowPlaying from '@/components/PageNowPlaying'
-import PageDiscover from '@/components/PageDiscover'
+import PageBrowse from '@/components/PageBrowse'
 import PageArtists from '@/components/PageArtists'
 import PageArtist from '@/components/PageArtist'
 import PageAlbums from '@/components/PageAlbums'
@@ -28,8 +28,8 @@ export const router = new VueRouter({
     },
     {
       path: '/music',
-      name: 'Discover',
-      component: PageDiscover
+      name: 'Browse',
+      component: PageBrowse
     },
     {
       path: '/music/artists',
