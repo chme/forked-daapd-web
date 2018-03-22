@@ -62,7 +62,7 @@ export default {
 
   methods: {
     load: function () {
-      if (!this.new_releases) {
+      if (!this.$store.state.spotify_new_releases.albums.href) {
         webapi.spotify().then(({ data }) => {
           this.spotify = data
 
