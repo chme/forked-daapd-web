@@ -11,7 +11,7 @@ import PageTracks from '@/components/PageTracks'
 import PagePlaylists from '@/components/PagePlaylists'
 import PagePlaylist from '@/components/PagePlaylist'
 import PageSearch from '@/components/PageSearch'
-import PageSpotifyNewReleases from '@/components/PageSpotifyNewReleases'
+import SpotifyPageBrowse from '@/components/SpotifyPageBrowse'
 
 Vue.use(VueRouter)
 
@@ -80,12 +80,12 @@ export const router = new VueRouter({
     {
       path: '/music/spotify',
       name: 'Spotify',
-      component: PageSpotifyNewReleases
+      component: SpotifyPageBrowse
     },
     {
       path: '/music/spotify/:type',
-      name: 'Spotify type',
-      component: PageSpotifyNewReleases
+      name: 'Spotify Browse',
+      component: SpotifyPageBrowse
     }
   ]
 })

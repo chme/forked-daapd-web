@@ -38,7 +38,7 @@ import * as types from '@/store/mutation_types'
 import SpotifyWebApi from 'spotify-web-api-js'
 
 export default {
-  name: 'PageSpotifyNewReleases',
+  name: 'SpotifyPageBrowse',
   components: { TabsMusic, SpotifyListItemAlbum },
 
   data () {
