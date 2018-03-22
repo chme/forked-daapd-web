@@ -1,12 +1,12 @@
 <template>
   <div>
+    <tabs-music></tabs-music>
 
     <!-- Recently added -->
     <section class="section" v-if="recently_added.items">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-four-fifths">
-            <tabs-music></tabs-music>
             <nav class="level">
               <!-- Left side -->
               <div class="level-left">
@@ -38,7 +38,6 @@
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-four-fifths">
-            <tabs-music v-if="!recently_added.items"></tabs-music>
             <nav class="level">
               <!-- Left side -->
               <div class="level-left">

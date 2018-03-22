@@ -24,6 +24,10 @@ a.navbar-item {
   text-overflow: ellipsis;
 }
 
+.fd-tabs-section {
+  padding-bottom: 0;
+}
+
 .sortable-chosen .media-right {
   visibility: hidden;
 }

@@ -1,30 +1,33 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <tabs-music></tabs-music>
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <p class="title is-4">Artists</p>
-                  <p class="heading">{{ artists.total }} artists</p>
+  <div>
+    <tabs-music></tabs-music>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <nav class="level">
+              <!-- Left side -->
+              <div class="level-left">
+                <div class="level-item has-text-centered-mobile">
+                  <div>
+                    <p class="title is-4">Artists</p>
+                    <p class="heading">{{ artists.total }} artists</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Right side -->
-            <div class="level-right">
-              <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
-            </div>
-          </nav>
-          <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > (artist.album_count * 2)"></list-item-artist>
+              <!-- Right side -->
+              <div class="level-right">
+                <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
+              </div>
+            </nav>
+            <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > (artist.album_count * 2)"></list-item-artist>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

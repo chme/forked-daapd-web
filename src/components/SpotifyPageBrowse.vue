@@ -1,33 +1,36 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <tabs-music></tabs-music>
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <p class="title is-4">New Releases</p>
+  <div>
+    <tabs-music></tabs-music>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <nav class="level">
+              <!-- Left side -->
+              <div class="level-left">
+                <div class="level-item has-text-centered-mobile">
+                  <div>
+                    <p class="title is-4">New Releases</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Right side -->
-            <div class="level-right">
-            </div>
-          </nav>
-          <spotify-list-item-album v-for="album in new_releases" :key="album.id" :album="album"></spotify-list-item-album>
-          <nav v-if="show_more_new_releases_button" class="level" style="margin-top: 16px;">
-            <p class="level-item">
-              <a class="button is-light is-small is-rounded" v-on:click="open_browse('newreleases')">Show more</a>
-            </p>
-          </nav>
+              <!-- Right side -->
+              <div class="level-right">
+              </div>
+            </nav>
+            <spotify-list-item-album v-for="album in new_releases" :key="album.id" :album="album"></spotify-list-item-album>
+            <nav v-if="show_more_new_releases_button" class="level" style="margin-top: 16px;">
+              <p class="level-item">
+                <a class="button is-light is-small is-rounded" v-on:click="open_browse('newreleases')">Show more</a>
+              </p>
+            </nav>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -85,6 +88,12 @@ export default {
   },
 
   watch: {
+    '$route' (to, from) {
+      this.load()
+    },
+    'server_connection' () {
+      this.load()
+    }
   }
 }
 </script>
