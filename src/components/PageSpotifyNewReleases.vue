@@ -18,7 +18,12 @@
             <div class="level-right">
             </div>
           </nav>
-          <spotify-list-item-album v-for="album in new_releases.albums.items" :key="album.id" :album="album"></spotify-list-item-album>
+          <spotify-list-item-album v-for="album in new_releases" :key="album.id" :album="album"></spotify-list-item-album>
+          <nav v-if="show_more_new_releases_button" class="level" style="margin-top: 16px;">
+            <p class="level-item">
+              <a class="button is-light is-small is-rounded" v-on:click="open_browse('newreleases')">Show more</a>
+            </p>
+          </nav>
         </div>
       </div>
     </div>
@@ -44,13 +49,20 @@ export default {
 
   computed: {
     new_releases () {
-      return this.$store.state.spotify_new_releases
+      if (this.$route.params.type === 'newreleases') {
+        return this.$store.state.spotify_new_releases.albums.items
+      }
+      return this.$store.state.spotify_new_releases.albums.items.slice(0, 3)
+    },
+
+    show_more_new_releases_button () {
+      return !this.$route.params.type
     }
   },
 
   methods: {
     load: function () {
-      if (!this.new_releases.albums.href) {
+      if (!this.new_releases) {
         webapi.spotify().then(({ data }) => {
           this.spotify = data
 
@@ -61,6 +73,10 @@ export default {
           })
         })
       }
+    },
+
+    open_browse: function (type) {
+      this.$router.push({ path: '/music/spotify/' + type })
     }
   },
 

@@ -81,6 +81,11 @@ export const router = new VueRouter({
       path: '/music/spotify',
       name: 'Spotify',
       component: PageSpotifyNewReleases
+    },
+    {
+      path: '/music/spotify/:type',
+      name: 'Spotify type',
+      component: PageSpotifyNewReleases
     }
   ]
 })
