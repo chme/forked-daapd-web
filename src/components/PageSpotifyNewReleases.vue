@@ -18,7 +18,7 @@
             <div class="level-right">
             </div>
           </nav>
-          <spotify-list-item-album v-for="album in releases.albums.items" :key="album.id" :album="album"></spotify-list-item-album>
+          <spotify-list-item-album v-for="album in new_releases.albums.items" :key="album.id" :album="album"></spotify-list-item-album>
         </div>
       </div>
     </div>
@@ -29,6 +29,7 @@
 import TabsMusic from '@/components/elements/TabsMusic'
 import SpotifyListItemAlbum from '@/components/elements/SpotifyListItemAlbum'
 import webapi from '@/webapi'
+import * as types from '@/store/mutation_types'
 import SpotifyWebApi from 'spotify-web-api-js'
 
 export default {
@@ -37,25 +38,34 @@ export default {
 
   data () {
     return {
-      spotify: {},
-      releases: {}
+      spotify: {}
     }
   },
 
   computed: {
+    new_releases () {
+      return this.$store.state.spotify_new_releases
+    }
   },
 
   methods: {
+    load: function () {
+      if (!this.new_releases.albums.href) {
+        webapi.spotify().then(({ data }) => {
+          this.spotify = data
+
+          var spotifyApi = new SpotifyWebApi()
+          spotifyApi.setAccessToken(this.spotify.webapi_token)
+          spotifyApi.getNewReleases({ country: this.spotify.webapi_country, limit: 50 }).then(data => {
+            this.$store.commit(types.SPOTIFY_NEW_RELEASES, data)
+          })
+        })
+      }
+    }
   },
 
   created: function () {
-    webapi.spotify().then(({ data }) => {
-      this.spotify = data
-
-      var spotifyApi = new SpotifyWebApi()
-      spotifyApi.setAccessToken(this.spotify.webapi_token)
-      spotifyApi.getNewReleases({ country: 'DE', limit: 50 }).then(data => { this.releases = data })
-    })
+    this.load()
   },
 
   watch: {
