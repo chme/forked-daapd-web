@@ -60,6 +60,10 @@ export default {
 
     show_more_new_releases_button () {
       return !this.$route.params.type
+    },
+
+    server_connection () {
+      return this.$store.state.server
     }
   },
 

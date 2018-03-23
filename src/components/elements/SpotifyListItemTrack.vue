@@ -1,8 +1,8 @@
 <template>
   <div class="media">
-    <div class="media-content fd-has-action is-clipped" v-on:click="open_album">
-      <h1 class="title is-6">{{ album.name }}</h1>
-      <h2 class="subtitle is-7">{{ album.artists[0].name }}</h2>
+    <div class="media-content fd-has-action is-clipped" v-on:click="play">
+      <h1 class="title is-6">{{ track.name }}</h1>
+      <h2 class="subtitle is-7">{{ track.artists[0].name }}</h2>
     </div>
     <div class="media-right">
       <a @click="show_details">
@@ -15,20 +15,31 @@
             <div class="card">
               <div class="card-content">
                 <p class="title is-4">
-                  {{ album.name }}
+                  {{ track.name }}
+                </p>
+                <p class="subtitle">
+                  {{ track.artists[0].name }}
                 </p>
                 <div class="content is-small">
                   <p>
+                    <span class="heading">Album</span>
+                    <a class="title is-6 has-text-link" @click="open_album">{{ album.name }}</a>
+                  </p>
+                  <p>
                     <span class="heading">Album artist</span>
-                    <a class="title is-6 has-text-link">{{ album.artists[0].name }}</a>
+                    <a class="title is-6 has-text-link" @click="open_artist">{{ album.artists[0].name }}</a>
                   </p>
                   <p>
                     <span class="heading">Release date</span>
                     <span class="title is-6">{{ album.release_date }}</span>
                   </p>
                   <p>
-                    <span class="heading">Type</span>
-                    <span class="title is-6">{{ album.album_type }}</span>
+                    <span class="heading">Track / Disc</span>
+                    <span class="title is-6">{{ track.track_number }} / {{ track.disc_number }}</span>
+                  </p>
+                  <p>
+                    <span class="heading">Path</span>
+                    <span class="title is-6">{{ track.uri }}</span>
                   </p>
                 </div>
               </div>
@@ -53,9 +64,9 @@
 import webapi from '@/webapi'
 
 export default {
-  name: 'SpotifyListItemAlbum',
+  name: 'SpotifyListItemTrack',
 
-  props: ['album'],
+  props: ['track', 'position', 'album', 'context_uri'],
 
   data () {
     return {
@@ -66,18 +77,18 @@ export default {
   methods: {
     play: function () {
       webapi.queue_clear().then(() =>
-        webapi.queue_add(this.album.uri).then(() =>
-          webapi.player_play()
+        webapi.queue_add(this.context_uri).then(() =>
+          webapi.player_playpos(this.position)
         )
       )
       this.show_details_modal = false
     },
 
     queue_add: function () {
-      webapi.queue_add(this.album.uri).then(
-        // this.$store.commit(types.ADD_NOTIFICATION, { text: 'Album tracks appended to queue', timeout: 0 })
-        this.$store.dispatch('add_notification', { text: 'Album tracks appended to queue', type: 'info', timeout: 3000 })
+      webapi.queue_add(this.track.uri).then(() =>
+        this.$store.dispatch('add_notification', { text: 'Track appended to queue', type: 'info', timeout: 2000 })
       )
+      this.show_details_modal = false
     },
 
     show_details: function () {
@@ -89,7 +100,13 @@ export default {
     },
 
     open_album: function () {
+      this.show_details_modal = false
       this.$router.push({ path: '/music/spotify/albums/' + this.album.id })
+    },
+
+    open_artist: function () {
+      this.show_details_modal = false
+      this.$router.push({ path: '/music/artists/' + this.track.album_artist_id })
     }
   }
 }
