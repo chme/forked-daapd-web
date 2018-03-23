@@ -45,6 +45,11 @@ export default new Vuex.Store({
         'items': []
       }
     },
+    spotify_featured_playlists: {
+      'playlists': {
+        'items': []
+      }
+    },
 
     notifications: {
       'next_id': 1,
@@ -88,6 +93,9 @@ export default new Vuex.Store({
     },
     [types.SPOTIFY_NEW_RELEASES] (state, newReleases) {
       state.spotify_new_releases = newReleases
+    },
+    [types.SPOTIFY_FEATURED_PLAYLISTS] (state, featuredPlaylists) {
+      state.spotify_featured_playlists = featuredPlaylists
     },
     [types.ADD_NOTIFICATION] (state, notification) {
       if (notification.topic) {
