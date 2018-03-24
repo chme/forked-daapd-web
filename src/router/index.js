@@ -15,6 +15,7 @@ import SpotifyPageBrowse from '@/components/SpotifyPageBrowse'
 import SpotifyPageArtist from '@/components/SpotifyPageArtist'
 import SpotifyPageAlbum from '@/components/SpotifyPageAlbum'
 import SpotifyPagePlaylist from '@/components/SpotifyPagePlaylist'
+import SpotifyPageSearch from '@/components/SpotifyPageSearch'
 
 Vue.use(VueRouter)
 
@@ -77,7 +78,11 @@ export const router = new VueRouter({
     },
     {
       path: '/search',
-      name: 'Search',
+      redirect: '/search/library'
+    },
+    {
+      path: '/search/library',
+      name: 'Search Library',
       component: PageSearch
     },
     {
@@ -104,6 +109,11 @@ export const router = new VueRouter({
       path: '/music/spotify/playlists/:user_id/:playlist_id',
       name: 'Spotify Playlist',
       component: SpotifyPagePlaylist
+    },
+    {
+      path: '/search/spotify',
+      name: 'Spotify Search',
+      component: SpotifyPageSearch
     }
   ]
 })

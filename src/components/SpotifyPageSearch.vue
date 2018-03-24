@@ -40,7 +40,7 @@
                 </div>
               </div>
             </nav>
-            <list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
+            <spotify-list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :album="track.album" :position="0" :context_uri="track.uri"></spotify-list-item-track>
             <nav v-if="show_all_tracks_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_tracks">Show all {{ tracks.total }} tracks</a>
@@ -67,7 +67,7 @@
                 </div>
               </div>
             </nav>
-            <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></list-item-artist>
+            <spotify-list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></spotify-list-item-artist>
             <nav v-if="show_all_artists_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_artists">Show all {{ artists.total }} artists</a>
@@ -94,7 +94,7 @@
                 </div>
               </div>
             </nav>
-            <list-item-album v-for="album in albums.items" :key="album.id" :album="album"></list-item-album>
+            <spotify-list-item-album v-for="album in albums.items" :key="album.id" :album="album"></spotify-list-item-album>
             <nav v-if="show_all_albums_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_albums">Show all {{ albums.total }} albums</a>
@@ -121,7 +121,7 @@
                 </div>
               </div>
             </nav>
-            <list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></list-item-playlist>
+            <spotify-list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
             <nav v-if="show_all_playlists_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_playlists">Show all {{ playlists.total }} playlists</a>
@@ -137,16 +137,17 @@
 
 <script>
 import TabsSearch from '@/components/elements/TabsSearch'
-import ListItemTrack from '@/components/elements/ListItemTrack'
-import ListItemArtist from '@/components/elements/ListItemArtist'
-import ListItemAlbum from '@/components/elements/ListItemAlbum'
-import ListItemPlaylist from '@/components/elements/ListItemPlaylist'
+import SpotifyListItemTrack from '@/components/elements/SpotifyListItemTrack'
+import SpotifyListItemArtist from '@/components/elements/SpotifyListItemArtist'
+import SpotifyListItemAlbum from '@/components/elements/SpotifyListItemAlbum'
+import SpotifyListItemPlaylist from '@/components/elements/SpotifyListItemPlaylist'
+import SpotifyWebApi from 'spotify-web-api-js'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
 export default {
-  name: 'PageSearch',
-  components: { TabsSearch, ListItemTrack, ListItemArtist, ListItemAlbum, ListItemPlaylist },
+  name: 'SpotifyPageSearch',
+  components: { TabsSearch, SpotifyListItemTrack, SpotifyListItemArtist, SpotifyListItemAlbum, SpotifyListItemPlaylist },
 
   data () {
     return {
@@ -200,23 +201,30 @@ export default {
         return
       }
 
-      var searchParams = {
+      const searchParams = {
         'type': route.query.type,
         'query': route.query.query
       }
 
+      const params = {}
       if (route.query.limit) {
-        searchParams.limit = route.query.limit
-        searchParams.offset = route.query.offset
+        params.limit = route.query.limit
+        params.offset = route.query.offset
       }
 
-      webapi.search(searchParams).then(({ data }) => {
-        this.tracks = data.tracks ? data.tracks : { items: [], total: 0 }
-        this.artists = data.artists ? data.artists : { items: [], total: 0 }
-        this.albums = data.albums ? data.albums : { items: [], total: 0 }
-        this.playlists = data.playlists ? data.playlists : { items: [], total: 0 }
+      webapi.spotify().then(({ data }) => {
+        this.spotify = data
 
-        this.$store.commit(types.ADD_RECENT_SEARCH, searchParams.query)
+        var spotifyApi = new SpotifyWebApi()
+        spotifyApi.setAccessToken(this.spotify.webapi_token)
+        spotifyApi.search(searchParams.query, searchParams.type.split(','), params).then(data => {
+          this.tracks = data.tracks ? data.tracks : { items: [], total: 0 }
+          this.artists = data.artists ? data.artists : { items: [], total: 0 }
+          this.albums = data.albums ? data.albums : { items: [], total: 0 }
+          this.playlists = data.playlists ? data.playlists : { items: [], total: 0 }
+
+          this.$store.commit(types.ADD_RECENT_SEARCH, searchParams.query)
+        })
       })
     },
 
@@ -225,7 +233,7 @@ export default {
         return
       }
 
-      this.$router.push({ path: '/search/library',
+      this.$router.push({ path: '/search/spotify',
         query: {
           type: 'track,artist,album,playlist',
           query: this.search_query,
@@ -237,7 +245,7 @@ export default {
     },
 
     open_search_tracks: function () {
-      this.$router.push({ path: '/search/library',
+      this.$router.push({ path: '/search/spotify',
         query: {
           type: 'track',
           query: this.$route.query.query
@@ -246,7 +254,7 @@ export default {
     },
 
     open_search_artists: function () {
-      this.$router.push({ path: '/search/library',
+      this.$router.push({ path: '/search/spotify',
         query: {
           type: 'artist',
           query: this.$route.query.query
@@ -255,7 +263,7 @@ export default {
     },
 
     open_search_albums: function () {
-      this.$router.push({ path: '/search/library',
+      this.$router.push({ path: '/search/spotify',
         query: {
           type: 'album',
           query: this.$route.query.query
@@ -264,7 +272,7 @@ export default {
     },
 
     open_search_playlists: function () {
-      this.$router.push({ path: '/search/library',
+      this.$router.push({ path: '/search/spotify',
         query: {
           type: 'playlist',
           query: this.$route.query.query
