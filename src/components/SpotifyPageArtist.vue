@@ -42,7 +42,7 @@ export default {
       artist: {},
       albums: [],
       total: 0,
-      paging: { limit: 50, offset: 0 }
+      paging: { limit: 50, offset: 0, include_groups: 'album,single' }
     }
   },
 
@@ -55,7 +55,7 @@ export default {
   methods: {
     reset_paging: function () {
       this.total = 0
-      this.paging = { limit: 50, offset: 0 }
+      this.paging = { limit: 50, offset: 0, include_groups: 'album,single' }
       this.albums = []
     },
 

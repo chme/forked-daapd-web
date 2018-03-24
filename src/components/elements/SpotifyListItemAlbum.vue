@@ -20,7 +20,7 @@
                 <div class="content is-small">
                   <p>
                     <span class="heading">Album artist</span>
-                    <a class="title is-6 has-text-link">{{ album.artists[0].name }}</a>
+                    <a class="title is-6 has-text-link" @click="open_artist">{{ album.artists[0].name }}</a>
                   </p>
                   <p>
                     <span class="heading">Release date</span>
@@ -91,6 +91,11 @@ export default {
 
     open_album: function () {
       this.$router.push({ path: '/music/spotify/albums/' + this.album.id })
+    },
+
+    open_artist: function () {
+      this.show_details_modal = false
+      this.$router.push({ path: '/music/spotify/artists/' + this.album.artists[0].id })
     }
   }
 }
