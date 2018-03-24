@@ -78,6 +78,7 @@ export default {
         // this.$store.commit(types.ADD_NOTIFICATION, { text: 'Album tracks appended to queue', timeout: 0 })
         this.$store.dispatch('add_notification', { text: 'Album tracks appended to queue', type: 'info', timeout: 3000 })
       )
+      this.show_details_modal = false
     },
 
     show_details: function () {
