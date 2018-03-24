@@ -17,8 +17,9 @@
             <div class="level-right">
             </div>
           </nav>
-          <p class="heading has-text-centered-mobile">{{ albums.total }} albums</p>
-          <spotify-list-item-album v-for="album in albums.items" :key="album.id" :album="album"></spotify-list-item-album>
+          <p class="heading has-text-centered-mobile">{{ total }} albums</p>
+          <spotify-list-item-album v-for="album in albums" :key="album.id" :album="album"></spotify-list-item-album>
+          <infinite-loading @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
         </div>
       </div>
     </div>
@@ -29,15 +30,19 @@
 import SpotifyListItemAlbum from '@/components/elements/SpotifyListItemAlbum'
 import webapi from '@/webapi'
 import SpotifyWebApi from 'spotify-web-api-js'
+import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'SpotifyPageArtist',
-  components: { SpotifyListItemAlbum },
+  components: { SpotifyListItemAlbum, InfiniteLoading },
 
   data () {
     return {
+      artist_id: undefined,
       artist: {},
-      albums: {}
+      albums: [],
+      total: 0,
+      paging: { limit: 50, offset: 0 }
     }
   },
 
@@ -48,31 +53,58 @@ export default {
   },
 
   methods: {
+    reset_paging: function () {
+      this.total = 0
+      this.paging = { limit: 50, offset: 0 }
+      this.albums = []
+    },
+
     load: function (artistId) {
       webapi.spotify().then(({ data }) => {
         this.spotify = data
 
-        var spotifyApi = new SpotifyWebApi()
+        const spotifyApi = new SpotifyWebApi()
         spotifyApi.setAccessToken(this.spotify.webapi_token)
         spotifyApi.getArtist(artistId).then(data => {
           this.artist = data
         })
-        spotifyApi.getArtistAlbums(artistId, { limit: 50 }).then(data => {
-          this.albums = data
+      })
+    },
+
+    load_next: function ($state) {
+      webapi.spotify().then(({ data }) => {
+        this.spotify = data
+
+        const spotifyApi = new SpotifyWebApi()
+        spotifyApi.setAccessToken(this.spotify.webapi_token)
+        spotifyApi.getArtistAlbums(this.artist_id, this.paging).then(data => {
+          this.albums = this.albums.concat(data.items)
+          this.total = data.total
+          this.paging.offset += data.limit
+          $state.loaded()
+          if (this.paging.offset >= this.total) {
+            $state.complete()
+          }
         })
       })
     }
   },
 
   created: function () {
+    this.artist_id = this.$route.params.artist_id
+    this.reset_paging()
     this.load(this.$route.params.artist_id)
   },
 
   watch: {
     '$route' (to, from) {
+      this.artist_id = to.params.artist_id
+      this.reset_paging()
       this.load(to.params.artist_id)
     },
     'server_connection' () {
+      this.artist_id = this.$route.params.artist_id
+      this.reset_paging()
       this.load(this.$route.params.artist_id)
     }
   }

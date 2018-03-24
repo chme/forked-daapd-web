@@ -144,10 +144,11 @@ import SpotifyListItemPlaylist from '@/components/elements/SpotifyListItemPlayli
 import SpotifyWebApi from 'spotify-web-api-js'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
+import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'SpotifyPageSearch',
-  components: { TabsSearch, SpotifyListItemTrack, SpotifyListItemArtist, SpotifyListItemAlbum, SpotifyListItemPlaylist },
+  components: { TabsSearch, SpotifyListItemTrack, SpotifyListItemArtist, SpotifyListItemAlbum, SpotifyListItemPlaylist, InfiniteLoading },
 
   data () {
     return {
