@@ -33,6 +33,10 @@ export const router = new VueRouter({
     },
     {
       path: '/music',
+      redirect: '/music/browse'
+    },
+    {
+      path: '/music/browse',
       name: 'Browse',
       component: PageBrowse
     },

@@ -5,7 +5,7 @@
         <div class="column is-four-fifths">
           <div class="tabs is-centered is-small">
             <ul>
-              <router-link tag="li" to="/music" active-class="is-active" exact>
+              <router-link tag="li" to="/music/browse" active-class="is-active">
                 <a>
                   <span class="icon is-small"><i class="mdi mdi-web"></i></span>
                   <span class="">Browse</span>
