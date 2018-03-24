@@ -215,6 +215,8 @@ export default {
       webapi.spotify().then(({ data }) => {
         this.spotify = data
 
+        params.market = this.spotify.webapi_country
+
         var spotifyApi = new SpotifyWebApi()
         spotifyApi.setAccessToken(this.spotify.webapi_token)
         spotifyApi.search(searchParams.query, searchParams.type.split(','), params).then(data => {

@@ -86,7 +86,7 @@ export default {
 
     open_artist: function () {
       this.show_details_modal = false
-      this.$router.push({ path: '/music/artists/' + this.artist.id })
+      this.$router.push({ path: '/music/spotify/artists/' + this.artist.id })
     }
   }
 }
