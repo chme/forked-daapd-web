@@ -15,7 +15,7 @@
             <div class="card">
               <div class="card-content">
                 <p class="title is-4">
-                  {{ playlist.name }}
+                  <a class="has-text-link" @click="open_playlist">{{ playlist.name }}</a>
                 </p>
                 <div class="content is-small">
                   <p>
