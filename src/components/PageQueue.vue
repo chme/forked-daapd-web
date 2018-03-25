@@ -58,7 +58,8 @@ export default {
       set (value) { /* Do nothing? Send move request in @end event */ }
     },
     current_position () {
-      return this.$store.getters.now_playing === undefined ? -1 : this.$store.getters.now_playing.position
+      const nowPlaying = this.$store.getters.now_playing
+      return nowPlaying === undefined || nowPlaying.position === undefined ? -1 : this.$store.getters.now_playing.position
     },
     show_only_next_items () {
       return this.$store.state.show_only_next_items
