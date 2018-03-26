@@ -59,53 +59,48 @@ export default {
       this.albums = []
     },
 
-    load: function (artistId) {
-      webapi.spotify().then(({ data }) => {
-        this.spotify = data
+    load: function () {
+      this.reset_paging()
 
+      webapi.spotify().then(({ data }) => {
         const spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(this.spotify.webapi_token)
-        spotifyApi.getArtist(artistId).then(data => {
-          this.artist = data
-        })
+        spotifyApi.setAccessToken(data.webapi_token)
+        return spotifyApi.getArtist(this.artist_id)
+      }).then(data => {
+        this.artist = data
       })
     },
 
     load_next: function ($state) {
       webapi.spotify().then(({ data }) => {
-        this.spotify = data
-
         const spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(this.spotify.webapi_token)
-        spotifyApi.getArtistAlbums(this.artist_id, this.paging).then(data => {
-          this.albums = this.albums.concat(data.items)
-          this.total = data.total
-          this.paging.offset += data.limit
-          $state.loaded()
-          if (this.paging.offset >= this.total) {
-            $state.complete()
-          }
-        })
+        spotifyApi.setAccessToken(data.webapi_token)
+        return spotifyApi.getArtistAlbums(this.artist_id, this.paging)
+      }).then(data => {
+        this.albums = this.albums.concat(data.items)
+        this.total = data.total
+        this.paging.offset += data.limit
+        $state.loaded()
+        if (this.paging.offset >= this.total) {
+          $state.complete()
+        }
       })
     }
   },
 
   created: function () {
     this.artist_id = this.$route.params.artist_id
-    this.reset_paging()
-    this.load(this.$route.params.artist_id)
+    this.load()
   },
 
   watch: {
     '$route' (to, from) {
       this.artist_id = to.params.artist_id
-      this.reset_paging()
-      this.load(to.params.artist_id)
+      this.load()
     },
     'server_connection' () {
       this.artist_id = this.$route.params.artist_id
-      this.reset_paging()
-      this.load(this.$route.params.artist_id)
+      this.load()
     }
   }
 }

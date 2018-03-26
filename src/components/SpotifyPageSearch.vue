@@ -41,6 +41,7 @@
               </div>
             </nav>
             <spotify-list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :album="track.album" :position="0" :context_uri="track.uri"></spotify-list-item-track>
+            <infinite-loading v-if="query.type === 'track'" @infinite="search_tracks_next"><span slot="no-more">.</span></infinite-loading>
             <nav v-if="show_all_tracks_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_tracks">Show all {{ tracks.total }} tracks</a>
@@ -68,6 +69,7 @@
               </div>
             </nav>
             <spotify-list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></spotify-list-item-artist>
+            <infinite-loading v-if="query.type === 'artist'" @infinite="search_artists_next"><span slot="no-more">.</span></infinite-loading>
             <nav v-if="show_all_artists_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_artists">Show all {{ artists.total }} artists</a>
@@ -95,6 +97,7 @@
               </div>
             </nav>
             <spotify-list-item-album v-for="album in albums.items" :key="album.id" :album="album"></spotify-list-item-album>
+            <infinite-loading v-if="query.type === 'album'" @infinite="search_albums_next"><span slot="no-more">.</span></infinite-loading>
             <nav v-if="show_all_albums_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_albums">Show all {{ albums.total }} albums</a>
@@ -122,6 +125,7 @@
               </div>
             </nav>
             <spotify-list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
+            <infinite-loading v-if="query.type === 'playlist'" @infinite="search_playlists_next"><span slot="no-more">.</span></infinite-loading>
             <nav v-if="show_all_playlists_button" class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_search_playlists">Show all {{ playlists.total }} playlists</a>
@@ -156,7 +160,10 @@ export default {
       tracks: { items: [], total: 0 },
       artists: { items: [], total: 0 },
       albums: { items: [], total: 0 },
-      playlists: { items: [], total: 0 }
+      playlists: { items: [], total: 0 },
+
+      query: {},
+      search_param: {}
     }
   },
 
@@ -195,39 +202,102 @@ export default {
   },
 
   methods: {
-    search: function (route) {
-      if (!route.query.query || route.query.query === '') {
+    reset: function () {
+      this.tracks = { items: [], total: 0 }
+      this.artists = { items: [], total: 0 }
+      this.albums = { items: [], total: 0 }
+      this.playlists = { items: [], total: 0 }
+    },
+
+    search: function () {
+      this.reset()
+
+      // If no search query present reset and focus search field
+      if (!this.query.query || this.query.query === '') {
         this.search_query = ''
         this.$refs.search_field.focus()
         return
       }
 
-      const searchParams = {
-        'type': route.query.type,
-        'query': route.query.query
+      this.search_param.limit = this.query.limit ? this.query.limit : 50
+      this.search_param.offset = this.query.offset ? this.query.offset : 0
+
+      this.$store.commit(types.ADD_RECENT_SEARCH, this.query.query)
+
+      if (this.query.type.includes(',')) {
+        this.search_all()
       }
+    },
 
-      const params = {}
-      if (route.query.limit) {
-        params.limit = route.query.limit
-        params.offset = route.query.offset
-      }
-
-      webapi.spotify().then(({ data }) => {
-        this.spotify = data
-
-        params.market = this.spotify.webapi_country
+    spotify_search: function () {
+      return webapi.spotify().then(({ data }) => {
+        this.search_param.market = data.webapi_country
 
         var spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(this.spotify.webapi_token)
-        spotifyApi.search(searchParams.query, searchParams.type.split(','), params).then(data => {
-          this.tracks = data.tracks ? data.tracks : { items: [], total: 0 }
-          this.artists = data.artists ? data.artists : { items: [], total: 0 }
-          this.albums = data.albums ? data.albums : { items: [], total: 0 }
-          this.playlists = data.playlists ? data.playlists : { items: [], total: 0 }
+        spotifyApi.setAccessToken(data.webapi_token)
 
-          this.$store.commit(types.ADD_RECENT_SEARCH, searchParams.query)
-        })
+        return spotifyApi.search(this.query.query, this.query.type.split(','), this.search_param)
+      })
+    },
+
+    search_all: function () {
+      this.spotify_search().then(data => {
+        this.tracks = data.tracks ? data.tracks : { items: [], total: 0 }
+        this.artists = data.artists ? data.artists : { items: [], total: 0 }
+        this.albums = data.albums ? data.albums : { items: [], total: 0 }
+        this.playlists = data.playlists ? data.playlists : { items: [], total: 0 }
+      })
+    },
+
+    search_tracks_next: function ($state) {
+      this.spotify_search().then(data => {
+        this.tracks.items = this.tracks.items.concat(data.tracks.items)
+        this.tracks.total = data.tracks.total
+        this.search_param.offset += data.tracks.limit
+
+        $state.loaded()
+        if (this.search_param.offset >= this.tracks.total) {
+          $state.complete()
+        }
+      })
+    },
+
+    search_artists_next: function ($state) {
+      this.spotify_search().then(data => {
+        this.artists.items = this.artists.items.concat(data.artists.items)
+        this.artists.total = data.artists.total
+        this.search_param.offset += data.artists.limit
+
+        $state.loaded()
+        if (this.search_param.offset >= this.artists.total) {
+          $state.complete()
+        }
+      })
+    },
+
+    search_albums_next: function ($state) {
+      this.spotify_search().then(data => {
+        this.albums.items = this.albums.items.concat(data.albums.items)
+        this.albums.total = data.albums.total
+        this.search_param.offset += data.albums.limit
+
+        $state.loaded()
+        if (this.search_param.offset >= this.albums.total) {
+          $state.complete()
+        }
+      })
+    },
+
+    search_playlists_next: function ($state) {
+      this.spotify_search().then(data => {
+        this.playlists.items = this.playlists.items.concat(data.playlists.items)
+        this.playlists.total = data.playlists.total
+        this.search_param.offset += data.playlists.limit
+
+        $state.loaded()
+        if (this.search_param.offset >= this.playlists.total) {
+          $state.complete()
+        }
       })
     },
 
@@ -290,12 +360,14 @@ export default {
   },
 
   mounted: function () {
-    this.search(this.$route)
+    this.query = this.$route.query
+    this.search()
   },
 
   watch: {
     '$route' (to, from) {
-      this.search(to)
+      this.query = to.query
+      this.search()
     }
   }
 }
