@@ -16,15 +16,44 @@
 
             <!-- Right side -->
             <div class="level-right">
-              <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="show_only_next_items" @click="update_show_next_items"> Show only next items</label></p>
-              <p class="level-item"><a class="button is-light is-rounded" v-on:click="queue_clear">Clear</a></p>
+              <div class="level-item">
+                <div class="buttons is-centered">
+                  <a class="button" :class="{ 'is-info': show_only_next_items }" @click="update_show_next_items">
+                    <span class="icon">
+                      <i class="mdi mdi-arrow-collapse-down mdi-18px"></i>
+                    </span>
+                    <span>Hide previous</span>
+                  </a>
+                  <!--
+                  <a class="button" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
+                    <span class="icon">
+                      <i class="mdi mdi-content-save mdi-18px"></i>
+                    </span>
+                    <span>Save</span>
+                  </a>
+                  -->
+                  <a class="button" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
+                    <span class="icon">
+                      <i class="mdi mdi-pencil mdi-18px"></i>
+                    </span>
+                    <span>Edit</span>
+                  </a>
+                  <a class="button" @click="queue_clear">
+                    <span class="icon">
+                      <i class="mdi mdi-delete-empty mdi-18px"></i>
+                    </span>
+                    <span>Clear</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </nav>
           <draggable v-model="queue_items" :options="{handle:'.handle'}"  @end="move_item">
             <list-item-queue-item v-for="(item, index) in queue_items"
               :key="item.id" :item="item" :position="index"
               :current_position="current_position"
-              :show_only_next_items="show_only_next_items"></list-item-queue-item>
+              :show_only_next_items="show_only_next_items"
+              :edit_mode="edit_mode"></list-item-queue-item>
           </draggable>
         </div>
       </div>
@@ -43,7 +72,9 @@ export default {
   components: { ListItemQueueItem, draggable },
 
   data () {
-    return { }
+    return {
+      edit_mode: false
+    }
   },
 
   computed: {
