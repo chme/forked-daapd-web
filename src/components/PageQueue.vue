@@ -18,29 +18,29 @@
             <div class="level-right">
               <div class="level-item">
                 <div class="buttons is-centered">
-                  <a class="button" :class="{ 'is-info': show_only_next_items }" @click="update_show_next_items">
+                  <a class="button is-small" :class="{ 'is-info': show_only_next_items }" @click="update_show_next_items">
                     <span class="icon">
-                      <i class="mdi mdi-arrow-collapse-down mdi-18px"></i>
+                      <i class="mdi mdi-arrow-collapse-down"></i>
                     </span>
                     <span>Hide previous</span>
                   </a>
                   <!--
                   <a class="button" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
                     <span class="icon">
-                      <i class="mdi mdi-content-save mdi-18px"></i>
+                      <i class="mdi mdi-content-save"></i>
                     </span>
                     <span>Save</span>
                   </a>
                   -->
-                  <a class="button" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
+                  <a class="button is-small" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
                     <span class="icon">
-                      <i class="mdi mdi-pencil mdi-18px"></i>
+                      <i class="mdi mdi-pencil"></i>
                     </span>
                     <span>Edit</span>
                   </a>
-                  <a class="button" @click="queue_clear">
+                  <a class="button is-small" @click="queue_clear">
                     <span class="icon">
-                      <i class="mdi mdi-delete-empty mdi-18px"></i>
+                      <i class="mdi mdi-delete-empty"></i>
                     </span>
                     <span>Clear</span>
                   </a>
