@@ -46,12 +46,6 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   methods: {
     reset_paging: function () {
       this.total = 0
@@ -96,10 +90,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.artist_id = to.params.artist_id
-      this.load()
-    },
-    'server_connection' () {
-      this.artist_id = this.$route.params.artist_id
       this.load()
     }
   }

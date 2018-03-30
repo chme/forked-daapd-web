@@ -37,10 +37,6 @@ export default {
   name: 'PageNowPlaying',
   components: { PlayerButtonPlayPause, PlayerButtonNext, PlayerButtonPrevious, PlayerButtonShuffle, PlayerButtonConsume, PlayerButtonRepeat },
 
-  data () {
-    return { }
-  },
-
   computed: {
     state () {
       return this.$store.state.player

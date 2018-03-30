@@ -49,9 +49,6 @@ export default {
   computed: {
     hide_singles () {
       return this.$store.state.hide_singles
-    },
-    server_connection () {
-      return this.$store.state.server
     }
   },
 
@@ -74,9 +71,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.library_albums(to.params.artist_id)
-    },
-    'server_connection' () {
-      this.library_albums(this.$route.params.artist_id)
     }
   }
 }

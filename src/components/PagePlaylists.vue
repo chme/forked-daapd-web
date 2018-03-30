@@ -42,24 +42,10 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   created: function () {
     webapi.library_playlists().then(({ data }) => {
       this.playlists = data
     })
-  },
-
-  watch: {
-    'server_connection' () {
-      webapi.library_playlists().then(({ data }) => {
-        this.playlists = data
-      })
-    }
   }
 }
 </script>

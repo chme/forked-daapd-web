@@ -41,12 +41,6 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   methods: {
     load: function (albumId) {
       webapi.library_album(albumId).then(({ data }) => {
@@ -70,9 +64,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.load(to.params.album_id)
-    },
-    'server_connection' () {
-      this.load(this.$route.params.album_id)
     }
   }
 }

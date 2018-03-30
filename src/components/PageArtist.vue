@@ -40,12 +40,6 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   methods: {
     load: function (artistId) {
       webapi.library_artist(artistId).then(({ data }) => {
@@ -64,9 +58,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.load(to.params.artist_id)
-    },
-    'server_connection' () {
-      this.load(this.$route.params.artist_id)
     }
   }
 }

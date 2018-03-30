@@ -40,12 +40,6 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   methods: {
     load: function (playlistId) {
       webapi.library_playlist(playlistId).then(({ data }) => {
@@ -64,9 +58,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.load(to.params.playlist_id)
-    },
-    'server_connection' () {
-      this.load(this.$route.params.playlist_id)
     }
   }
 }

@@ -68,27 +68,14 @@ export default {
   },
 
   computed: {
-    server () {
-      return this.$store.state.server
-    },
     show_connection_modal () {
       return this.$store.state.show_connection_modal
     }
   },
 
   methods: {
-    connect: function () {
-      this.$store.commit(types.UPDATE_SERVER, { host: this.new_server.host, port: this.new_server.port })
-    },
     close_modal: function () {
       this.$store.commit(types.SHOW_CONNECTION_MODAL, false)
-    }
-  },
-
-  watch: {
-    'server' () {
-      this.new_server.host = this.server.host
-      this.new_server.port = this.server.port
     }
   }
 }

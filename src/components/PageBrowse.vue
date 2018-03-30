@@ -86,12 +86,6 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   methods: {
     load: function (type) {
       this.recently_added = {}
@@ -135,9 +129,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.load(to.query.type)
-    },
-    'server_connection' () {
-      this.load(this.$route.query.type)
     }
   }
 }

@@ -18,7 +18,6 @@ import Notifications from '@/components/Notifications'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 import ReconnectingWebSocket from 'reconnectingwebsocket'
-import axios from 'axios'
 
 export default {
   name: 'App',
@@ -35,25 +34,16 @@ export default {
     },
     show_burger_menu () {
       return this.$store.state.show_burger_menu
-    },
-    server () {
-      return this.$store.state.server
     }
   },
 
   created: function () {
-    axios.get('/static/server-settings.json').then(({ data }) => {
-      if (data.host !== this.server.host || data.port !== this.server.port) {
-        this.$store.commit(types.UPDATE_SERVER, data)
-      }
-    }).catch(() => {
-      this.$store.commit(types.UPDATE_SERVER, { host: window.location.hostname, port: window.location.port })
-    })
+    this.connect()
   },
 
   methods: {
     connect: function () {
-      this.$store.dispatch('add_notification', { text: 'Connecting to ' + this.server.host + ':' + this.server.port, type: 'info', topic: 'connection', timeout: 2000 })
+      this.$store.dispatch('add_notification', { text: 'Connecting to forked-daapd', type: 'info', topic: 'connection', timeout: 2000 })
 
       webapi.config().then(({ data }) => {
         this.$store.commit(types.SHOW_CONNECTION_MODAL, false)
@@ -63,7 +53,7 @@ export default {
 
         this.open_ws()
       }).catch(() => {
-        this.$store.dispatch('add_notification', { text: 'Failed to connect to server ' + this.server.host + ':' + this.server.port, type: 'danger', topic: 'connection' })
+        this.$store.dispatch('add_notification', { text: 'Failed to connect to forked-daapd', type: 'danger', topic: 'connection' })
         this.$store.commit(types.SHOW_CONNECTION_MODAL, true)
       })
     },
@@ -77,7 +67,7 @@ export default {
       const vm = this
 
       var socket = new ReconnectingWebSocket(
-        'ws://' + vm.server.host + ':' + vm.$store.state.config.websocket_port,
+        'ws://' + window.location.hostname + ':' + vm.$store.state.config.websocket_port,
         'notify',
         { reconnectInterval: 5000 }
       )
@@ -96,7 +86,7 @@ export default {
         // vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
       }
       socket.onerror = function () {
-        vm.$store.dispatch('add_notification', { text: 'Connection to websocket lost. Reconnecting ...', type: 'danger', topic: 'connection' })
+        vm.$store.dispatch('add_notification', { text: 'Connection lost. Reconnecting ...', type: 'danger', topic: 'connection' })
       }
       socket.onmessage = function (response) {
         var data = JSON.parse(response.data)
@@ -143,11 +133,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.$store.commit(types.SHOW_BURGER_MENU, false)
-    },
-    'server' () {
-      if (this.server.host && this.server.port) {
-        this.connect()
-      }
     }
   }
 }

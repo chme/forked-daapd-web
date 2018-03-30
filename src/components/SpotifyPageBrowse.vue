@@ -105,10 +105,6 @@ export default {
 
     show_more_button () {
       return !this.$route.params.type
-    },
-
-    server_connection () {
-      return this.$store.state.server
     }
   },
 
@@ -142,9 +138,6 @@ export default {
 
   watch: {
     '$route' (to, from) {
-      this.load()
-    },
-    'server_connection' () {
       this.load()
     }
   }

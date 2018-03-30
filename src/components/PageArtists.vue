@@ -49,9 +49,6 @@ export default {
   computed: {
     hide_singles () {
       return this.$store.state.hide_singles
-    },
-    server_connection () {
-      return this.$store.state.server
     }
   },
 
@@ -76,12 +73,6 @@ export default {
   },
   beforeRouteUpdate (to, from, next) {
     this.load_artists().then(next())
-  },
-
-  watch: {
-    'server_connection' () {
-      this.load_artists()
-    }
   }
 }
 </script>

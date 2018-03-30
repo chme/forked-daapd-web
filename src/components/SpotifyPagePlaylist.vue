@@ -41,12 +41,6 @@ export default {
     }
   },
 
-  computed: {
-    server_connection () {
-      return this.$store.state.server
-    }
-  },
-
   methods: {
     load: function (userId, playlistId) {
       webapi.spotify().then(({ data }) => {
@@ -79,9 +73,6 @@ export default {
   watch: {
     '$route' (to, from) {
       this.load(to.params.user_id, to.params.playlist_id)
-    },
-    'server_connection' () {
-      this.load(this.$route.params.user_id, this.$route.params.playlist_id)
     }
   }
 }
