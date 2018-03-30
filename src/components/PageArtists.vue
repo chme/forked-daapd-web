@@ -59,23 +59,28 @@ export default {
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
     },
-    library_artists: function () {
-      webapi.library_artists().then(({ data }) => {
+    load_artists: function () {
+      return webapi.library_artists().then(({ data }) => {
         this.artists = data
       })
+    },
+    set_artists: function (data) {
+      this.artists = data
     }
   },
 
-  created: function () {
-    this.library_artists()
+  beforeRouteEnter (to, from, next) {
+    webapi.library_artists().then(({ data }) => {
+      next(vm => vm.set_artists(data))
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.load_artists().then(next())
   },
 
   watch: {
-    '$route' (to, from) {
-      this.library_artists()
-    },
     'server_connection' () {
-      this.library_artists()
+      this.load_artists()
     }
   }
 }
