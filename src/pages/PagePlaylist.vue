@@ -8,7 +8,7 @@
             <div class="level-left">
               <div class="level-item has-text-centered-mobile">
                 <div>
-                  <p class="title is-4">Tracks</p>
+                  <div class="title is-4">{{ playlist.name }}</div>
                 </div>
               </div>
             </div>
@@ -17,7 +17,8 @@
             <div class="level-right">
             </div>
           </nav>
-          <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="$route.query.context_uri"></list-item-track>
+          <p class="heading has-text-centered-mobile">tracks</p>
+          <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="playlist.uri"></list-item-track>
         </div>
       </div>
     </div>
@@ -25,40 +26,38 @@
 </template>
 
 <script>
-import ListItemTrack from '@/components/elements/ListItemTrack'
+import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
 export default {
-  name: 'PageTracks',
+  name: 'PagePlaylist',
   components: { ListItemTrack },
 
   data () {
     return {
+      playlist: {},
       tracks: []
     }
   },
 
   methods: {
-    load_tracks: function (route) {
-      if (route.params.album_id !== undefined) {
-        webapi.library_album_tracks(route.params.album_id).then(({ data }) => {
-          this.tracks = data.items
-        })
-      } else {
-        webapi.library_playlist_tracks(route.params.playlist_id).then(({ data }) => {
-          this.tracks = data.items
-        })
-      }
+    load: function (playlistId) {
+      webapi.library_playlist(playlistId).then(({ data }) => {
+        this.playlist = data
+      })
+      webapi.library_playlist_tracks(playlistId).then(({ data }) => {
+        this.tracks = data.items
+      })
     }
   },
 
   created: function () {
-    this.load_tracks(this.$route)
+    this.load(this.$route.params.playlist_id)
   },
 
   watch: {
     '$route' (to, from) {
-      this.load_tracks(to)
+      this.load(to.params.playlist_id)
     }
   }
 }

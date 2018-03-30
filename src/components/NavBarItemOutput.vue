@@ -26,7 +26,7 @@
 
 <script>
 import RangeSlider from 'vue-range-slider'
-import webapi from '../../webapi'
+import webapi from '@/webapi'
 
 export default {
   name: 'NavBarItemOutput',

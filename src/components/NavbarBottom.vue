@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
+import PlayerButtonPlayPause from './PlayerButtonPlayPause'
 
 export default {
   name: 'NavbarBottom',

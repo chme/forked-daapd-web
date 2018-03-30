@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import ListItemQueueItem from '@/components/elements/ListItemQueueItem'
+import ListItemQueueItem from '@/components/ListItemQueueItem'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 import draggable from 'vuedraggable'

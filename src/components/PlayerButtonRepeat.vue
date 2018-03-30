@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import webapi from '../../webapi'
+import webapi from '@/webapi'
 
 export default {
   name: 'PlayerButtonRepeat',

@@ -96,13 +96,13 @@
 
 <script>
 import webapi from '@/webapi'
-import NavBarItemOutput from './elements/NavBarItemOutput'
-import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
-import PlayerButtonNext from './elements/PlayerButtonNext'
-import PlayerButtonPrevious from './elements/PlayerButtonPrevious'
-import PlayerButtonShuffle from './elements/PlayerButtonShuffle'
-import PlayerButtonConsume from './elements/PlayerButtonConsume'
-import PlayerButtonRepeat from './elements/PlayerButtonRepeat'
+import NavBarItemOutput from './NavBarItemOutput'
+import PlayerButtonPlayPause from './PlayerButtonPlayPause'
+import PlayerButtonNext from './PlayerButtonNext'
+import PlayerButtonPrevious from './PlayerButtonPrevious'
+import PlayerButtonShuffle from './PlayerButtonShuffle'
+import PlayerButtonConsume from './PlayerButtonConsume'
+import PlayerButtonRepeat from './PlayerButtonRepeat'
 import RangeSlider from 'vue-range-slider'
 import * as types from '@/store/mutation_types'
 

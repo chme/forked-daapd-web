@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ListItemAlbum from '@/components/elements/ListItemAlbum'
+import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
 export default {

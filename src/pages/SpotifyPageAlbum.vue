@@ -9,7 +9,7 @@
               <div class="level-item has-text-centered-mobile">
                 <div>
                   <div class="title is-4">{{ album.name }}</div>
-                  <a class="title is-4 has-text-link has-text-weight-normal" @click="open_artist">{{ album.artist }}</a>
+                  <a class="title is-4 has-text-link has-text-weight-normal" @click="open_artist">{{ album.artists[0].name }}</a>
                 </div>
               </div>
             </div>
@@ -18,8 +18,8 @@
             <div class="level-right">
             </div>
           </nav>
-          <p class="heading has-text-centered-mobile">{{ album.track_count }} tracks</p>
-          <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="album.uri"></list-item-track>
+          <p class="heading has-text-centered-mobile">{{ album.tracks.total }} tracks</p>
+          <spotify-list-item-track v-for="(track, index) in album.tracks.items" :key="track.id" :track="track" :position="index" :album="album" :context_uri="album.uri"></spotify-list-item-track>
         </div>
       </div>
     </div>
@@ -27,33 +27,35 @@
 </template>
 
 <script>
-import ListItemTrack from '@/components/elements/ListItemTrack'
+import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
 import webapi from '@/webapi'
+import SpotifyWebApi from 'spotify-web-api-js'
 
 export default {
   name: 'PageAlbum',
-  components: { ListItemTrack },
+  components: { SpotifyListItemTrack },
 
   data () {
     return {
-      album: {},
-      tracks: []
+      album: {}
     }
   },
 
   methods: {
     load: function (albumId) {
-      webapi.library_album(albumId).then(({ data }) => {
-        this.album = data
-      })
-      webapi.library_album_tracks(albumId).then(({ data }) => {
-        this.tracks = data.items
+      webapi.spotify().then(({ data }) => {
+        this.spotify = data
+
+        var spotifyApi = new SpotifyWebApi()
+        spotifyApi.setAccessToken(this.spotify.webapi_token)
+        spotifyApi.getAlbum(albumId).then(data => {
+          this.album = data
+        })
       })
     },
 
     open_artist: function () {
-      this.show_details_modal = false
-      this.$router.push({ path: '/music/artists/' + this.album.artist_id })
+      this.$router.push({ path: '/music/spotify/artists/' + this.album.artists[0].id })
     }
   },
 

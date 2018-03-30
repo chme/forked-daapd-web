@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import SpotifyListItemTrack from '@/components/elements/SpotifyListItemTrack'
+import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
 import webapi from '@/webapi'
 import SpotifyWebApi from 'spotify-web-api-js'
 

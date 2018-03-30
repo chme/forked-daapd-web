@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import TabsMusic from '@/components/elements/TabsMusic'
-import ListItemArtist from '@/components/elements/ListItemArtist'
+import TabsMusic from '@/components/TabsMusic'
+import ListItemArtist from '@/components/ListItemArtist'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 

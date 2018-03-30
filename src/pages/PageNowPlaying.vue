@@ -26,12 +26,12 @@
 </template>
 
 <script>
-import PlayerButtonPlayPause from './elements/PlayerButtonPlayPause'
-import PlayerButtonNext from './elements/PlayerButtonNext'
-import PlayerButtonPrevious from './elements/PlayerButtonPrevious'
-import PlayerButtonShuffle from './elements/PlayerButtonShuffle'
-import PlayerButtonConsume from './elements/PlayerButtonConsume'
-import PlayerButtonRepeat from './elements/PlayerButtonRepeat'
+import PlayerButtonPlayPause from '@/components/PlayerButtonPlayPause'
+import PlayerButtonNext from '@/components/PlayerButtonNext'
+import PlayerButtonPrevious from '@/components/PlayerButtonPrevious'
+import PlayerButtonShuffle from '@/components/PlayerButtonShuffle'
+import PlayerButtonConsume from '@/components/PlayerButtonConsume'
+import PlayerButtonRepeat from '@/components/PlayerButtonRepeat'
 
 export default {
   name: 'PageNowPlaying',

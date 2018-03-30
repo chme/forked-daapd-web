@@ -63,9 +63,9 @@
 </template>
 
 <script>
-import TabsMusic from '@/components/elements/TabsMusic'
-import SpotifyListItemAlbum from '@/components/elements/SpotifyListItemAlbum'
-import SpotifyListItemPlaylist from '@/components/elements/SpotifyListItemPlaylist'
+import TabsMusic from '@/components/TabsMusic'
+import SpotifyListItemAlbum from '@/components/SpotifyListItemAlbum'
+import SpotifyListItemPlaylist from '@/components/SpotifyListItemPlaylist'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 import SpotifyWebApi from 'spotify-web-api-js'

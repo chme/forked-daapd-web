@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import SpotifyListItemAlbum from '@/components/elements/SpotifyListItemAlbum'
+import SpotifyListItemAlbum from '@/components/SpotifyListItemAlbum'
 import webapi from '@/webapi'
 import SpotifyWebApi from 'spotify-web-api-js'
 import InfiniteLoading from 'vue-infinite-loading'

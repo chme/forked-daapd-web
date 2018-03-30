@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import TabsMusic from '@/components/elements/TabsMusic'
-import ListItemPlaylist from '@/components/elements/ListItemPlaylist'
+import TabsMusic from '@/components/TabsMusic'
+import ListItemPlaylist from '@/components/ListItemPlaylist'
 import webapi from '@/webapi'
 
 export default {

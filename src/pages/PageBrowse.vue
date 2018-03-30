@@ -67,9 +67,9 @@
 </template>
 
 <script>
-import TabsMusic from '@/components/elements/TabsMusic'
-import ListItemAlbum from '@/components/elements/ListItemAlbum'
-import ListItemTrack from '@/components/elements/ListItemTrack'
+import TabsMusic from '@/components/TabsMusic'
+import ListItemAlbum from '@/components/ListItemAlbum'
+import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
 export default {
