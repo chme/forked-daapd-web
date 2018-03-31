@@ -36,6 +36,16 @@ import ListItemArtist from '@/components/ListItemArtist'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
+const artistsData = {
+  load: function (to) {
+    return webapi.library_artists()
+  },
+
+  set: function (vm, response) {
+    vm.artists = response.data
+  }
+}
+
 export default {
   name: 'PageArtists',
   components: { TabsMusic, ListItemArtist },
@@ -55,24 +65,20 @@ export default {
   methods: {
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
-    },
-    load_artists: function () {
-      return webapi.library_artists().then(({ data }) => {
-        this.artists = data
-      })
-    },
-    set_artists: function (data) {
-      this.artists = data
     }
   },
 
   beforeRouteEnter (to, from, next) {
-    webapi.library_artists().then(({ data }) => {
-      next(vm => vm.set_artists(data))
+    artistsData.load(to).then((response) => {
+      next(vm => artistsData.set(vm, response))
     })
   },
   beforeRouteUpdate (to, from, next) {
-    this.load_artists().then(next())
+    const vm = this
+    artistsData.load(to).then((response) => {
+      artistsData.set(vm, response)
+      next()
+    })
   }
 }
 </script>

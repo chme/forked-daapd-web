@@ -28,6 +28,10 @@ a.navbar-item {
   padding-bottom: 0;
 }
 
+.fd-progress-bar {
+  top: 52px !important;
+}
+
 .sortable-chosen .media-right {
   visibility: hidden;
 }

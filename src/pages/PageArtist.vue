@@ -29,6 +29,20 @@
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
+const artistData = {
+  load: function (to) {
+    return Promise.all([
+      webapi.library_artist(to.params.artist_id),
+      webapi.library_albums(to.params.artist_id)
+    ])
+  },
+
+  set: function (vm, response) {
+    vm.artist = response[0].data
+    vm.albums = response[1].data
+  }
+}
+
 export default {
   name: 'PageArtist',
   components: { ListItemAlbum },
@@ -41,24 +55,19 @@ export default {
   },
 
   methods: {
-    load: function (artistId) {
-      webapi.library_artist(artistId).then(({ data }) => {
-        this.artist = data
-      })
-      webapi.library_albums(artistId).then(({ data }) => {
-        this.albums = data
-      })
-    }
   },
 
-  created: function () {
-    this.load(this.$route.params.artist_id)
+  beforeRouteEnter (to, from, next) {
+    artistData.load(to).then((response) => {
+      next(vm => artistData.set(vm, response))
+    })
   },
-
-  watch: {
-    '$route' (to, from) {
-      this.load(to.params.artist_id)
-    }
+  beforeRouteUpdate (to, from, next) {
+    const vm = this
+    artistData.load(to).then((response) => {
+      artistData.set(vm, response)
+      next()
+    })
   }
 }
 </script>

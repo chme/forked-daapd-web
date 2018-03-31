@@ -43,12 +43,14 @@ export const router = new VueRouter({
     {
       path: '/music/artists',
       name: 'Artists',
-      component: PageArtists
+      component: PageArtists,
+      meta: { show_progress: true }
     },
     {
       path: '/music/artists/:artist_id',
       name: 'Artist',
-      component: PageArtist
+      component: PageArtist,
+      meta: { show_progress: true }
     },
     {
       path: '/music/albums',

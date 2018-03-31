@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <navbar-top/>
+    <navbar-top />
+    <vue-progress-bar class="fd-progress-bar" />
     <transition name="fade">
       <router-view v-show="!show_burger_menu" />
     </transition>
@@ -39,6 +40,28 @@ export default {
 
   created: function () {
     this.connect()
+
+    //  Start the progress bar on app start
+    this.$Progress.start()
+
+    //  Hook the progress bar to start before we move router-view
+    this.$router.beforeEach((to, from, next) => {
+      if (to.meta.show_progress) {
+        if (to.meta.progress !== undefined) {
+          let meta = to.meta.progress
+          this.$Progress.parseMeta(meta)
+        }
+        this.$Progress.start()
+      }
+      next()
+    })
+
+    //  hook the progress bar to finish after we've finished moving router-view
+    this.$router.afterEach((to, from) => {
+      if (to.meta.show_progress) {
+        this.$Progress.finish()
+      }
+    })
   },
 
   methods: {
@@ -52,6 +75,7 @@ export default {
         document.title = data.library_name
 
         this.open_ws()
+        this.$Progress.finish()
       }).catch(() => {
         this.$store.dispatch('add_notification', { text: 'Failed to connect to forked-daapd', type: 'danger', topic: 'connection' })
         this.$store.commit(types.SHOW_CONNECTION_MODAL, true)
