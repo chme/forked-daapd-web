@@ -16,6 +16,14 @@
 
             <!-- Right side -->
             <div class="level-right">
+              <div class="level-item">
+                <a class="button is-small is-dark is-rounded" @click="play">
+                  <span class="icon">
+                    <i class="mdi mdi-play"></i>
+                  </span>
+                  <span>Play</span>
+                </a>
+              </div>
             </div>
           </nav>
           <p class="heading has-text-centered-mobile">{{ album.track_count }} tracks</p>
@@ -58,18 +66,17 @@ export default {
   },
 
   methods: {
-    load: function (albumId) {
-      webapi.library_album(albumId).then(({ data }) => {
-        this.album = data
-      })
-      webapi.library_album_tracks(albumId).then(({ data }) => {
-        this.tracks = data.items
-      })
-    },
-
     open_artist: function () {
       this.show_details_modal = false
       this.$router.push({ path: '/music/artists/' + this.album.artist_id })
+    },
+
+    play: function () {
+      webapi.queue_clear().then(() =>
+        webapi.queue_add(this.album.uri).then(() =>
+          webapi.player_play()
+        )
+      )
     }
   }
 }

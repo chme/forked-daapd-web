@@ -15,6 +15,14 @@
 
             <!-- Right side -->
             <div class="level-right">
+              <div class="level-item">
+                <a class="button is-small is-dark is-rounded" @click="play">
+                  <span class="icon">
+                    <i class="mdi mdi-play"></i>
+                  </span>
+                  <span>Play</span>
+                </a>
+              </div>
             </div>
           </nav>
           <p class="heading has-text-centered-mobile">tracks</p>
@@ -57,13 +65,12 @@ export default {
   },
 
   methods: {
-    load: function (playlistId) {
-      webapi.library_playlist(playlistId).then(({ data }) => {
-        this.playlist = data
-      })
-      webapi.library_playlist_tracks(playlistId).then(({ data }) => {
-        this.tracks = data.items
-      })
+    play: function () {
+      webapi.queue_clear().then(() =>
+        webapi.queue_add(this.playlist.uri).then(() =>
+          webapi.player_play()
+        )
+      )
     }
   }
 }
