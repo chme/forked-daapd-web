@@ -12,7 +12,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
     "bulma": "^0.6.2",
     "mdi": "^2.1.99",
     "npm": "^5.8.0",
@@ -21,7 +21,7 @@
     "vue": "^2.5.16",
     "vue-infinite-loading": "^2.2.3",
     "vue-progressbar": "^0.7.4",
-    "vue-range-slider": "^0.3.2",
+    "vue-range-slider": "^0.6.0",
     "vue-router": "^3.0.1",
     "vue2-touch-events": "^1.0.0",
     "vuedraggable": "^2.16.0",
