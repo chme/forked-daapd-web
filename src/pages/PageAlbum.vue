@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
@@ -46,6 +47,7 @@ const albumData = {
 
 export default {
   name: 'PageAlbum',
+  mixins: [ LoadDataBeforeEnterMixin(albumData) ],
   components: { ListItemTrack },
 
   data () {
@@ -69,19 +71,6 @@ export default {
       this.show_details_modal = false
       this.$router.push({ path: '/music/artists/' + this.album.artist_id })
     }
-  },
-
-  beforeRouteEnter (to, from, next) {
-    albumData.load(to).then((response) => {
-      next(vm => albumData.set(vm, response))
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    const vm = this
-    albumData.load(to).then((response) => {
-      albumData.set(vm, response)
-      next()
-    })
   }
 }
 </script>

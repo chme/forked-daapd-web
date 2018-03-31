@@ -1,19 +1,17 @@
 
-let loadData = function (to) {}
-
-let setData = function (vm, data) {}
-
-export default {
-
-  beforeRouteEnter (to, from, next) {
-    loadData(to).then(({ data }) => {
-      next(vm => setData(vm, data))
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    loadData(to).then(({ data }) => {
-      setData(this, data)
-      next()
-    })
+export const LoadDataBeforeEnterMixin = function (dataObject) {
+  return {
+    beforeRouteEnter (to, from, next) {
+      dataObject.load(to).then((response) => {
+        next(vm => dataObject.set(vm, response))
+      })
+    },
+    beforeRouteUpdate (to, from, next) {
+      const vm = this
+      dataObject.load(to).then((response) => {
+        dataObject.set(vm, response)
+        next()
+      })
+    }
   }
 }

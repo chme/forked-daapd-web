@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
@@ -45,6 +46,7 @@ const artistData = {
 
 export default {
   name: 'PageArtist',
+  mixins: [ LoadDataBeforeEnterMixin(artistData) ],
   components: { ListItemAlbum },
 
   data () {
@@ -55,19 +57,6 @@ export default {
   },
 
   methods: {
-  },
-
-  beforeRouteEnter (to, from, next) {
-    artistData.load(to).then((response) => {
-      next(vm => artistData.set(vm, response))
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    const vm = this
-    artistData.load(to).then((response) => {
-      artistData.set(vm, response)
-      next()
-    })
   }
 }
 </script>

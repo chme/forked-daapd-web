@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
@@ -48,6 +49,7 @@ const albumsData = {
 
 export default {
   name: 'PageAlbums',
+  mixins: [ LoadDataBeforeEnterMixin(albumsData) ],
   components: { TabsMusic, ListItemAlbum },
 
   data () {
@@ -66,19 +68,6 @@ export default {
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
     }
-  },
-
-  beforeRouteEnter (to, from, next) {
-    albumsData.load(to).then((response) => {
-      next(vm => albumsData.set(vm, response))
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    const vm = this
-    albumsData.load(to).then((response) => {
-      albumsData.set(vm, response)
-      next()
-    })
   }
 }
 </script>

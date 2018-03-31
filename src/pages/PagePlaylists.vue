@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemPlaylist from '@/components/ListItemPlaylist'
 import webapi from '@/webapi'
@@ -44,25 +45,13 @@ const playlistsData = {
 
 export default {
   name: 'PagePlaylists',
+  mixins: [ LoadDataBeforeEnterMixin(playlistsData) ],
   components: { TabsMusic, ListItemPlaylist },
 
   data () {
     return {
       playlists: {}
     }
-  },
-
-  beforeRouteEnter (to, from, next) {
-    playlistsData.load(to).then((response) => {
-      next(vm => playlistsData.set(vm, response))
-    })
-  },
-  beforeRouteUpdate (to, from, next) {
-    const vm = this
-    playlistsData.load(to).then((response) => {
-      playlistsData.set(vm, response)
-      next()
-    })
   }
 }
 </script>
