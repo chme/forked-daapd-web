@@ -19,7 +19,14 @@
 
               <!-- Right side -->
               <div class="level-right">
-                <p class="level-item"><label class="checkbox"><input type="checkbox" :checked="hide_singles" @click="update_hide_singles"> Hide singles</label></p>
+                <div class="level-item">
+                  <a class="button is-small" :class="{ 'is-info': hide_singles }" @click="update_hide_singles">
+                    <span class="icon">
+                      <i class="mdi mdi-numeric-1-box-multiple-outline"></i>
+                    </span>
+                    <span>Hide singles</span>
+                  </a>
+                </div>
               </div>
             </nav>
             <list-item-album v-for="album in albums.items" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 2"></list-item-album>
