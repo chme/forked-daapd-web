@@ -29,6 +29,20 @@
 import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
+const playlistData = {
+  load: function (to) {
+    return Promise.all([
+      webapi.library_playlist(to.params.playlist_id),
+      webapi.library_playlist_tracks(to.params.playlist_id)
+    ])
+  },
+
+  set: function (vm, response) {
+    vm.playlist = response[0].data
+    vm.tracks = response[1].data.items
+  }
+}
+
 export default {
   name: 'PagePlaylist',
   components: { ListItemTrack },
@@ -51,14 +65,17 @@ export default {
     }
   },
 
-  created: function () {
-    this.load(this.$route.params.playlist_id)
+  beforeRouteEnter (to, from, next) {
+    playlistData.load(to).then((response) => {
+      next(vm => playlistData.set(vm, response))
+    })
   },
-
-  watch: {
-    '$route' (to, from) {
-      this.load(to.params.playlist_id)
-    }
+  beforeRouteUpdate (to, from, next) {
+    const vm = this
+    playlistData.load(to).then((response) => {
+      playlistData.set(vm, response)
+      next()
+    })
   }
 }
 </script>

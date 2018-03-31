@@ -32,6 +32,16 @@ import TabsMusic from '@/components/TabsMusic'
 import ListItemPlaylist from '@/components/ListItemPlaylist'
 import webapi from '@/webapi'
 
+const playlistsData = {
+  load: function (to) {
+    return webapi.library_playlists()
+  },
+
+  set: function (vm, response) {
+    vm.playlists = response.data
+  }
+}
+
 export default {
   name: 'PagePlaylists',
   components: { TabsMusic, ListItemPlaylist },
@@ -42,9 +52,16 @@ export default {
     }
   },
 
-  created: function () {
-    webapi.library_playlists().then(({ data }) => {
-      this.playlists = data
+  beforeRouteEnter (to, from, next) {
+    playlistsData.load(to).then((response) => {
+      next(vm => playlistsData.set(vm, response))
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    const vm = this
+    playlistsData.load(to).then((response) => {
+      playlistsData.set(vm, response)
+      next()
     })
   }
 }

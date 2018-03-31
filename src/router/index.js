@@ -72,12 +72,14 @@ export const router = new VueRouter({
     {
       path: '/playlists',
       name: 'Playlists',
-      component: PagePlaylists
+      component: PagePlaylists,
+      meta: { show_progress: true }
     },
     {
       path: '/playlists/:playlist_id',
       name: 'Playlist',
-      component: PagePlaylist
+      component: PagePlaylist,
+      meta: { show_progress: true }
     },
     {
       path: '/playlists/:playlist_id/tracks',
