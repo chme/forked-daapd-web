@@ -10,6 +10,7 @@ import PageAlbum from '@/pages/PageAlbum'
 import PagePlaylists from '@/pages/PagePlaylists'
 import PagePlaylist from '@/pages/PagePlaylist'
 import PageSearch from '@/pages/PageSearch'
+import PageAbout from '@/pages/PageAbout'
 import SpotifyPageBrowse from '@/pages/SpotifyPageBrowse'
 import SpotifyPageArtist from '@/pages/SpotifyPageArtist'
 import SpotifyPageAlbum from '@/pages/SpotifyPageAlbum'
@@ -24,6 +25,11 @@ export const router = new VueRouter({
       path: '/',
       name: 'PageQueue',
       component: PageQueue
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: PageAbout
     },
     {
       path: '/now-playing',

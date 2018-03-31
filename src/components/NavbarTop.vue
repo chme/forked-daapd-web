@@ -81,12 +81,12 @@
             <a class="navbar-item" v-on:click="update">Update library</a>
             <a class="navbar-item" href="/admin.html">Admin</a>
             <hr class="navbar-divider">
-            <a class="navbar-item" v-on:click="show_connection_modal">
+            <router-link to="/about" class="navbar-item" active-class="is-active">
               <div>
                 <p class="title is-7">forked-daapd</p>
                 <p class="subtitle is-7">{{ config.version }}</p>
               </div>
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -137,9 +137,6 @@ export default {
   methods: {
     update_show_burger_menu: function () {
       this.$store.commit(types.SHOW_BURGER_MENU, !this.show_burger_menu)
-    },
-    show_connection_modal: function () {
-      this.$store.commit(types.SHOW_CONNECTION_MODAL, true)
     },
 
     update: function () {

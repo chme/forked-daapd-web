@@ -5,7 +5,6 @@
     <transition name="fade">
       <router-view v-show="!show_burger_menu" />
     </transition>
-    <modal-connection />
     <notifications v-show="!show_burger_menu" />
     <navbar-bottom v-show="!show_burger_menu" />
   </div>
@@ -14,7 +13,6 @@
 <script>
 import NavbarTop from '@/components/NavbarTop'
 import NavbarBottom from '@/components/NavbarBottom'
-import ModalConnection from '@/components/ModalConnection'
 import Notifications from '@/components/Notifications'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
@@ -22,7 +20,7 @@ import ReconnectingWebSocket from 'reconnectingwebsocket'
 
 export default {
   name: 'App',
-  components: { NavbarTop, NavbarBottom, Notifications, ModalConnection },
+  components: { NavbarTop, NavbarBottom, Notifications },
   template: '<App/>',
 
   data () {
@@ -30,9 +28,6 @@ export default {
   },
 
   computed: {
-    show_connection_modal () {
-      return this.$store.state.show_connection_modal
-    },
     show_burger_menu () {
       return this.$store.state.show_burger_menu
     }
@@ -69,7 +64,6 @@ export default {
       this.$store.dispatch('add_notification', { text: 'Connecting to forked-daapd', type: 'info', topic: 'connection', timeout: 2000 })
 
       webapi.config().then(({ data }) => {
-        this.$store.commit(types.SHOW_CONNECTION_MODAL, false)
         this.$store.commit(types.UPDATE_CONFIG, data)
         this.$store.commit(types.HIDE_SINGLES, data.hide_singles)
         document.title = data.library_name
@@ -78,7 +72,6 @@ export default {
         this.$Progress.finish()
       }).catch(() => {
         this.$store.dispatch('add_notification', { text: 'Failed to connect to forked-daapd', type: 'danger', topic: 'connection' })
-        this.$store.commit(types.SHOW_CONNECTION_MODAL, true)
       })
     },
 
@@ -97,7 +90,6 @@ export default {
       )
 
       socket.onopen = function () {
-        vm.$store.commit(types.SHOW_CONNECTION_MODAL, false)
         vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', topic: 'connection', timeout: 2000 })
         socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
 
