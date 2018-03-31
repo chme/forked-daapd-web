@@ -1,6 +1,7 @@
 
 .slider {
-  width: 250px;
+  min-width: 250px;
+  width: 100%;
 }
 .range-slider-fill {
   background-color: #000;
@@ -8,6 +9,15 @@
 
 a.navbar-item {
   outline: 0;
+}
+
+.fd-expanded {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.fd-margin-left-auto {
+  margin-left: auto;
 }
 
 .fd-has-action {

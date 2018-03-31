@@ -1,12 +1,12 @@
 <template>
   <div class="navbar-item">
     <div class="level is-mobile">
-      <div class="level-left">
-        <div class="level-item">
+      <div class="level-left fd-expanded">
+        <div class="level-item" style="flex-grow: 0;">
           <span class="icon fd-has-action" :class="{ 'has-text-grey-light': !output.selected }" v-on:click="set_enabled"><i class="mdi mdi-18px" v-bind:class="type_class"></i></span>
         </div>
-        <div class="level-item">
-          <div>
+        <div class="level-item fd-expanded">
+          <div class="fd-expanded">
             <p class="heading" :class="{ 'has-text-grey-light': !output.selected }">{{ output.name }}</p>
             <range-slider
               class="slider"

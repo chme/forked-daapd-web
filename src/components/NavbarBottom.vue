@@ -40,11 +40,4 @@ export default {
 </script>
 
 <style>
-.fd-expanded {
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-.fd-margin-left-auto {
-  margin-left: auto;
-}
 </style>

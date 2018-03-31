@@ -28,12 +28,12 @@
           <div class="navbar-dropdown is-right">
             <div class="navbar-item">
               <div class="level is-mobile">
-                <div class="level-left">
-                  <div class="level-item">
+                <div class="level-left fd-expanded">
+                  <div class="level-item" style="flex-grow: 0;">
                     <span class="icon"><i class="mdi mdi-18px mdi-volume-high"></i></span>
                   </div>
-                  <div class="level-item">
-                    <div>
+                  <div class="level-item fd-expanded">
+                    <div class="fd-expanded">
                       <p class="heading">Volume</p>
                       <range-slider
                         class="slider"
