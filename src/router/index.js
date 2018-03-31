@@ -55,12 +55,14 @@ export const router = new VueRouter({
     {
       path: '/music/albums',
       name: 'Albums',
-      component: PageAlbums
+      component: PageAlbums,
+      meta: { show_progress: true }
     },
     {
       path: '/music/albums/:album_id',
       name: 'Album',
-      component: PageAlbum
+      component: PageAlbum,
+      meta: { show_progress: true }
     },
     {
       path: '/music/tracks',

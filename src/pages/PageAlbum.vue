@@ -30,6 +30,20 @@
 import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
+const albumData = {
+  load: function (to) {
+    return Promise.all([
+      webapi.library_album(to.params.album_id),
+      webapi.library_album_tracks(to.params.album_id)
+    ])
+  },
+
+  set: function (vm, response) {
+    vm.album = response[0].data
+    vm.tracks = response[1].data.items
+  }
+}
+
 export default {
   name: 'PageAlbum',
   components: { ListItemTrack },
@@ -57,14 +71,17 @@ export default {
     }
   },
 
-  created: function () {
-    this.load(this.$route.params.album_id)
+  beforeRouteEnter (to, from, next) {
+    albumData.load(to).then((response) => {
+      next(vm => albumData.set(vm, response))
+    })
   },
-
-  watch: {
-    '$route' (to, from) {
-      this.load(to.params.album_id)
-    }
+  beforeRouteUpdate (to, from, next) {
+    const vm = this
+    albumData.load(to).then((response) => {
+      albumData.set(vm, response)
+      next()
+    })
   }
 }
 </script>

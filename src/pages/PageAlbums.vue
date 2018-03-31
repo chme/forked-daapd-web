@@ -36,6 +36,16 @@ import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
+const albumsData = {
+  load: function (to) {
+    return webapi.library_albums()
+  },
+
+  set: function (vm, response) {
+    vm.albums = response.data
+  }
+}
+
 export default {
   name: 'PageAlbums',
   components: { TabsMusic, ListItemAlbum },
@@ -53,25 +63,22 @@ export default {
   },
 
   methods: {
-    library_albums: function (artistId) {
-      webapi.library_albums(artistId).then(({ data }) => {
-        this.albums = data
-      })
-    },
-
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
     }
   },
 
-  created: function () {
-    this.library_albums(this.$route.params.artist_id)
+  beforeRouteEnter (to, from, next) {
+    albumsData.load(to).then((response) => {
+      next(vm => albumsData.set(vm, response))
+    })
   },
-
-  watch: {
-    '$route' (to, from) {
-      this.library_albums(to.params.artist_id)
-    }
+  beforeRouteUpdate (to, from, next) {
+    const vm = this
+    albumsData.load(to).then((response) => {
+      albumsData.set(vm, response)
+      next()
+    })
   }
 }
 </script>
