@@ -7,7 +7,6 @@ import PageArtists from '@/pages/PageArtists'
 import PageArtist from '@/pages/PageArtist'
 import PageAlbums from '@/pages/PageAlbums'
 import PageAlbum from '@/pages/PageAlbum'
-import PageTracks from '@/pages/PageTracks'
 import PagePlaylists from '@/pages/PagePlaylists'
 import PagePlaylist from '@/pages/PagePlaylist'
 import PageSearch from '@/pages/PageSearch'
@@ -65,11 +64,6 @@ export const router = new VueRouter({
       meta: { show_progress: true }
     },
     {
-      path: '/music/tracks',
-      name: 'Tracks',
-      component: PageTracks
-    },
-    {
       path: '/playlists',
       name: 'Playlists',
       component: PagePlaylists,
@@ -80,11 +74,6 @@ export const router = new VueRouter({
       name: 'Playlist',
       component: PagePlaylist,
       meta: { show_progress: true }
-    },
-    {
-      path: '/playlists/:playlist_id/tracks',
-      name: 'Playlists Tracks',
-      component: PageTracks
     },
     {
       path: '/search',
