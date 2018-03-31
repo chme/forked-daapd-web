@@ -20,6 +20,7 @@
     "spotify-web-api-js": "^0.23.0",
     "vue": "^2.5.16",
     "vue-infinite-loading": "^2.2.3",
+    "vue-progressbar": "^0.7.4",
     "vue-range-slider": "^0.3.2",
     "vue-router": "^3.0.1",
     "vue2-touch-events": "^1.0.0",
