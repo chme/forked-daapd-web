@@ -3,7 +3,7 @@
     <tabs-music></tabs-music>
 
     <!-- Recently added -->
-    <section class="section" v-if="recently_added.items">
+    <section class="section">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-four-fifths">
@@ -23,7 +23,7 @@
               </div>
             </nav>
             <list-item-album v-for="album in recently_added.items" :key="album.id" :album="album"></list-item-album>
-            <nav v-if="show_more_recently_added_button" class="level" style="margin-top: 16px;">
+            <nav class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_browse('recently_added')">Show more</a>
               </p>
@@ -34,7 +34,7 @@
     </section>
 
     <!-- Recently played -->
-    <section class="section" v-if="recently_played.items">
+    <section class="section">
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-four-fifths">
@@ -54,7 +54,7 @@
               </div>
             </nav>
             <list-item-track v-for="track in recently_played.items" :key="track.id" :track="track" :position="0" :context_uri="track.uri"></list-item-track>
-            <nav v-if="show_more_recently_played_button" class="level" style="margin-top: 16px;">
+            <nav class="level" style="margin-top: 16px;">
               <p class="level-item">
                 <a class="button is-light is-small is-rounded" v-on:click="open_browse('recently_played')">Show more</a>
               </p>
@@ -67,68 +67,41 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
+const browseData = {
+  load: function (to) {
+    return Promise.all([
+      webapi.search({ type: 'album', expression: 'time_added after 8 weeks ago having track_count > 3 order by time_added desc', limit: 3 }),
+      webapi.search({ type: 'track', expression: 'time_played after 8 weeks ago order by time_played desc', limit: 3 })
+    ])
+  },
+
+  set: function (vm, response) {
+    vm.recently_added = response[0].data.albums
+    vm.recently_played = response[1].data.tracks
+  }
+}
+
 export default {
   name: 'PageBrowse',
+  mixins: [ LoadDataBeforeEnterMixin(browseData) ],
   components: { TabsMusic, ListItemAlbum, ListItemTrack },
 
   data () {
     return {
       recently_added: {},
-      recently_played: {},
-
-      show_more_recently_added_button: false,
-      show_more_recently_played_button: false
+      recently_played: {}
     }
   },
 
   methods: {
-    load: function (type) {
-      this.recently_added = {}
-      this.recently_played = {}
-
-      if (type === 'recently_added') {
-        this.load_recently_added(50)
-        this.show_more_recently_added_button = false
-      } else if (type === 'recently_played') {
-        this.load_recently_played(50)
-        this.show_more_recently_played_button = false
-      } else {
-        this.load_recently_added(3)
-        this.show_more_recently_added_button = true
-        this.load_recently_played(3)
-        this.show_more_recently_played_button = true
-      }
-    },
-
-    load_recently_added: function (maxResults) {
-      webapi.search({ type: 'album', expression: 'time_added after 4 weeks ago having track_count > 3 order by time_added desc', limit: maxResults }).then(({ data }) => {
-        this.recently_added = data.albums
-      })
-    },
-
-    load_recently_played: function (maxResults) {
-      webapi.search({ type: 'track', expression: 'time_played after 4 weeks ago order by time_played desc', limit: maxResults }).then(({ data }) => {
-        this.recently_played = data.tracks
-      })
-    },
-
     open_browse: function (type) {
-      this.$router.push({ path: '/music?type=' + type })
-    }
-  },
-
-  created: function () {
-    this.load(this.$route.query.type)
-  },
-
-  watch: {
-    '$route' (to, from) {
-      this.load(to.query.type)
+      this.$router.push({ path: '/music/browse/' + type })
     }
   }
 }
