@@ -2,43 +2,29 @@
   <div>
     <tabs-music></tabs-music>
 
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Artists</p>
-                    <p class="heading">{{ artists.total }} artists</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-                <div class="level-item">
-                  <a class="button is-small" :class="{ 'is-info': hide_singles }" @click="update_hide_singles">
-                    <span class="icon">
-                      <i class="mdi mdi-numeric-1-box-multiple-outline"></i>
-                    </span>
-                    <span>Hide singles</span>
-                  </a>
-                </div>
-              </div>
-            </nav>
-            <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > (artist.album_count * 2)"></list-item-artist>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading>
+      <template slot="heading-left">
+        <p class="title is-4">Artists</p>
+        <p class="heading">{{ artists.total }} artists</p>
+      </template>
+      <template slot="heading-right">
+        <a class="button is-small" :class="{ 'is-info': hide_singles }" @click="update_hide_singles">
+          <span class="icon">
+            <i class="mdi mdi-numeric-1-box-multiple-outline"></i>
+          </span>
+          <span>Hide singles</span>
+        </a>
+      </template>
+      <template slot="content">
+        <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > (artist.album_count * 2)"></list-item-artist>
+      </template>
+    </content-with-heading>
   </div>
 </template>
 
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemArtist from '@/components/ListItemArtist'
 import webapi from '@/webapi'
@@ -57,7 +43,7 @@ const artistsData = {
 export default {
   name: 'PageArtists',
   mixins: [ LoadDataBeforeEnterMixin(artistsData) ],
-  components: { TabsMusic, ListItemArtist },
+  components: { ContentWithHeading, TabsMusic, ListItemArtist },
 
   data () {
     return {

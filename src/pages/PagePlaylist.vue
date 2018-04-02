@@ -1,40 +1,26 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <div class="title is-4">{{ playlist.name }}</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right side -->
-            <div class="level-right">
-              <div class="level-item">
-                <a class="button is-small is-dark is-rounded" @click="play">
-                  <span class="icon">
-                    <i class="mdi mdi-play"></i>
-                  </span>
-                  <span>Play</span>
-                </a>
-              </div>
-            </div>
-          </nav>
-          <p class="heading has-text-centered-mobile">tracks</p>
-          <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="playlist.uri"></list-item-track>
-        </div>
-      </div>
-    </div>
-  </section>
+  <content-with-heading>
+    <template slot="heading-left">
+      <div class="title is-4">{{ playlist.name }}</div>
+    </template>
+    <template slot="heading-right">
+      <a class="button is-small is-dark is-rounded" @click="play">
+        <span class="icon">
+          <i class="mdi mdi-play"></i>
+        </span>
+        <span>Play</span>
+      </a>
+    </template>
+    <template slot="content">
+      <p class="heading has-text-centered-mobile">{{ tracks.length }} tracks</p>
+      <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="playlist.uri"></list-item-track>
+    </template>
+  </content-with-heading>
 </template>
 
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
@@ -55,7 +41,7 @@ const playlistData = {
 export default {
   name: 'PagePlaylist',
   mixins: [ LoadDataBeforeEnterMixin(playlistData) ],
-  components: { ListItemTrack },
+  components: { ContentWithHeading, ListItemTrack },
 
   data () {
     return {

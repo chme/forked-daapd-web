@@ -2,36 +2,21 @@
   <div>
     <tabs-music></tabs-music>
 
-    <!-- Recently added -->
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Recently added</p>
-                    <p class="heading">albums</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-              </div>
-            </nav>
-            <list-item-album v-for="album in recently_added.items" :key="album.id" :album="album"></list-item-album>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading>
+      <template slot="heading-left">
+        <p class="title is-4">Recently added</p>
+        <p class="heading">albums</p>
+      </template>
+      <template slot="content">
+        <list-item-album v-for="album in recently_added.items" :key="album.id" :album="album"></list-item-album>
+      </template>
+    </content-with-heading>
   </div>
 </template>
 
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
@@ -53,7 +38,7 @@ const browseData = {
 export default {
   name: 'PageBrowseType',
   mixins: [ LoadDataBeforeEnterMixin(browseData) ],
-  components: { TabsMusic, ListItemAlbum },
+  components: { ContentWithHeading, TabsMusic, ListItemAlbum },
 
   data () {
     return {

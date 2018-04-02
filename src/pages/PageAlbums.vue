@@ -2,43 +2,29 @@
   <div>
     <tabs-music></tabs-music>
 
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Albums</p>
-                    <p class="heading">{{ albums.total }} albums</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-                <div class="level-item">
-                  <a class="button is-small" :class="{ 'is-info': hide_singles }" @click="update_hide_singles">
-                    <span class="icon">
-                      <i class="mdi mdi-numeric-1-box-multiple-outline"></i>
-                    </span>
-                    <span>Hide singles</span>
-                  </a>
-                </div>
-              </div>
-            </nav>
-            <list-item-album v-for="album in albums.items" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 2"></list-item-album>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading>
+      <template slot="heading-left">
+        <p class="title is-4">Albums</p>
+        <p class="heading">{{ albums.total }} albums</p>
+      </template>
+      <template slot="heading-right">
+        <a class="button is-small" :class="{ 'is-info': hide_singles }" @click="update_hide_singles">
+          <span class="icon">
+            <i class="mdi mdi-numeric-1-box-multiple-outline"></i>
+          </span>
+          <span>Hide singles</span>
+        </a>
+      </template>
+      <template slot="content">
+        <list-item-album v-for="album in albums.items" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 2"></list-item-album>
+      </template>
+    </content-with-heading>
   </div>
 </template>
 
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
@@ -57,7 +43,7 @@ const albumsData = {
 export default {
   name: 'PageAlbums',
   mixins: [ LoadDataBeforeEnterMixin(albumsData) ],
-  components: { TabsMusic, ListItemAlbum },
+  components: { ContentWithHeading, TabsMusic, ListItemAlbum },
 
   data () {
     return {

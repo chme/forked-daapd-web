@@ -1,67 +1,53 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <p class="heading">{{ queue.count }} songs</p>
-                  <p class="title is-4">Queue</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right side -->
-            <div class="level-right">
-              <div class="level-item">
-                <div class="buttons is-centered">
-                  <a class="button is-small" :class="{ 'is-info': show_only_next_items }" @click="update_show_next_items">
-                    <span class="icon">
-                      <i class="mdi mdi-arrow-collapse-down"></i>
-                    </span>
-                    <span>Hide previous</span>
-                  </a>
-                  <!--
-                  <a class="button" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
-                    <span class="icon">
-                      <i class="mdi mdi-content-save"></i>
-                    </span>
-                    <span>Save</span>
-                  </a>
-                  -->
-                  <a class="button is-small" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
-                    <span class="icon">
-                      <i class="mdi mdi-pencil"></i>
-                    </span>
-                    <span>Edit</span>
-                  </a>
-                  <a class="button is-small" @click="queue_clear">
-                    <span class="icon">
-                      <i class="mdi mdi-delete-empty"></i>
-                    </span>
-                    <span>Clear</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </nav>
-          <draggable v-model="queue_items" :options="{handle:'.handle'}"  @end="move_item">
-            <list-item-queue-item v-for="(item, index) in queue_items"
-              :key="item.id" :item="item" :position="index"
-              :current_position="current_position"
-              :show_only_next_items="show_only_next_items"
-              :edit_mode="edit_mode"></list-item-queue-item>
-          </draggable>
-        </div>
+  <content-with-heading>
+    <template slot="heading-left">
+      <p class="heading">{{ queue.count }} songs</p>
+      <p class="title is-4">Queue</p>
+    </template>
+    <template slot="heading-right">
+      <div class="buttons is-centered">
+        <a class="button is-small" :class="{ 'is-info': show_only_next_items }" @click="update_show_next_items">
+          <span class="icon">
+            <i class="mdi mdi-arrow-collapse-down"></i>
+          </span>
+          <span>Hide previous</span>
+        </a>
+        <!--
+        <a class="button" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
+          <span class="icon">
+            <i class="mdi mdi-content-save"></i>
+          </span>
+          <span>Save</span>
+        </a>
+        -->
+        <a class="button is-small" :class="{ 'is-info': edit_mode }" @click="edit_mode = !edit_mode">
+          <span class="icon">
+            <i class="mdi mdi-pencil"></i>
+          </span>
+          <span>Edit</span>
+        </a>
+        <a class="button is-small" @click="queue_clear">
+          <span class="icon">
+            <i class="mdi mdi-delete-empty"></i>
+          </span>
+          <span>Clear</span>
+        </a>
       </div>
-    </div>
-  </section>
+    </template>
+    <template slot="content">
+      <draggable v-model="queue_items" :options="{handle:'.handle'}"  @end="move_item">
+        <list-item-queue-item v-for="(item, index) in queue_items"
+          :key="item.id" :item="item" :position="index"
+          :current_position="current_position"
+          :show_only_next_items="show_only_next_items"
+          :edit_mode="edit_mode"></list-item-queue-item>
+      </draggable>
+    </template>
+  </content-with-heading>
 </template>
 
 <script>
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import ListItemQueueItem from '@/components/ListItemQueueItem'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
@@ -69,7 +55,7 @@ import draggable from 'vuedraggable'
 
 export default {
   name: 'PageQueue',
-  components: { ListItemQueueItem, draggable },
+  components: { ContentWithHeading, ListItemQueueItem, draggable },
 
   data () {
     return {
