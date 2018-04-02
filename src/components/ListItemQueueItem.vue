@@ -13,70 +13,68 @@
       <a v-on:click="remove" v-if="item.id !== state.item_id && edit_mode">
         <span class="icon has-text-grey"><i class="mdi mdi-delete mdi-18px"></i></span>
       </a>
-      <a @click="show_details" v-if="!edit_mode">
+      <a @click="show_details_modal = true">
         <span class="icon has-text-dark"><i class="mdi mdi-dots-vertical mdi-18px"></i></span>
       </a>
-      <transition name="fade">
-        <div class="modal is-active" v-if="show_details_modal">
-          <div class="modal-background" @click="hide_details"></div>
-          <div class="modal-content">
-            <div class="card">
-              <div class="card-content">
-                <p class="title is-4">
-                  {{ item.title }}
+      <modal-dialog v-if="!edit_mode" :show="show_details_modal" @close="show_details_modal = false">
+        <template slot="modal-content">
+          <div class="card">
+            <div class="card-content">
+              <p class="title is-4">
+                {{ item.title }}
+              </p>
+              <p class="subtitle">
+                {{ item.artist }}
+              </p>
+              <div class="content is-small">
+                <p>
+                  <span class="heading">Album</span>
+                  <span class="title is-6">{{ item.album }}</span>
                 </p>
-                <p class="subtitle">
-                  {{ item.artist }}
+                <p>
+                  <span class="heading">Album artist</span>
+                  <span class="title is-6">{{ item.album_artist }}</span>
                 </p>
-                <div class="content is-small">
-                  <p>
-                    <span class="heading">Album</span>
-                    <span class="title is-6">{{ item.album }}</span>
-                  </p>
-                  <p>
-                    <span class="heading">Album artist</span>
-                    <span class="title is-6">{{ item.album_artist }}</span>
-                  </p>
-                  <p v-if="item.year > 0">
-                    <span class="heading">Year</span>
-                    <span class="title is-6">{{ item.year }}</span>
-                  </p>
-                  <p>
-                    <span class="heading">Genre</span>
-                    <span class="title is-6">{{ item.genre }}</span>
-                  </p>
-                  <p>
-                    <span class="heading">Track / Disc</span>
-                    <span class="title is-6">{{ item.track_number }} / {{ item.disc_number }}</span>
-                  </p>
-                  <p>
-                    <span class="heading">Path</span>
-                    <span class="title is-6">{{ item.path }}</span>
-                  </p>
-                </div>
+                <p v-if="item.year > 0">
+                  <span class="heading">Year</span>
+                  <span class="title is-6">{{ item.year }}</span>
+                </p>
+                <p>
+                  <span class="heading">Genre</span>
+                  <span class="title is-6">{{ item.genre }}</span>
+                </p>
+                <p>
+                  <span class="heading">Track / Disc</span>
+                  <span class="title is-6">{{ item.track_number }} / {{ item.disc_number }}</span>
+                </p>
+                <p>
+                  <span class="heading">Path</span>
+                  <span class="title is-6">{{ item.path }}</span>
+                </p>
               </div>
-              <footer class="card-footer">
-                <a class="card-footer-item has-text-dark" @click="remove">
-                  <span class="icon"><i class="mdi mdi-delete mdi-18px"></i></span> <span>Remove</span>
-                </a>
-                <a class="card-footer-item has-text-dark" @click="play">
-                  <span class="icon"><i class="mdi mdi-play mdi-18px"></i></span> <span>Play</span>
-                </a>
-              </footer>
             </div>
+            <footer class="card-footer">
+              <a class="card-footer-item has-text-dark" @click="remove">
+                <span class="icon"><i class="mdi mdi-delete mdi-18px"></i></span> <span>Remove</span>
+              </a>
+              <a class="card-footer-item has-text-dark" @click="play">
+                <span class="icon"><i class="mdi mdi-play mdi-18px"></i></span> <span>Play</span>
+              </a>
+            </footer>
           </div>
-          <button class="modal-close is-large" aria-label="close" @click="hide_details"></button>
-        </div>
-      </transition>
+        </template>
+      </modal-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import ModalDialog from '@/components/ModalDialog'
 import webapi from '@/webapi'
 
 export default {
   name: 'PartQueueItem',
+  components: { ModalDialog },
 
   props: ['item', 'position', 'current_position', 'show_only_next_items', 'edit_mode'],
 
@@ -98,21 +96,13 @@ export default {
 
   methods: {
     remove: function () {
+      this.show_details_modal = false
       webapi.queue_remove(this.item.id)
-      this.hide_details()
     },
 
     play: function () {
-      webapi.player_playid(this.item.id)
-      this.hide_details()
-    },
-
-    show_details: function () {
-      this.show_details_modal = true
-    },
-
-    hide_details: function () {
       this.show_details_modal = false
+      webapi.player_playid(this.item.id)
     }
   }
 }
