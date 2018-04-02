@@ -91,12 +91,13 @@ export default {
 
       socket.onopen = function () {
         vm.$store.dispatch('add_notification', { text: 'Connection to server established', type: 'primary', topic: 'connection', timeout: 2000 })
-        socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume'] }))
+        socket.send(JSON.stringify({ notify: ['update', 'player', 'options', 'outputs', 'volume', 'spotify'] }))
 
         vm.update_outputs()
         vm.update_player_status()
         vm.update_library_stats()
         vm.update_queue()
+        vm.update_spotify()
       }
       socket.onclose = function () {
         // vm.$store.dispatch('add_notification', { text: 'Connection closed', type: 'danger', timeout: 2000 })
@@ -117,6 +118,9 @@ export default {
         }
         if (data.notify.includes('queue')) {
           vm.update_queue()
+        }
+        if (data.notify.includes('spotify')) {
+          vm.update_spotify()
         }
       }
     },
@@ -142,6 +146,12 @@ export default {
     update_queue: function () {
       webapi.queue().then(({ data }) => {
         this.$store.commit(types.UPDATE_QUEUE, data)
+      })
+    },
+
+    update_spotify: function () {
+      webapi.spotify().then(({ data }) => {
+        this.$store.commit(types.UPDATE_SPOTIFY, data)
       })
     }
   },

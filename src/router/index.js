@@ -14,6 +14,8 @@ import PagePlaylist from '@/pages/PagePlaylist'
 import PageSearch from '@/pages/PageSearch'
 import PageAbout from '@/pages/PageAbout'
 import SpotifyPageBrowse from '@/pages/SpotifyPageBrowse'
+import SpotifyPageBrowseNewReleases from '@/pages/SpotifyPageBrowseNewReleases'
+import SpotifyPageBrowseFeaturedPlaylists from '@/pages/SpotifyPageBrowseFeaturedPlaylists'
 import SpotifyPageArtist from '@/pages/SpotifyPageArtist'
 import SpotifyPageAlbum from '@/pages/SpotifyPageAlbum'
 import SpotifyPagePlaylist from '@/pages/SpotifyPagePlaylist'
@@ -108,9 +110,14 @@ export const router = new VueRouter({
       component: SpotifyPageBrowse
     },
     {
-      path: '/music/spotify/:type',
-      name: 'Spotify Browse',
-      component: SpotifyPageBrowse
+      path: '/music/spotify/new-releases',
+      name: 'Spotify Browse New Releases',
+      component: SpotifyPageBrowseNewReleases
+    },
+    {
+      path: '/music/spotify/featured-playlists',
+      name: 'Spotify Browse Featured Playlists',
+      component: SpotifyPageBrowseFeaturedPlaylists
     },
     {
       path: '/music/spotify/artists/:artist_id',

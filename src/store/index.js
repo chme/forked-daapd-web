@@ -34,17 +34,10 @@ export default new Vuex.Store({
       'count': 0,
       'items': [ ]
     },
+    spotify: {},
 
-    spotify_new_releases: {
-      'albums': {
-        'items': []
-      }
-    },
-    spotify_featured_playlists: {
-      'playlists': {
-        'items': []
-      }
-    },
+    spotify_new_releases: [],
+    spotify_featured_playlists: [],
 
     notifications: {
       'next_id': 1,
@@ -81,6 +74,9 @@ export default new Vuex.Store({
     },
     [types.UPDATE_QUEUE] (state, queue) {
       state.queue = queue
+    },
+    [types.UPDATE_SPOTIFY] (state, spotify) {
+      state.spotify = spotify
     },
     [types.SPOTIFY_NEW_RELEASES] (state, newReleases) {
       state.spotify_new_releases = newReleases
