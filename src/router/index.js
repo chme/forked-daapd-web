@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
+import * as types from '@/store/mutation_types'
 import PageQueue from '@/pages/PageQueue'
 import PageNowPlaying from '@/pages/PageNowPlaying'
 import PageBrowse from '@/pages/PageBrowse'
@@ -143,5 +145,10 @@ export const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  next()
+  if (store.state.show_burger_menu) {
+    store.commit(types.SHOW_BURGER_MENU, false)
+    next(false)
+  } else {
+    next()
+  }
 })
