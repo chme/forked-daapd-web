@@ -1,5 +1,5 @@
 <template>
-  <section class="section fd-tabs-section">
+  <section class="section fd-tabs-section" v-if="spotify_enabled">
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-four-fifths">
@@ -29,7 +29,11 @@
 export default {
   name: 'TabsSearch',
 
-  methods: { }
+  computed: {
+    spotify_enabled () {
+      return this.$store.state.spotify.webapi_token_valid
+    }
+  }
 }
 </script>
 

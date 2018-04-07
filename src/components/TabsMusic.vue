@@ -23,7 +23,7 @@
                   <span class="">Albums</span>
                 </a>
               </router-link>
-              <router-link tag="li" to="/music/spotify" active-class="is-active">
+              <router-link tag="li" to="/music/spotify" v-if="spotify_enabled" active-class="is-active">
                 <a>
                   <span class="icon is-small"><i class="mdi mdi-spotify"></i></span>
                   <span class="">Spotify</span>
@@ -41,7 +41,11 @@
 export default {
   name: 'TabsMusic',
 
-  methods: { }
+  computed: {
+    spotify_enabled () {
+      return this.$store.state.spotify.webapi_token_valid
+    }
+  }
 }
 </script>
 
