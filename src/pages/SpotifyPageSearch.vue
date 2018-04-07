@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Heading -->
+    <!-- Search field + recent searches -->
     <section class="section fd-tabs-section">
       <div class="container">
         <div class="columns is-centered">
@@ -26,120 +26,85 @@
     <tabs-search></tabs-search>
 
     <!-- Tracks -->
-    <section class="section" v-if="show_tracks">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Tracks</p>
-                  </div>
-                </div>
-              </div>
-            </nav>
-            <spotify-list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :album="track.album" :position="0" :context_uri="track.uri"></spotify-list-item-track>
-            <infinite-loading v-if="query.type === 'track'" @infinite="search_tracks_next"><span slot="no-more">.</span></infinite-loading>
-            <nav v-if="show_all_tracks_button" class="level" style="margin-top: 16px;">
-              <p class="level-item">
-                <a class="button is-light is-small is-rounded" v-on:click="open_search_tracks">Show all {{ tracks.total }} tracks</a>
-              </p>
-            </nav>
-            <p v-if="!tracks.total">No results</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading v-if="show_tracks">
+      <template slot="heading-left">
+        <p class="title is-4">Tracks</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-track v-for="track in tracks.items" :key="track.id" :track="track" :album="track.album" :position="0" :context_uri="track.uri"></spotify-list-item-track>
+        <infinite-loading v-if="query.type === 'track'" @infinite="search_tracks_next"><span slot="no-more">.</span></infinite-loading>
+      </template>
+      <template slot="footer">
+        <nav v-if="show_all_tracks_button" class="level">
+          <p class="level-item">
+            <a class="button is-light is-small is-rounded" v-on:click="open_search_tracks">Show all {{ tracks.total }} tracks</a>
+          </p>
+        </nav>
+        <p v-if="!tracks.total">No results</p>
+      </template>
+    </content-with-heading>
 
     <!-- Artists -->
-    <section class="section" v-if="show_artists">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Artists</p>
-                  </div>
-                </div>
-              </div>
-            </nav>
-            <spotify-list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></spotify-list-item-artist>
-            <infinite-loading v-if="query.type === 'artist'" @infinite="search_artists_next"><span slot="no-more">.</span></infinite-loading>
-            <nav v-if="show_all_artists_button" class="level" style="margin-top: 16px;">
-              <p class="level-item">
-                <a class="button is-light is-small is-rounded" v-on:click="open_search_artists">Show all {{ artists.total }} artists</a>
-              </p>
-            </nav>
-            <p v-if="!artists.total">No results</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading v-if="show_artists">
+      <template slot="heading-left">
+        <p class="title is-4">Artists</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist"></spotify-list-item-artist>
+        <infinite-loading v-if="query.type === 'artist'" @infinite="search_artists_next"><span slot="no-more">.</span></infinite-loading>
+      </template>
+      <template slot="footer">
+        <nav v-if="show_all_artists_button" class="level">
+          <p class="level-item">
+            <a class="button is-light is-small is-rounded" v-on:click="open_search_artists">Show all {{ artists.total }} artists</a>
+          </p>
+        </nav>
+        <p v-if="!artists.total">No results</p>
+      </template>
+    </content-with-heading>
 
     <!-- Albums -->
-    <section class="section" v-if="show_albums">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Albums</p>
-                  </div>
-                </div>
-              </div>
-            </nav>
-            <spotify-list-item-album v-for="album in albums.items" :key="album.id" :album="album"></spotify-list-item-album>
-            <infinite-loading v-if="query.type === 'album'" @infinite="search_albums_next"><span slot="no-more">.</span></infinite-loading>
-            <nav v-if="show_all_albums_button" class="level" style="margin-top: 16px;">
-              <p class="level-item">
-                <a class="button is-light is-small is-rounded" v-on:click="open_search_albums">Show all {{ albums.total }} albums</a>
-              </p>
-            </nav>
-            <p v-if="!albums.total">No results</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading v-if="show_albums">
+      <template slot="heading-left">
+        <p class="title is-4">Albums</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-album v-for="album in albums.items" :key="album.id" :album="album"></spotify-list-item-album>
+        <infinite-loading v-if="query.type === 'album'" @infinite="search_albums_next"><span slot="no-more">.</span></infinite-loading>
+      </template>
+      <template slot="footer">
+        <nav v-if="show_all_albums_button" class="level">
+          <p class="level-item">
+            <a class="button is-light is-small is-rounded" v-on:click="open_search_albums">Show all {{ albums.total }} albums</a>
+          </p>
+        </nav>
+        <p v-if="!albums.total">No results</p>
+      </template>
+    </content-with-heading>
 
     <!-- Playlists -->
-    <section class="section" v-if="show_playlists">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Playlists</p>
-                  </div>
-                </div>
-              </div>
-            </nav>
-            <spotify-list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
-            <infinite-loading v-if="query.type === 'playlist'" @infinite="search_playlists_next"><span slot="no-more">.</span></infinite-loading>
-            <nav v-if="show_all_playlists_button" class="level" style="margin-top: 16px;">
-              <p class="level-item">
-                <a class="button is-light is-small is-rounded" v-on:click="open_search_playlists">Show all {{ playlists.total }} playlists</a>
-              </p>
-            </nav>
-            <p v-if="!playlists.total">No results</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading v-if="show_playlists">
+      <template slot="heading-left">
+        <p class="title is-4">Playlists</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-playlist v-for="playlist in playlists.items" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
+        <infinite-loading v-if="query.type === 'playlist'" @infinite="search_playlists_next"><span slot="no-more">.</span></infinite-loading>
+      </template>
+      <template slot="footer">
+        <nav v-if="show_all_playlists_button" class="level">
+          <p class="level-item">
+            <a class="button is-light is-small is-rounded" v-on:click="open_search_playlists">Show all {{ playlists.total }} playlists</a>
+          </p>
+        </nav>
+        <p v-if="!playlists.total">No results</p>
+      </template>
+    </content-with-heading>
   </div>
 </template>
 
 <script>
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsSearch from '@/components/TabsSearch'
 import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
 import SpotifyListItemArtist from '@/components/SpotifyListItemArtist'
@@ -152,7 +117,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'SpotifyPageSearch',
-  components: { TabsSearch, SpotifyListItemTrack, SpotifyListItemArtist, SpotifyListItemAlbum, SpotifyListItemPlaylist, InfiniteLoading },
+  components: { ContentWithHeading, TabsSearch, SpotifyListItemTrack, SpotifyListItemArtist, SpotifyListItemAlbum, SpotifyListItemPlaylist, InfiniteLoading },
 
   data () {
     return {

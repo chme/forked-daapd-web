@@ -2,34 +2,20 @@
   <div>
     <tabs-music></tabs-music>
 
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Featured Playlists</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-              </div>
-            </nav>
-            <spotify-list-item-playlist v-for="playlist in featured_playlists" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
-          </div>
-        </div>
-      </div>
-    </section>
+    <content-with-heading>
+      <template slot="heading-left">
+        <p class="title is-4">Featured Playlists</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-playlist v-for="playlist in featured_playlists" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
+      </template>
+    </content-with-heading>
   </div>
 </template>
 
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
 import SpotifyListItemPlaylist from '@/components/SpotifyListItemPlaylist'
 import store from '@/store'
@@ -57,7 +43,7 @@ const browseData = {
 export default {
   name: 'SpotifyPageBrowseFeaturedPlaylists',
   mixins: [ LoadDataBeforeEnterMixin(browseData) ],
-  components: { TabsMusic, SpotifyListItemPlaylist },
+  components: { ContentWithHeading, TabsMusic, SpotifyListItemPlaylist },
 
   computed: {
     featured_playlists () {

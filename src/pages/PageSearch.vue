@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Heading -->
+    <!-- Search field + recent searches -->
     <section class="section fd-tabs-section">
       <div class="container">
         <div class="columns is-centered">

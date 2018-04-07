@@ -1,32 +1,18 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <p class="title is-4">{{ artist.name }}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right side -->
-            <div class="level-right">
-            </div>
-          </nav>
-          <p class="heading has-text-centered-mobile">{{ total }} albums</p>
-          <spotify-list-item-album v-for="album in albums" :key="album.id" :album="album"></spotify-list-item-album>
-          <infinite-loading @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
-        </div>
-      </div>
-    </div>
-  </section>
+  <content-with-heading>
+    <template slot="heading-left">
+      <p class="title is-4">{{ artist.name }}</p>
+    </template>
+    <template slot="content">
+      <p class="heading has-text-centered-mobile">{{ total }} albums</p>
+      <spotify-list-item-album v-for="album in albums" :key="album.id" :album="album"></spotify-list-item-album>
+      <infinite-loading @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
+    </template>
+  </content-with-heading>
 </template>
 
 <script>
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import SpotifyListItemAlbum from '@/components/SpotifyListItemAlbum'
 import webapi from '@/webapi'
 import SpotifyWebApi from 'spotify-web-api-js'
@@ -34,7 +20,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'SpotifyPageArtist',
-  components: { SpotifyListItemAlbum, InfiniteLoading },
+  components: { ContentWithHeading, SpotifyListItemAlbum, InfiniteLoading },
 
   data () {
     return {

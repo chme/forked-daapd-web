@@ -1,38 +1,24 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-four-fifths">
-          <nav class="level">
-            <!-- Left side -->
-            <div class="level-left">
-              <div class="level-item has-text-centered-mobile">
-                <div>
-                  <div class="title is-4">{{ playlist.name }}</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right side -->
-            <div class="level-right">
-            </div>
-          </nav>
-          <p class="heading has-text-centered-mobile">{{ playlist.tracks.total }} tracks</p>
-          <spotify-list-item-track v-for="(item, index) in tracks" :key="item.track.id" :track="item.track" :album="item.track.album" :position="index" :context_uri="playlist.uri"></spotify-list-item-track>
-        </div>
-      </div>
-    </div>
-  </section>
+  <content-with-heading>
+    <template slot="heading-left">
+      <div class="title is-4">{{ playlist.name }}</div>
+    </template>
+    <template slot="content">
+      <p class="heading has-text-centered-mobile">{{ playlist.tracks.total }} tracks</p>
+      <spotify-list-item-track v-for="(item, index) in tracks" :key="item.track.id" :track="item.track" :album="item.track.album" :position="index" :context_uri="playlist.uri"></spotify-list-item-track>
+    </template>
+  </content-with-heading>
 </template>
 
 <script>
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
 import webapi from '@/webapi'
 import SpotifyWebApi from 'spotify-web-api-js'
 
 export default {
   name: 'SpotifyPagePlaylist',
-  components: { SpotifyListItemTrack },
+  components: { ContentWithHeading, SpotifyListItemTrack },
 
   data () {
     return {

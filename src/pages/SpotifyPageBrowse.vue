@@ -2,72 +2,49 @@
   <div>
     <tabs-music></tabs-music>
 
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">New Releases</p>
-                  </div>
-                </div>
-              </div>
+    <!-- New Releases -->
+    <content-with-heading>
+      <template slot="heading-left">
+        <p class="title is-4">New Releases</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-album v-for="album in new_releases" :key="album.id" :album="album"></spotify-list-item-album>
+      </template>
+      <template slot="footer">
+        <nav class="level">
+          <p class="level-item">
+            <router-link to="/music/spotify/new-releases" class="button is-light is-small is-rounded">
+              Show more
+            </router-link>
+          </p>
+        </nav>
+      </template>
+    </content-with-heading>
 
-              <!-- Right side -->
-              <div class="level-right">
-              </div>
-            </nav>
-            <spotify-list-item-album v-for="album in new_releases" :key="album.id" :album="album"></spotify-list-item-album>
-            <nav class="level" style="margin-top: 16px;">
-              <p class="level-item">
-                <router-link to="/music/spotify/new-releases" class="button is-light is-small is-rounded">
-                  Show more
-                </router-link>
-              </p>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-four-fifths">
-            <nav class="level">
-              <!-- Left side -->
-              <div class="level-left">
-                <div class="level-item has-text-centered-mobile">
-                  <div>
-                    <p class="title is-4">Featured Playlists</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Right side -->
-              <div class="level-right">
-              </div>
-            </nav>
-            <spotify-list-item-playlist v-for="playlist in featured_playlists" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
-            <nav class="level" style="margin-top: 16px;">
-              <p class="level-item">
-                <router-link to="/music/spotify/featured-playlists" class="button is-light is-small is-rounded">
-                  Show more
-                </router-link>
-              </p>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Featured Playlists -->
+    <content-with-heading>
+      <template slot="heading-left">
+        <p class="title is-4">Featured Playlists</p>
+      </template>
+      <template slot="content">
+        <spotify-list-item-playlist v-for="playlist in featured_playlists" :key="playlist.id" :playlist="playlist"></spotify-list-item-playlist>
+      </template>
+      <template slot="footer">
+        <nav class="level">
+          <p class="level-item">
+            <router-link to="/music/spotify/featured-playlists" class="button is-light is-small is-rounded">
+              Show more
+            </router-link>
+          </p>
+        </nav>
+      </template>
+    </content-with-heading>
   </div>
 </template>
 
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
+import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
 import SpotifyListItemAlbum from '@/components/SpotifyListItemAlbum'
 import SpotifyListItemPlaylist from '@/components/SpotifyListItemPlaylist'
@@ -100,7 +77,7 @@ const browseData = {
 export default {
   name: 'SpotifyPageBrowse',
   mixins: [ LoadDataBeforeEnterMixin(browseData) ],
-  components: { TabsMusic, SpotifyListItemAlbum, SpotifyListItemPlaylist },
+  components: { ContentWithHeading, TabsMusic, SpotifyListItemAlbum, SpotifyListItemPlaylist },
 
   computed: {
     new_releases () {
