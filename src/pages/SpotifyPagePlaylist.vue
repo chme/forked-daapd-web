@@ -3,6 +3,14 @@
     <template slot="heading-left">
       <div class="title is-4">{{ playlist.name }}</div>
     </template>
+    <template slot="heading-right">
+      <a class="button is-small is-dark is-rounded" @click="play">
+        <span class="icon">
+          <i class="mdi mdi-play"></i>
+        </span>
+        <span>Play</span>
+      </a>
+    </template>
     <template slot="content">
       <p class="heading has-text-centered-mobile">{{ playlist.tracks.total }} tracks</p>
       <spotify-list-item-track v-for="(item, index) in tracks" :key="item.track.id" :track="item.track" :album="item.track.album" :position="index" :context_uri="playlist.uri"></spotify-list-item-track>
@@ -16,6 +24,7 @@ import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
 import store from '@/store'
+import webapi from '@/webapi'
 import SpotifyWebApi from 'spotify-web-api-js'
 import InfiniteLoading from 'vue-infinite-loading'
 
@@ -72,6 +81,15 @@ export default {
           $state.complete()
         }
       }
+    },
+
+    play: function () {
+      webapi.queue_clear().then(() =>
+        webapi.queue_add(this.playlist.uri).then(() =>
+          webapi.player_play()
+        )
+      )
+      this.show_details_modal = false
     }
   }
 }
