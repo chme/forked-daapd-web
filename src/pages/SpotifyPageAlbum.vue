@@ -12,13 +12,27 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
-import webapi from '@/webapi'
+import store from '@/store'
 import SpotifyWebApi from 'spotify-web-api-js'
+
+const albumData = {
+  load: function (to) {
+    const spotifyApi = new SpotifyWebApi()
+    spotifyApi.setAccessToken(store.state.spotify.webapi_token)
+    return spotifyApi.getAlbum(to.params.album_id)
+  },
+
+  set: function (vm, response) {
+    vm.album = response
+  }
+}
 
 export default {
   name: 'PageAlbum',
+  mixins: [ LoadDataBeforeEnterMixin(albumData) ],
   components: { ContentWithHeading, SpotifyListItemTrack },
 
   data () {
@@ -28,30 +42,8 @@ export default {
   },
 
   methods: {
-    load: function (albumId) {
-      webapi.spotify().then(({ data }) => {
-        this.spotify = data
-
-        var spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(this.spotify.webapi_token)
-        spotifyApi.getAlbum(albumId).then(data => {
-          this.album = data
-        })
-      })
-    },
-
     open_artist: function () {
       this.$router.push({ path: '/music/spotify/artists/' + this.album.artists[0].id })
-    }
-  },
-
-  created: function () {
-    this.load(this.$route.params.album_id)
-  },
-
-  watch: {
-    '$route' (to, from) {
-      this.load(to.params.album_id)
     }
   }
 }

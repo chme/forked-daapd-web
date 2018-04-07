@@ -11,13 +11,31 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import SpotifyListItemTrack from '@/components/SpotifyListItemTrack'
-import webapi from '@/webapi'
+import store from '@/store'
 import SpotifyWebApi from 'spotify-web-api-js'
+
+const playlistData = {
+  load: function (to) {
+    const spotifyApi = new SpotifyWebApi()
+    spotifyApi.setAccessToken(store.state.spotify.webapi_token)
+    return Promise.all([
+      spotifyApi.getPlaylist(to.params.user_id, to.params.playlist_id),
+      spotifyApi.getPlaylistTracks(to.params.user_id, to.params.playlist_id)
+    ])
+  },
+
+  set: function (vm, response) {
+    vm.playlist = response[0]
+    vm.tracks = response[1].items
+  }
+}
 
 export default {
   name: 'SpotifyPagePlaylist',
+  mixins: [ LoadDataBeforeEnterMixin(playlistData) ],
   components: { ContentWithHeading, SpotifyListItemTrack },
 
   data () {
@@ -28,38 +46,6 @@ export default {
   },
 
   methods: {
-    load: function (userId, playlistId) {
-      webapi.spotify().then(({ data }) => {
-        this.spotify = data
-
-        const spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(this.spotify.webapi_token)
-        spotifyApi.getPlaylist(userId, playlistId).then(data => {
-          this.playlist = data
-
-          this.load_tracks(userId, playlistId)
-        })
-      })
-    },
-
-    load_tracks: function (userId, playlistId) {
-      const spotifyApi = new SpotifyWebApi()
-      spotifyApi.setAccessToken(this.spotify.webapi_token)
-      spotifyApi.getPlaylistTracks(userId, playlistId).then(data => {
-        // Array.prototype.push.apply(this.tracks, data.items)
-        this.tracks = data.items
-      })
-    }
-  },
-
-  created: function () {
-    this.load(this.$route.params.user_id, this.$route.params.playlist_id)
-  },
-
-  watch: {
-    '$route' (to, from) {
-      this.load(to.params.user_id, to.params.playlist_id)
-    }
   }
 }
 </script>

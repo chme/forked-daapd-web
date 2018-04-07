@@ -12,71 +12,67 @@
 </template>
 
 <script>
+import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import SpotifyListItemAlbum from '@/components/SpotifyListItemAlbum'
-import webapi from '@/webapi'
+import store from '@/store'
 import SpotifyWebApi from 'spotify-web-api-js'
 import InfiniteLoading from 'vue-infinite-loading'
 
+const artistData = {
+  load: function (to) {
+    const spotifyApi = new SpotifyWebApi()
+    spotifyApi.setAccessToken(store.state.spotify.webapi_token)
+    return Promise.all([
+      spotifyApi.getArtist(to.params.artist_id),
+      spotifyApi.getArtistAlbums(to.params.artist_id, { limit: 50, offset: 0, include_groups: 'album,single' })
+    ])
+  },
+
+  set: function (vm, response) {
+    vm.artist = response[0]
+
+    vm.albums = []
+    vm.total = 0
+    vm.offset = 0
+    vm.append_albums(response[1])
+  }
+}
+
 export default {
   name: 'SpotifyPageArtist',
+  mixins: [ LoadDataBeforeEnterMixin(artistData) ],
   components: { ContentWithHeading, SpotifyListItemAlbum, InfiniteLoading },
 
   data () {
     return {
-      artist_id: undefined,
       artist: {},
       albums: [],
       total: 0,
-      paging: { limit: 50, offset: 0, include_groups: 'album,single' }
+      offset: 0
     }
   },
 
   methods: {
-    reset_paging: function () {
-      this.total = 0
-      this.paging = { limit: 50, offset: 0, include_groups: 'album,single' }
-      this.albums = []
-    },
-
-    load: function () {
-      this.reset_paging()
-
-      webapi.spotify().then(({ data }) => {
-        const spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(data.webapi_token)
-        return spotifyApi.getArtist(this.artist_id)
-      }).then(data => {
-        this.artist = data
+    load_next: function ($state) {
+      const spotifyApi = new SpotifyWebApi()
+      spotifyApi.setAccessToken(this.$store.state.spotify.webapi_token)
+      spotifyApi.getArtistAlbums(this.artist.id, { limit: 50, offset: this.offset, include_groups: 'album,single' }).then(data => {
+        this.append_albums(data, $state)
       })
     },
 
-    load_next: function ($state) {
-      webapi.spotify().then(({ data }) => {
-        const spotifyApi = new SpotifyWebApi()
-        spotifyApi.setAccessToken(data.webapi_token)
-        return spotifyApi.getArtistAlbums(this.artist_id, this.paging)
-      }).then(data => {
-        this.albums = this.albums.concat(data.items)
-        this.total = data.total
-        this.paging.offset += data.limit
+    append_albums: function (data, $state) {
+      this.albums = this.albums.concat(data.items)
+      this.total = data.total
+      this.offset += data.limit
+
+      if ($state) {
         $state.loaded()
-        if (this.paging.offset >= this.total) {
+        if (this.offset >= this.total) {
           $state.complete()
         }
-      })
-    }
-  },
-
-  created: function () {
-    this.artist_id = this.$route.params.artist_id
-    this.load()
-  },
-
-  watch: {
-    '$route' (to, from) {
-      this.artist_id = to.params.artist_id
-      this.load()
+      }
     }
   }
 }
