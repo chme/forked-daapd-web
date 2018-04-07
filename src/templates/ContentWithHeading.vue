@@ -14,7 +14,7 @@
             </div>
 
             <!-- Right side -->
-            <div class="level-right">
+            <div class="level-right has-text-centered-mobile">
               <slot name="heading-right"></slot>
             </div>
           </nav>
