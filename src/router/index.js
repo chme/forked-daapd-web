@@ -109,32 +109,38 @@ export const router = new VueRouter({
     {
       path: '/music/spotify',
       name: 'Spotify',
-      component: SpotifyPageBrowse
+      component: SpotifyPageBrowse,
+      meta: { show_progress: true }
     },
     {
       path: '/music/spotify/new-releases',
       name: 'Spotify Browse New Releases',
-      component: SpotifyPageBrowseNewReleases
+      component: SpotifyPageBrowseNewReleases,
+      meta: { show_progress: true }
     },
     {
       path: '/music/spotify/featured-playlists',
       name: 'Spotify Browse Featured Playlists',
-      component: SpotifyPageBrowseFeaturedPlaylists
+      component: SpotifyPageBrowseFeaturedPlaylists,
+      meta: { show_progress: true }
     },
     {
       path: '/music/spotify/artists/:artist_id',
       name: 'Spotify Artist',
-      component: SpotifyPageArtist
+      component: SpotifyPageArtist,
+      meta: { show_progress: true }
     },
     {
       path: '/music/spotify/albums/:album_id',
       name: 'Spotify Album',
-      component: SpotifyPageAlbum
+      component: SpotifyPageAlbum,
+      meta: { show_progress: true }
     },
     {
       path: '/music/spotify/playlists/:user_id/:playlist_id',
       name: 'Spotify Playlist',
-      component: SpotifyPagePlaylist
+      component: SpotifyPagePlaylist,
+      meta: { show_progress: true }
     },
     {
       path: '/search/spotify',
