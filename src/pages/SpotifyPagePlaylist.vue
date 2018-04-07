@@ -6,7 +6,7 @@
     <template slot="content">
       <p class="heading has-text-centered-mobile">{{ playlist.tracks.total }} tracks</p>
       <spotify-list-item-track v-for="(item, index) in tracks" :key="item.track.id" :track="item.track" :album="item.track.album" :position="index" :context_uri="playlist.uri"></spotify-list-item-track>
-      <infinite-loading @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
+      <infinite-loading v-if="offset < total" @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
     </template>
   </content-with-heading>
 </template>

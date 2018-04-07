@@ -6,7 +6,7 @@
     <template slot="content">
       <p class="heading has-text-centered-mobile">{{ total }} albums</p>
       <spotify-list-item-album v-for="album in albums" :key="album.id" :album="album"></spotify-list-item-album>
-      <infinite-loading @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
+      <infinite-loading v-if="offset < total" @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
     </template>
   </content-with-heading>
 </template>
