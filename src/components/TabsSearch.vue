@@ -5,13 +5,13 @@
         <div class="column is-four-fifths">
           <div class="tabs is-centered is-small is-toggle is-toggle-rounded">
             <ul>
-              <router-link tag="li" to="/search/library" active-class="is-active">
+              <router-link tag="li" :to="{ path: '/search/library', query: $route.query }" active-class="is-active">
                 <a>
                   <span class="icon is-small"><i class="mdi mdi-library-books"></i></span>
                   <span class="">Library</span>
                 </a>
               </router-link>
-              <router-link tag="li" to="/search/spotify" active-class="is-active">
+              <router-link tag="li" :to="{ path: '/search/spotify', query: $route.query }" active-class="is-active">
                 <a>
                   <span class="icon is-small"><i class="mdi mdi-spotify"></i></span>
                   <span class="">Spotify</span>
