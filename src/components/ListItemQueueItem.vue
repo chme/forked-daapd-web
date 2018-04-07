@@ -48,6 +48,10 @@
                   <span class="title is-6">{{ item.track_number }} / {{ item.disc_number }}</span>
                 </p>
                 <p>
+                  <span class="heading">Length</span>
+                  <span class="title is-6">{{ item.length_ms | duration }}</span>
+                </p>
+                <p>
                   <span class="heading">Path</span>
                   <span class="title is-6">{{ item.path }}</span>
                 </p>
