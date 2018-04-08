@@ -97,12 +97,13 @@ export default {
 
   watch: {
     'state' () {
+      if (this.interval_id > 0) {
+        window.clearTimeout(this.interval_id)
+        this.interval_id = 0
+      }
       this.item_progress_ms = this.state.item_progress_ms
       if (this.state.state === 'play') {
         this.interval_id = window.setInterval(this.tick, 1000)
-      } else if (this.interval_id > 0) {
-        window.clearTimeout(this.interval_id)
-        this.interval_id = 0
       }
     }
   }
