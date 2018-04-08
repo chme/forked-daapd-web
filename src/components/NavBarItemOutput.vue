@@ -9,7 +9,7 @@
           <div class="fd-expanded">
             <p class="heading" :class="{ 'has-text-grey-light': !output.selected }">{{ output.name }}</p>
             <range-slider
-              class="slider"
+              class="slider fd-has-action"
               min="0"
               max="100"
               step="1"

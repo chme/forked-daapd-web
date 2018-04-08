@@ -14,7 +14,7 @@
         </h3>
         <p class="control has-text-centered fd-progress-now-playing">
           <range-slider
-            class="seek-slider"
+            class="seek-slider fd-has-action"
             min="0"
             :max="state.item_length_ms"
             :value="item_progress_ms"
@@ -115,7 +115,6 @@ export default {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .seek-slider .range-slider-rail {
-  cursor: pointer;
 }
 .seek-slider .range-slider-knob {
   width: 10px;

@@ -36,7 +36,7 @@
                     <div class="fd-expanded">
                       <p class="heading">Volume</p>
                       <range-slider
-                        class="slider"
+                        class="slider fd-has-action"
                         min="0"
                         max="100"
                         step="1"
