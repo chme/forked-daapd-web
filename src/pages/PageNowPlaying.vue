@@ -67,6 +67,13 @@ export default {
     }
   },
 
+  destroyed () {
+    if (this.interval_id > 0) {
+      window.clearTimeout(this.interval_id)
+      this.interval_id = 0
+    }
+  },
+
   computed: {
     state () {
       return this.$store.state.player
