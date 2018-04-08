@@ -3,7 +3,13 @@ import moment from 'moment'
 import momentDurationFormatSetup from 'moment-duration-format'
 
 momentDurationFormatSetup(moment)
-
-Vue.filter('duration', function (value) {
+Vue.filter('duration', function (value, format) {
+  if (format) {
+    return moment.duration(value).format(format)
+  }
   return moment.duration(value).format('hh:*m:ss')
+})
+
+Vue.filter('number', function (value) {
+  return value.toLocaleString()
 })
