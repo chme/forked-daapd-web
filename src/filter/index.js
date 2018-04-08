@@ -5,6 +5,5 @@ import momentDurationFormatSetup from 'moment-duration-format'
 momentDurationFormatSetup(moment)
 
 Vue.filter('duration', function (value) {
-  if (!value) return ''
-  return moment.duration(value).format()
+  return moment.duration(value).format('hh:*m:ss')
 })

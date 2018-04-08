@@ -91,6 +91,10 @@ export default {
     return axios.put('/api/player/volume?volume=' + outputVolume + '&output_id=' + outputId)
   },
 
+  player_seek (newPosition) {
+    return axios.put('/api/player/seek?position_ms=' + newPosition)
+  },
+
   outputs () {
     return axios.get('/api/outputs')
   },

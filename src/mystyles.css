@@ -4,7 +4,7 @@
   width: 100%;
 }
 .range-slider-fill {
-  background-color: #000;
+  background-color: hsl(0, 0%, 21%);
 }
 
 a.navbar-item {

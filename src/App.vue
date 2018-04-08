@@ -158,6 +158,7 @@ export default {
         if (this.token_timer_id > 0) {
           console.log('clear old timer: ' + this.token_timer_id)
           window.clearTimeout(this.token_timer_id)
+          this.token_timer_id = 0
         }
         if (data.webapi_token_expires_in > 0 && data.webapi_token) {
           this.token_timer_id = window.setTimeout(this.update_spotify, 1000 * data.webapi_token_expires_in)
