@@ -81,12 +81,12 @@
             <a class="navbar-item" v-on:click="update">Update library</a>
             <a class="navbar-item" href="/admin.html">Admin</a>
             <hr class="navbar-divider">
-            <router-link to="/about" class="navbar-item" active-class="is-active">
+            <a class="navbar-item" v-on:click="open_about">
               <div>
                 <p class="title is-7">forked-daapd</p>
                 <p class="subtitle is-7">{{ config.version }}</p>
               </div>
-            </router-link>
+            </a>
           </div>
         </div>
       </div>
@@ -145,6 +145,11 @@ export default {
 
     set_volume: function (newVolume) {
       webapi.player_volume(newVolume)
+    },
+
+    open_about: function () {
+      this.$store.commit(types.SHOW_BURGER_MENU, false)
+      this.$router.push({ path: '/about' })
     }
   }
 }
