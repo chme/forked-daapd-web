@@ -1,7 +1,7 @@
 <template>
   <content-with-heading>
     <template slot="heading-left">
-      <p class="heading">{{ queue.count }} songs</p>
+      <p class="heading">{{ queue.count }} tracks</p>
       <p class="title is-4">Queue</p>
     </template>
     <template slot="heading-right">
