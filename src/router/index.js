@@ -11,6 +11,8 @@ import PageArtists from '@/pages/PageArtists'
 import PageArtist from '@/pages/PageArtist'
 import PageAlbums from '@/pages/PageAlbums'
 import PageAlbum from '@/pages/PageAlbum'
+import PagePodcasts from '@/pages/PagePodcasts'
+import PagePodcast from '@/pages/PagePodcast'
 import PagePlaylists from '@/pages/PagePlaylists'
 import PagePlaylist from '@/pages/PagePlaylist'
 import PageSearch from '@/pages/PageSearch'
@@ -84,6 +86,16 @@ export const router = new VueRouter({
       name: 'Album',
       component: PageAlbum,
       meta: { show_progress: true }
+    },
+    {
+      path: '/podcasts',
+      name: 'Podcasts',
+      component: PagePodcasts
+    },
+    {
+      path: '/podcasts/:album_id',
+      name: 'Podcast',
+      component: PagePodcast
     },
     {
       path: '/playlists',

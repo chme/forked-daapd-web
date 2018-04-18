@@ -104,7 +104,7 @@ export default {
   },
 
   library_artists () {
-    return axios.get('/api/library/artists')
+    return axios.get('/api/library/artists?media_kind=music')
   },
 
   library_artist (artistId) {
@@ -115,7 +115,7 @@ export default {
     if (artistId) {
       return axios.get('/api/library/artists/' + artistId + '/albums')
     }
-    return axios.get('/api/library/albums')
+    return axios.get('/api/library/albums?media_kind=music')
   },
 
   library_album (albumId) {
@@ -124,6 +124,14 @@ export default {
 
   library_album_tracks (albumId) {
     return axios.get('/api/library/albums/' + albumId + '/tracks')
+  },
+
+  library_podcasts () {
+    return axios.get('/api/library/albums?media_kind=podcast')
+  },
+
+  library_audiobooks () {
+    return axios.get('/api/library/albums?media_kind=audiobook')
   },
 
   library_playlists () {

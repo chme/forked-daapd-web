@@ -7,7 +7,7 @@ Vue.filter('duration', function (value, format) {
   if (format) {
     return moment.duration(value).format(format)
   }
-  return moment.duration(value).format('hh:*m:ss')
+  return moment.duration(value).format('hh:*mm:ss')
 })
 
 Vue.filter('number', function (value) {
