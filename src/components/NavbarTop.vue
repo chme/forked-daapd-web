@@ -81,7 +81,6 @@
           <a class="navbar-link"><span class="icon is-hidden-mobile is-hidden-tablet-only"><i class="mdi mdi-settings"></i></span> <span class="is-hidden-desktop">Settings</span></a>
 
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item" v-on:click="update">Update library</a>
             <a class="navbar-item" href="/admin.html">Admin</a>
             <hr class="navbar-divider">
             <a class="navbar-item" v-on:click="open_about">
@@ -140,10 +139,6 @@ export default {
   methods: {
     update_show_burger_menu: function () {
       this.$store.commit(types.SHOW_BURGER_MENU, !this.show_burger_menu)
-    },
-
-    update: function () {
-      webapi.library_update()
     },
 
     set_volume: function (newVolume) {
