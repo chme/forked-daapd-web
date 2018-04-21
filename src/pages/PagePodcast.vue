@@ -14,7 +14,7 @@
     </template>
     <template slot="content">
       <p class="heading has-text-centered-mobile">{{ album.track_count }} tracks</p>
-      <list-item-podcast-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="album.uri"></list-item-podcast-track>
+      <list-item-track v-for="(track, index) in tracks" :key="track.id" :track="track" :position="index" :context_uri="album.uri"></list-item-track>
     </template>
   </content-with-heading>
 </template>
@@ -22,7 +22,7 @@
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
-import ListItemPodcastTrack from '@/components/ListItemPodcastTrack'
+import ListItemTrack from '@/components/ListItemTrack'
 import webapi from '@/webapi'
 
 const albumData = {
@@ -42,7 +42,7 @@ const albumData = {
 export default {
   name: 'PagePodcast',
   mixins: [ LoadDataBeforeEnterMixin(albumData) ],
-  components: { ContentWithHeading, ListItemPodcastTrack },
+  components: { ContentWithHeading, ListItemTrack },
 
   data () {
     return {

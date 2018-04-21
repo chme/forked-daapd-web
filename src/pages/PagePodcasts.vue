@@ -6,7 +6,7 @@
         <p class="heading">{{ albums.total }} podcasts</p>
       </template>
       <template slot="content">
-        <list-item-podcast v-for="album in albums.items" :key="album.id" :album="album"></list-item-podcast>
+        <list-item-album v-for="album in albums.items" :key="album.id" :album="album" :media_kind="'podcast'"></list-item-album>
       </template>
     </content-with-heading>
   </div>
@@ -16,7 +16,7 @@
 import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
-import ListItemPodcast from '@/components/ListItemPodcast'
+import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
 const albumsData = {
@@ -32,7 +32,7 @@ const albumsData = {
 export default {
   name: 'PagePodcasts',
   mixins: [ LoadDataBeforeEnterMixin(albumsData) ],
-  components: { ContentWithHeading, TabsMusic, ListItemPodcast },
+  components: { ContentWithHeading, TabsMusic, ListItemAlbum },
 
   data () {
     return {

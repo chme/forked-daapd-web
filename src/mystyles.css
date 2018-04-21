@@ -60,3 +60,10 @@ a.navbar-item {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.title:not(.is-spaced) + .subtitle {
+  margin-top: -1.3rem !important;
+}
+.title:not(.is-spaced) + .subtitle + .subtitle {
+  margin-top: -1.3rem !important;
+}

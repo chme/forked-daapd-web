@@ -2,7 +2,7 @@
   <div class="media">
     <div class="media-content fd-has-action is-clipped" v-on:click="open_album">
       <h1 class="title is-6">{{ album.name }}</h1>
-      <h2 class="subtitle is-7">{{ album.artist }}<br>{{ album.track_count }} songs</h2>
+      <h2 class="subtitle is-7 has-text-grey"><b>{{ album.artist }}</b></h2>
     </div>
     <div class="media-right">
       <a @click="show_details_modal = true">
@@ -16,7 +16,7 @@
                 <a class="has-text-link" @click="open_album">{{ album.name }}</a>
               </p>
               <div class="content is-small">
-                <p>
+                <p v-if="album.artist">
                   <span class="heading">Album artist</span>
                   <a class="title is-6 has-text-link" @click="open_artist">{{ album.artist }}</a>
                 </p>
@@ -49,7 +49,7 @@ export default {
   name: 'ListItemAlbum',
   components: { ModalDialog },
 
-  props: ['album'],
+  props: ['album', 'media_kind'],
 
   data () {
     return {
@@ -76,7 +76,11 @@ export default {
 
     open_album: function () {
       this.show_details_modal = false
-      this.$router.push({ path: '/music/albums/' + this.album.id })
+      if (this.media_kind === 'podcast') {
+        this.$router.push({ path: '/podcasts/' + this.album.id })
+      } else {
+        this.$router.push({ path: '/music/albums/' + this.album.id })
+      }
     },
 
     open_artist: function () {

@@ -2,7 +2,6 @@
   <div class="media">
     <div class="media-content fd-has-action is-clipped" v-on:click="open_playlist">
       <h1 class="title is-6">{{ playlist.name }}</h1>
-      <h2 class="subtitle is-7">{{ playlist.path }}</h2>
     </div>
     <div class="media-right">
       <a @click="show_details_modal = true">
