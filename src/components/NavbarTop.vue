@@ -10,6 +10,9 @@
       <router-link to="/podcasts" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-microphone"></i></span>
       </router-link>
+      <router-link to="/audiobooks" class="navbar-item" active-class="is-active">
+        <span class="icon"><i class="mdi mdi-book-open-page-variant"></i></span>
+      </router-link>
       <router-link to="/search" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-magnify"></i></span>
       </router-link>

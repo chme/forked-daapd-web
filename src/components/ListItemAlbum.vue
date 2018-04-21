@@ -16,9 +16,13 @@
                 <a class="has-text-link" @click="open_album">{{ album.name }}</a>
               </p>
               <div class="content is-small">
-                <p v-if="album.artist">
+                <p v-if="album.artist && media_kind !== 'audiobook'">
                   <span class="heading">Album artist</span>
                   <a class="title is-6 has-text-link" @click="open_artist">{{ album.artist }}</a>
+                </p>
+                <p v-if="album.artist && media_kind === 'audiobook'">
+                  <span class="heading">Album artist</span>
+                  <span class="title is-6">{{ album.artist }}</span>
                 </p>
                 <p>
                   <span class="heading">Tracks</span>
@@ -78,6 +82,8 @@ export default {
       this.show_details_modal = false
       if (this.media_kind === 'podcast') {
         this.$router.push({ path: '/podcasts/' + this.album.id })
+      } else if (this.media_kind === 'audiobook') {
+        this.$router.push({ path: '/audiobooks/' + this.album.id })
       } else {
         this.$router.push({ path: '/music/albums/' + this.album.id })
       }
