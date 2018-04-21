@@ -48,6 +48,7 @@ import PlayerButtonConsume from '@/components/PlayerButtonConsume'
 import PlayerButtonRepeat from '@/components/PlayerButtonRepeat'
 import RangeSlider from 'vue-range-slider'
 import webapi from '@/webapi'
+import * as types from '@/store/mutation_types'
 
 export default {
   name: 'PageNowPlaying',
@@ -62,9 +63,12 @@ export default {
 
   created () {
     this.item_progress_ms = this.state.item_progress_ms
-    if (this.state.state === 'play') {
-      this.interval_id = window.setInterval(this.tick, 1000)
-    }
+    webapi.player_status().then(({ data }) => {
+      this.$store.commit(types.UPDATE_PLAYER_STATUS, data)
+      if (this.state.state === 'play') {
+        this.interval_id = window.setInterval(this.tick, 1000)
+      }
+    })
   },
 
   destroyed () {
