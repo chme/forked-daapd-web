@@ -53,17 +53,20 @@ export const router = new VueRouter({
     {
       path: '/music/browse',
       name: 'Browse',
-      component: PageBrowse
+      component: PageBrowse,
+      meta: { show_progress: true }
     },
     {
       path: '/music/browse/recently_added',
       name: 'Browse Recently Added',
-      component: PageBrowseRecentlyAdded
+      component: PageBrowseRecentlyAdded,
+      meta: { show_progress: true }
     },
     {
       path: '/music/browse/recently_played',
       name: 'Browse Recently Played',
-      component: PageBrowseRecentlyPlayed
+      component: PageBrowseRecentlyPlayed,
+      meta: { show_progress: true }
     },
     {
       path: '/music/artists',
@@ -92,22 +95,26 @@ export const router = new VueRouter({
     {
       path: '/podcasts',
       name: 'Podcasts',
-      component: PagePodcasts
+      component: PagePodcasts,
+      meta: { show_progress: true }
     },
     {
       path: '/podcasts/:album_id',
       name: 'Podcast',
-      component: PagePodcast
+      component: PagePodcast,
+      meta: { show_progress: true }
     },
     {
       path: '/audiobooks',
       name: 'Audiobooks',
-      component: PageAudiobooks
+      component: PageAudiobooks,
+      meta: { show_progress: true }
     },
     {
       path: '/audiobooks/:album_id',
       name: 'Audiobook',
-      component: PageAudiobook
+      component: PageAudiobook,
+      meta: { show_progress: true }
     },
     {
       path: '/playlists',
