@@ -2,7 +2,7 @@
   <div class="media">
     <div class="media-content fd-has-action is-clipped" v-on:click="play">
       <h1 class="title is-6">{{ track.name }}</h1>
-      <h2 class="subtitle is-7">{{ track.artists[0].name }}</h2>
+      <h2 class="subtitle is-7 has-text-grey"><b>{{ track.artists[0].name }}</b></h2>
     </div>
     <div class="media-right">
       <a @click="show_details">
