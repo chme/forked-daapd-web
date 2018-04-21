@@ -2,7 +2,6 @@
   <content-with-heading>
     <template slot="heading-left">
       <div class="title is-4">{{ album.name }}</div>
-      <a class="title is-4 has-text-link has-text-weight-normal" @click="open_artist">{{ album.artist }}</a>
     </template>
     <template slot="heading-right">
       <a class="button is-small is-dark is-rounded" @click="play">
@@ -52,11 +51,6 @@ export default {
   },
 
   methods: {
-    open_artist: function () {
-      this.show_details_modal = false
-      this.$router.push({ path: '/music/artists/' + this.album.artist_id })
-    },
-
     play: function () {
       webapi.queue_clear().then(() =>
         webapi.queue_add(this.album.uri).then(() =>
