@@ -15,7 +15,6 @@
 <script>
 import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
-import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
@@ -32,7 +31,7 @@ const albumsData = {
 export default {
   name: 'PagePodcasts',
   mixins: [ LoadDataBeforeEnterMixin(albumsData) ],
-  components: { ContentWithHeading, TabsMusic, ListItemAlbum },
+  components: { ContentWithHeading, ListItemAlbum },
 
   data () {
     return {
