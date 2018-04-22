@@ -4,10 +4,7 @@ Mobile friendly web interface for [forked-daapd](http://ejurgensen.github.io/for
 
 ## Screenshots
 
-![Now playing](docs/Screenshot-now-playing.png =400x)
-![Queue](docs/Screenshot-queue.png =400x)
-![Artists](docs/Screenshot-artists.png =400x)
-![Album](docs/Screenshot-album.png =400x)
+<img src="docs/Screenshot-now-playing.png" width="300" alt="Now playing"> <img src="docs/Screenshot-queue.png" width="300" alt="Queue"> <img src="docs/Screenshot-artists.png" width="300" alt="Artists"> <img src="docs/Screenshot-album.png" width="300" alt="Album">
 
 ## Build Setup
 
