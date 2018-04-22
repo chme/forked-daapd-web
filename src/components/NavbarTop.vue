@@ -7,10 +7,10 @@
       <router-link to="/music" class="navbar-item" active-class="is-active">
         <span class="icon"><i class="mdi mdi-music"></i></span>
       </router-link>
-      <router-link to="/podcasts" class="navbar-item" active-class="is-active">
+      <router-link to="/podcasts" class="navbar-item" active-class="is-active" v-if="library.podcasts !== 0">
         <span class="icon"><i class="mdi mdi-microphone"></i></span>
       </router-link>
-      <router-link to="/audiobooks" class="navbar-item" active-class="is-active">
+      <router-link to="/audiobooks" class="navbar-item" active-class="is-active" v-if="library.audiobooks !== 0">
         <span class="icon"><i class="mdi mdi-book-open-variant"></i></span>
       </router-link>
       <router-link to="/search" class="navbar-item" active-class="is-active">
@@ -132,6 +132,10 @@ export default {
 
     config () {
       return this.$store.state.config
+    },
+
+    library () {
+      return this.$store.state.library
     },
 
     show_burger_menu () {
