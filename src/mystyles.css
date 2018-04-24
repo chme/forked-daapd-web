@@ -54,6 +54,7 @@ a.navbar-item {
   margin-top: 16px;
 }
 
+/* Transition effect */
 .fade-enter-active, .fade-leave-active {
   transition: opacity .4s;
 }
@@ -61,9 +62,19 @@ a.navbar-item {
   opacity: 0;
 }
 
+/* Add a little bit of spacing between title and subtitle */
 .title:not(.is-spaced) + .subtitle {
   margin-top: -1.3rem !important;
 }
 .title:not(.is-spaced) + .subtitle + .subtitle {
   margin-top: -1.3rem !important;
+}
+
+/* Only scroll content if modal contains a card component */
+.fd-modal-card {
+  overflow: visible;
+}
+.fd-modal-card .card-content {
+  max-height: calc(100vh - 200px);
+  overflow: auto;
 }
