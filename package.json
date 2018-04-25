@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bulma": "^0.6.2",
+    "bulma": "^0.7.1",
     "mdi": "^2.1.99",
-    "moment": "^2.22.0",
+    "moment": "^2.22.1",
     "moment-duration-format": "^2.2.2",
     "npm": "^5.8.0",
     "reconnectingwebsocket": "^1.0.0",
