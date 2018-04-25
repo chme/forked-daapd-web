@@ -178,7 +178,18 @@ export const router = new VueRouter({
       name: 'Spotify Search',
       component: SpotifyPageSearch
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(savedPosition)
+        }, 500)
+      })
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {
