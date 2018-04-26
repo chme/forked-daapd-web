@@ -167,7 +167,8 @@ export default {
 
       var searchParams = {
         'type': route.query.type,
-        'query': route.query.query
+        'query': route.query.query,
+        'media_kind': 'music'
       }
 
       if (route.query.limit) {
