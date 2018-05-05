@@ -21,6 +21,10 @@ export default {
     return axios.get('/api/update')
   },
 
+  library_count (expression) {
+    return axios.get('/api/library/count?expression=' + expression)
+  },
+
   queue () {
     return axios.get('/api/queue')
   },

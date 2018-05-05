@@ -40,16 +40,8 @@
                     <td class="has-text-right">{{ library.albums | number }}</td>
                   </tr>
                   <tr>
-                    <th>Tracks total</th>
+                    <th>Tracks</th>
                     <td class="has-text-right">{{ library.songs | number }}</td>
-                  </tr>
-                  <tr>
-                    <th>Tracks podcasts</th>
-                    <td class="has-text-right">{{ library.podcasts | number }}</td>
-                  </tr>
-                  <tr>
-                    <th>Tracks audiobooks</th>
-                    <td class="has-text-right">{{ library.audiobooks | number }}</td>
                   </tr>
                   <tr>
                     <th>Total playtime</th>

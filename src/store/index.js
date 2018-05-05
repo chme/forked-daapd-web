@@ -18,6 +18,8 @@ export default new Vuex.Store({
       'db_playtime': 0,
       'updating': false
     },
+    audiobooks_count: { },
+    podcasts_count: { },
     outputs: [ ],
     player: {
       'state': 'stop',
@@ -65,6 +67,12 @@ export default new Vuex.Store({
     },
     [types.UPDATE_LIBRARY_STATS] (state, libraryStats) {
       state.library = libraryStats
+    },
+    [types.UPDATE_LIBRARY_AUDIOBOOKS_COUNT] (state, count) {
+      state.audiobooks_count = count
+    },
+    [types.UPDATE_LIBRARY_PODCASTS_COUNT] (state, count) {
+      state.podcasts_count = count
     },
     [types.UPDATE_OUTPUTS] (state, outputs) {
       state.outputs = outputs
