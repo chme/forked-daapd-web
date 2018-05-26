@@ -14,7 +14,7 @@
       <a v-on:click="remove" v-if="item.id !== state.item_id && edit_mode">
         <span class="icon has-text-grey"><i class="mdi mdi-delete mdi-18px"></i></span>
       </a>
-      <a @click="show_details_modal = true">
+      <a @click="show_details_modal = true" v-if="!edit_mode">
         <span class="icon has-text-dark"><i class="mdi mdi-dots-vertical mdi-18px"></i></span>
       </a>
       <modal-dialog v-if="!edit_mode" :show="show_details_modal" @close="show_details_modal = false">
