@@ -6,6 +6,12 @@ Mobile friendly web interface for [forked-daapd](http://ejurgensen.github.io/for
 
 <img src="docs/Screenshot-now-playing.png" width="300" alt="Now playing"> <img src="docs/Screenshot-queue.png" width="300" alt="Queue"> <img src="docs/Screenshot-artists.png" width="300" alt="Artists"> <img src="docs/Screenshot-album.png" width="300" alt="Album">
 
+## Installation
+
+**Requires forked-daapd built from git** (https://github.com/ejurgensen/forked-daapd)
+
+Download the latest release tarball from the [here](https://github.com/chme/forked-daapd-web/releases/latest) (or build from source) extract and copy the files to the forked-daapd htdocs folder (probably located at `/usr/share/forked-daapd/htdocs`). The web interface should now be available under http://[your_server_address_here]:3689
+
 ## Build Setup
 
 This project is based on the Vue.js webpack template. For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
