@@ -16,7 +16,8 @@
         </a>
       </template>
       <template slot="content">
-        <list-item-artist v-for="artist in artists.items" :key="artist.id" :artist="artist" v-if="!hide_singles || artist.track_count > (artist.album_count * 2)"></list-item-artist>
+        <list-item-artist v-for="artist_el in artist_els" :key="artist_el.id" :artist="artist_el" v-if="!hide_singles || artist_el.track_count > (artist_el.album_count * 2)"></list-item-artist>
+      <infinite-loading v-if="offset < total" @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
       </template>
     </content-with-heading>
   </div>
@@ -29,25 +30,35 @@ import TabsMusic from '@/components/TabsMusic'
 import ListItemArtist from '@/components/ListItemArtist'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
+import InfiniteLoading from 'vue-infinite-loading'
 
 const artistsData = {
   load: function (to) {
-    return webapi.library_artists()
+    return webapi.library_artists_pag(0, 50)
   },
 
   set: function (vm, response) {
     vm.artists = response.data
+    vm.artist_els = []
+    vm.total = 0
+    vm.limit = 50
+    vm.offset = 0
+    vm.append_artists(response.data)
   }
 }
 
 export default {
   name: 'PageArtists',
   mixins: [ LoadDataBeforeEnterMixin(artistsData) ],
-  components: { ContentWithHeading, TabsMusic, ListItemArtist },
+  components: { ContentWithHeading, TabsMusic, ListItemArtist, InfiniteLoading },
 
   data () {
     return {
-      artists: {}
+      artists: {},
+      artist_els: [],
+      limit: 50,
+      offset: 0,
+      total: 0
     }
   },
 
@@ -60,6 +71,25 @@ export default {
   methods: {
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
+    },
+
+    load_next: function ($state) {
+      webapi.library_artists_pag(this.offset, this.limit).then(response => {
+        this.append_artists(response.data, $state)
+      })
+    },
+
+    append_artists: function (data, $state) {
+      this.artist_els = this.artist_els.concat(data.items)
+      this.total = data.total
+      this.offset += data.limit
+
+      if ($state) {
+        $state.loaded()
+        if (this.offset >= this.total) {
+          $state.complete()
+        }
+      }
     }
   }
 }
