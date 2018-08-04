@@ -16,7 +16,8 @@
         </a>
       </template>
       <template slot="content">
-        <list-item-album v-for="album in albums.items" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 2"></list-item-album>
+        <list-item-album v-for="album_el in album_els" :key="album_el.id" :album="album_el" v-if="!hide_singles || album_el.track_count > 2"></list-item-album>
+      <infinite-loading v-if="offset < total" @infinite="load_next"><span slot="no-more">.</span></infinite-loading>
       </template>
     </content-with-heading>
   </div>
@@ -29,25 +30,35 @@ import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
+import InfiniteLoading from 'vue-infinite-loading'
 
 const albumsData = {
   load: function (to) {
-    return webapi.library_albums()
+    return webapi.library_albums_pag(0, 50)
   },
 
   set: function (vm, response) {
     vm.albums = response.data
+    vm.albums_els = []
+    vm.total = 0
+    vm.limit = 50
+    vm.offset = 0
+    vm.append_albums(response.data)
   }
 }
 
 export default {
   name: 'PageAlbums',
   mixins: [ LoadDataBeforeEnterMixin(albumsData) ],
-  components: { ContentWithHeading, TabsMusic, ListItemAlbum },
+  components: { ContentWithHeading, TabsMusic, ListItemAlbum, InfiniteLoading },
 
   data () {
     return {
-      albums: {}
+      albums: {},
+      album_els: [],
+      limit: 1,
+      offset: 0,
+      total: 0
     }
   },
 
@@ -60,6 +71,25 @@ export default {
   methods: {
     update_hide_singles: function (e) {
       this.$store.commit(types.HIDE_SINGLES, !this.hide_singles)
+    },
+
+    load_next: function ($state) {
+      webapi.library_albums_pag(this.offset, this.limit).then(response => {
+        this.append_albums(response.data, $state)
+      })
+    },
+
+    append_albums: function (data, $state) {
+      this.album_els = this.album_els.concat(data.items)
+      this.total = data.total
+      this.offset += data.limit
+
+      if ($state) {
+        $state.loaded()
+        if (this.offset >= this.total) {
+          $state.complete()
+        }
+      }
     }
   }
 }
