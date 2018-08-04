@@ -107,6 +107,10 @@ export default {
     return axios.put('/api/outputs/' + outputId, output)
   },
 
+  library_artists_pag (offset, limit) {
+    return axios.get('/api/library/artists?media_kind=music&limit=' + limit + '&offset=' + offset)
+  },
+
   library_artists () {
     return axios.get('/api/library/artists?media_kind=music')
   },
@@ -120,6 +124,10 @@ export default {
       return axios.get('/api/library/artists/' + artistId + '/albums')
     }
     return axios.get('/api/library/albums?media_kind=music')
+  },
+
+  library_albums_pag (offset, limit) {
+    return axios.get('/api/library/albums?limit=' + limit + '&offset=' + offset)
   },
 
   library_album (albumId) {
