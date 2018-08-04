@@ -44,6 +44,8 @@ const albumsData = {
     vm.limit = 50
     vm.offset = 0
     vm.append_albums(response.data)
+
+    vm.timer = setTimeout(vm.bg_load_next, 5000)
   }
 }
 
@@ -58,7 +60,8 @@ export default {
       album_els: [],
       limit: 1,
       offset: 0,
-      total: 0
+      total: 0,
+      timer: {}
     }
   },
 
@@ -89,6 +92,14 @@ export default {
         if (this.offset >= this.total) {
           $state.complete()
         }
+      }
+    },
+
+    bg_load_next: function () {
+      clearTimeout(this.timer)
+      if (this.offset < this.total) {
+        this.load_next()
+        this.timer = setTimeout(this.bg_load_next, 5000)
       }
     }
   }
