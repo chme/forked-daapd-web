@@ -79,6 +79,24 @@
       </template>
     </content-with-heading>
 
+    <!-- Genres -->
+    <content-with-heading v-if="show_genres">
+      <template slot="heading-left">
+        <p class="title is-4">Genres</p>
+      </template>
+      <template slot="content">
+        <list-item-genre v-for="genre in genres.items" :key="genre.name" :genre="genre"></list-item-genre>
+      </template>
+      <template slot="footer">
+        <nav v-if="show_all_genres_button" class="level">
+          <p class="level-item">
+            <a class="button is-light is-small is-rounded" v-on:click="open_search_genres">Show all {{ genres.total }} genres</a>
+          </p>
+        </nav>
+        <p v-if="!genres.total">No results</p>
+      </template>
+    </content-with-heading>
+
     <!-- Playlists -->
     <content-with-heading v-if="show_playlists">
       <template slot="heading-left">
@@ -106,12 +124,13 @@ import ListItemTrack from '@/components/ListItemTrack'
 import ListItemArtist from '@/components/ListItemArtist'
 import ListItemAlbum from '@/components/ListItemAlbum'
 import ListItemPlaylist from '@/components/ListItemPlaylist'
+import ListItemGenre from '@/components/ListItemGenre'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
 export default {
   name: 'PageSearch',
-  components: { ContentWithHeading, TabsSearch, ListItemTrack, ListItemArtist, ListItemAlbum, ListItemPlaylist },
+  components: { ContentWithHeading, TabsSearch, ListItemTrack, ListItemArtist, ListItemAlbum, ListItemPlaylist, ListItemGenre },
 
   data () {
     return {
@@ -119,6 +138,7 @@ export default {
       tracks: { items: [], total: 0 },
       artists: { items: [], total: 0 },
       albums: { items: [], total: 0 },
+      genres: { items: [], total: 0 },
       playlists: { items: [], total: 0 }
     }
   },
@@ -147,6 +167,13 @@ export default {
     },
     show_all_albums_button () {
       return this.albums.total > this.albums.items.length
+    },
+
+    show_genres () {
+      return this.$route.query.type && this.$route.query.type.includes('genre')
+    },
+    show_all_genres_button () {
+      return this.genres.total > this.genres.items.length
     },
 
     show_playlists () {
@@ -180,6 +207,7 @@ export default {
         this.tracks = data.tracks ? data.tracks : { items: [], total: 0 }
         this.artists = data.artists ? data.artists : { items: [], total: 0 }
         this.albums = data.albums ? data.albums : { items: [], total: 0 }
+        this.genres = data.genres ? data.genres : { items: [], total: 0 }
         this.playlists = data.playlists ? data.playlists : { items: [], total: 0 }
 
         this.$store.commit(types.ADD_RECENT_SEARCH, searchParams.query)
@@ -193,7 +221,7 @@ export default {
 
       this.$router.push({ path: '/search/library',
         query: {
-          type: 'track,artist,album,playlist',
+          type: 'track,artist,album,genre,playlist',
           query: this.search_query,
           limit: 3,
           offset: 0
@@ -224,6 +252,15 @@ export default {
       this.$router.push({ path: '/search/library',
         query: {
           type: 'album',
+          query: this.$route.query.query
+        }
+      })
+    },
+
+    open_search_genres: function () {
+      this.$router.push({ path: '/search/library',
+        query: {
+          type: 'genre',
           query: this.$route.query.query
         }
       })
