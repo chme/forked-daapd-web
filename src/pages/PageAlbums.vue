@@ -2,6 +2,20 @@
   <div>
     <tabs-music></tabs-music>
 
+    <template>
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-three-quarters">
+            <div class="tabs is-centered is-small">
+              <ul>
+                <tab-idx-nav-item v-for="link in links" :key="link.n" :link="link" v-if="links.length > 0"></tab-idx-nav-item>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <content-with-heading>
       <template slot="heading-left">
         <p class="title is-4">Albums</p>
@@ -16,7 +30,7 @@
         </a>
       </template>
       <template slot="content">
-        <list-item-album v-for="album in albums.items" :key="album.id" :album="album" v-if="!hide_singles || album.track_count > 2"></list-item-album>
+        <list-item-album v-for="album in albums.items" :key="album.id" :album="album" :links="links" v-if="!hide_singles || album.track_count > 2"></list-item-album>
       </template>
     </content-with-heading>
   </div>
@@ -27,6 +41,7 @@ import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbum from '@/components/ListItemAlbum'
+import TabIdxNavItem from '@/components/TabsIdxNav'
 import webapi from '@/webapi'
 import * as types from '@/store/mutation_types'
 
@@ -37,17 +52,33 @@ const albumsData = {
 
   set: function (vm, response) {
     vm.albums = response.data
+    var li = 0
+    var v = null
+    var i
+    for (i = 0; i < vm.albums.items.length; i++) {
+      var n = vm.albums.items[i].name_sort.charAt(0).toUpperCase()
+      if (n !== v) {
+        var obj = {}
+        obj.n = n
+        obj.a = 'idx_nav_' + li
+        obj.refd = false
+        vm.links.push(obj)
+        li++
+        v = n
+      }
+    }
   }
 }
 
 export default {
   name: 'PageAlbums',
   mixins: [ LoadDataBeforeEnterMixin(albumsData) ],
-  components: { ContentWithHeading, TabsMusic, ListItemAlbum },
+  components: { ContentWithHeading, TabsMusic, ListItemAlbum, TabIdxNavItem },
 
   data () {
     return {
-      albums: {}
+      albums: {},
+      links: []
     }
   },
 
