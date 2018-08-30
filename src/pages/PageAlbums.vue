@@ -3,12 +3,12 @@
     <tabs-music></tabs-music>
 
     <template>
-      <div class="container">
+      <div class="container" v-if="links.length > 1">
         <div class="columns is-centered">
           <div class="column is-three-quarters">
             <div class="tabs is-centered is-small">
               <ul>
-                <tab-idx-nav-item v-for="link in links" :key="link.n" :link="link" v-if="links.length > 0"></tab-idx-nav-item>
+                <tab-idx-nav-item v-for="link in links" :key="link.n" :link="link"></tab-idx-nav-item>
               </ul>
             </div>
           </div>
