@@ -63,6 +63,12 @@ export default {
 
   computed: {
     anchor_name: function () {
+      if (this.links === undefined) {
+        // -> from the artists page
+        return 'idx_nav_undef'
+      }
+
+      // -> from the albums page
       var name = this.album.name_sort.charAt(0).toUpperCase()
       var anchr = this.links.find(function (elem) {
         return (elem.n === name)
