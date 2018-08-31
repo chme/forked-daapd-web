@@ -15,7 +15,7 @@
         </a>
       </template>
       <template slot="content">
-        <list-item-genre-albums v-for="galbum in genreAlbums.items" :key="galbum.id" :galbum="galbum"></list-item-genre-albums>
+        <list-item-albums v-for="album in genreAlbums.items" :key="album.id" :album="album"></list-item-albums>
       </template>
     </content-with-heading>
   </div>
@@ -25,7 +25,7 @@
 import { LoadDataBeforeEnterMixin } from './mixin'
 import ContentWithHeading from '@/templates/ContentWithHeading'
 import TabsMusic from '@/components/TabsMusic'
-import ListItemGenreAlbums from '@/components/ListItemGenreAlbums'
+import ListItemAlbums from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
 const PageGenre = {
@@ -41,7 +41,7 @@ const PageGenre = {
 export default {
   name: 'PageGenrex',
   mixins: [ LoadDataBeforeEnterMixin(PageGenre) ],
-  components: { ContentWithHeading, TabsMusic, ListItemGenreAlbums },
+  components: { ContentWithHeading, TabsMusic, ListItemAlbums },
 
   data () {
     return {
