@@ -58,6 +58,10 @@ export default {
 
   computed: {
     anchor_name: function () {
+      if (this.links === undefined) {
+        return 'idx_nav_undef'
+      }
+
       var name = this.artist.name_sort.charAt(0).toUpperCase()
       var anchr = this.links.find(function (elem) {
         return (elem.n === name)
