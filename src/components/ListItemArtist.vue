@@ -76,7 +76,6 @@ export default {
       )
     },
 
-
     queue_add_next: function () {
       this.show_details_modal = false
       webapi.queue_add_next(this.artist.uri).then(() =>
