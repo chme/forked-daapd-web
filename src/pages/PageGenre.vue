@@ -4,6 +4,7 @@
 
     <content-with-heading>
       <template slot="heading-left">
+        <p class="title is-4">{{ name }}</p>
         <p class="heading">{{ genreAlbums.total }} albums</p>
       </template>
       <template slot="heading-right">
@@ -29,11 +30,19 @@ import ListItemAlbums from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
 const PageGenre = {
+  data () {
+    return {
+      name: ''
+    }
+  },
+
   load: function (to) {
+    this.name = to.params.genre
     return webapi.library_genre(to.params.genre)
   },
 
   set: function (vm, response) {
+    vm.name = this.name
     vm.genreAlbums = response.data.albums
   }
 }
@@ -45,6 +54,7 @@ export default {
 
   data () {
     return {
+      name: '',
       genreAlbums: {}
     }
   },
