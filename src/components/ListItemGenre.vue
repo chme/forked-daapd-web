@@ -60,7 +60,8 @@ export default {
   methods: {
     enc_uri: function () {
       // return encodeURIComponent(this.genre.name).replace(/-/g, '%2D').replace(/_/g, '%5F').replace(/\./g, '%2E').replace(/!/g, '%21').replace(/~/g, '%7E').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/&/g, '%26')
-      return this.genre.name
+      // return this.genre.name
+      return this.genre.name.replace(/\//g, '%2F')
     },
 
     play: function () {
@@ -90,7 +91,7 @@ export default {
     open_genre: function () {
       this.show_details_modal = false
       this.query_name = this.enc_uri()
-      this.$router.push({ path: '/music/genre', query: { genre: this.query_name } })
+      this.$router.push({ path: '/music/genres/' + this.query_name })
     }
   }
 }

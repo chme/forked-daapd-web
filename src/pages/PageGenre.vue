@@ -30,7 +30,7 @@ import webapi from '@/webapi'
 
 const PageGenre = {
   load: function (to) {
-    return webapi.library_genre(to.query.genre)
+    return webapi.library_genre(to.params.genre)
   },
 
   set: function (vm, response) {
