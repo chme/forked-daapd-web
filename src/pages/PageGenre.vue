@@ -29,27 +29,20 @@ import TabsMusic from '@/components/TabsMusic'
 import ListItemAlbums from '@/components/ListItemAlbum'
 import webapi from '@/webapi'
 
-const PageGenre = {
-  data () {
-    return {
-      name: ''
-    }
-  },
-
+const genreData = {
   load: function (to) {
-    this.name = to.params.genre
     return webapi.library_genre(to.params.genre)
   },
 
   set: function (vm, response) {
-    vm.name = this.name
+    vm.name = vm.$route.params.genre
     vm.genreAlbums = response.data.albums
   }
 }
 
 export default {
-  name: 'PageGenrex',
-  mixins: [ LoadDataBeforeEnterMixin(PageGenre) ],
+  name: 'PageGenre',
+  mixins: [ LoadDataBeforeEnterMixin(genreData) ],
   components: { ContentWithHeading, TabsMusic, ListItemAlbums },
 
   data () {
@@ -60,16 +53,12 @@ export default {
   },
 
   methods: {
-    queueem: function () {
-      var i
-      for (i = 0; i < this.genreAlbums.items.length; i++) {
-        webapi.queue_add(this.genreAlbums.items[i].uri)
-      }
-      webapi.player_play()
-    },
     play: function () {
+      this.show_details_modal = false
       webapi.queue_clear().then(() =>
-        this.queueem()
+        webapi.queue_add(this.genreAlbums.items.map(a => a.uri).join(',')).then(() =>
+          webapi.player_play()
+        )
       )
     }
   }

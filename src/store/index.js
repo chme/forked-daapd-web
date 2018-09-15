@@ -15,7 +15,6 @@ export default new Vuex.Store({
       'artists': 0,
       'albums': 0,
       'songs': 0,
-      'genres': 0,
       'db_playtime': 0,
       'updating': false
     },

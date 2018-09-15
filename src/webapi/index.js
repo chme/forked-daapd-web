@@ -135,16 +135,14 @@ export default {
   },
 
   library_genre (genre) {
-    if (genre) {
-      var genreParams = {
-        'type': 'albums',
-        'media_kind': 'music',
-        'expression': 'genre is "' + genre + '"'
-      }
-      return axios.get('/api/search', {
-        params: genreParams
-      })
+    var genreParams = {
+      'type': 'albums',
+      'media_kind': 'music',
+      'expression': 'genre is "' + genre + '"'
     }
+    return axios.get('/api/search', {
+      params: genreParams
+    })
   },
 
   library_podcasts () {

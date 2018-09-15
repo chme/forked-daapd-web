@@ -14,6 +14,7 @@
               <p class="title is-4">
                 <a class="has-text-link" @click="open_genre">{{ genre.name }}</a>
               </p>
+<!--
               <div class="content is-small">
                 <p>
                   <span class="heading">Albums</span>
@@ -24,6 +25,7 @@
                   <span class="title is-6">{{ genre.track_count }}</span>
                 </p>
               </div>
+ -->
             </div>
             <footer class="card-footer">
               <a class="card-footer-item has-text-dark" @click="queue_add">
@@ -52,46 +54,33 @@ export default {
 
   data () {
     return {
-      show_details_modal: false,
-      query_name: ''
+      show_details_modal: false
     }
   },
 
   methods: {
-    enc_uri: function () {
-      // return encodeURIComponent(this.genre.name).replace(/-/g, '%2D').replace(/_/g, '%5F').replace(/\./g, '%2E').replace(/!/g, '%21').replace(/~/g, '%7E').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/&/g, '%26')
-      // return this.genre.name
-      return this.genre.name.replace(/\//g, '%2F')
-    },
-
     play: function () {
       this.show_details_modal = false
       webapi.queue_clear().then(() =>
-        webapi.library_genre(this.enc_uri()).then(function (response) {
-          var i
-          for (i = 0; i < response.data.albums.items.length; i++) {
-            webapi.queue_add(response.data.albums.items[i].uri)
-          }
-          webapi.player_play()
-        })
+        webapi.queue_add(webapi.library_genre(this.genre.name).then(function (response) {
+          webapi.queue_add(response.data.albums.items.map(a => a.uri).join(',')).then(() =>
+            webapi.player_play()
+          )
+        }))
       )
     },
 
     queue_add: function () {
       this.show_details_modal = false
-      webapi.library_genre(this.enc_uri()).then(function (response) {
-        var i
-        for (i = 0; i < response.data.albums.items.length; i++) {
-          webapi.queue_add(response.data.albums.items[i].uri)
-        }
+      webapi.library_genre(this.genre.name).then(function (response) {
+        webapi.queue_add(response.data.albums.items.map(a => a.uri).join(','))
       })
       this.$store.dispatch('add_notification', { text: 'Genre albums appended to queue', type: 'info', timeout: 1500 })
     },
 
     open_genre: function () {
       this.show_details_modal = false
-      this.query_name = this.enc_uri()
-      this.$router.push({ path: '/music/genres/' + this.query_name })
+      this.$router.push({ name: 'Genre', params: { genre: this.genre.name } })
     }
   }
 }
