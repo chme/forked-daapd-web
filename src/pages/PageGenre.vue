@@ -54,7 +54,6 @@ export default {
 
   methods: {
     play: function () {
-      this.show_details_modal = false
       webapi.queue_clear().then(() =>
         webapi.queue_add(this.genreAlbums.items.map(a => a.uri).join(',')).then(() =>
           webapi.player_play()
