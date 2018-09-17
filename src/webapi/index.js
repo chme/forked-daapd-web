@@ -42,11 +42,11 @@ export default {
   },
 
   queue_add (uri) {
-    return axios.post('/api/queue/items/add?next=0&uris=' + uri)
+    return axios.post('/api/queue/items/add?uris=' + uri)
   },
 
   queue_add_next (uri) {
-    return axios.post('/api/queue/items/add?next=1&uris=' + uri)
+    return axios.post('/api/queue/items/addnext?uris=' + uri)
   },
 
   player_status () {
